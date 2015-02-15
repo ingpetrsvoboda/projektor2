@@ -1,0 +1,140 @@
+#zaznamy {
+    font-size: 14px;
+    color: black;
+    border: solid gray 1px;
+    /*width: 1000px;*/
+    /*width: 100%;*/
+    background-color: rgb(200, 200, 200);
+    line-height:150%;
+}
+
+#zaznamy table{
+/*    padding:3px;
+    margin: 5px;*/
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; 
+    font-size: 11px;
+}
+
+#zaznamy td {
+    padding-left: 1px;
+    padding-right: 1px;	
+}
+
+#zaznamy .identifikator {
+    font-weight: bold;
+    padding-left: 2px;
+    padding-right: 2px;        
+}
+
+#zaznamy .jmeno {
+    font-size: 120%;
+    color: #222222;
+    padding-left: 8px;
+    padding-right:8px;
+}
+        
+/*#zaznamy .editace td {
+    background-color: #FFFF99;
+}
+
+#zaznamy .novy td {
+    background-color: #99FFFF;
+}
+
+#zaznamy .uzavreny td {
+    background-color: #999999;
+}*/
+
+#zaznamy a {
+    text-decoration: none;
+    border: 3px;
+    border-style: outset;        
+    border-radius: 5px;    
+    padding: 2px;        
+}
+
+#zaznamy .edit a {
+    color: blue;
+    background-color: #99FFFF;
+    border-color: #99FFFF;
+}
+	
+#zaznamy .edit a:hover {
+    background-color: #77DDDD;
+}
+
+#zaznamy .new a {
+    color: red;
+    background-color: #FFFF99;
+    border-color: #FFFF99;
+}
+
+#zaznamy .new a:hover {
+    background-color: #DDDD77;
+}
+
+#zaznamy .print a {
+    color: lightgreen;
+    background-color: #999999;
+    border-color: #999999;
+}
+
+#zaznamy .print a:hover {
+    background-color: #777777;
+}
+
+#zaznamy .disabled a {
+    color: cadetblue;
+    background-color: #dadada;
+    border-color: #dadada;
+}
+
+#zaznamy .disabled a:hover {
+    background-color: #dadada;
+}
+
+#zaznamy a:active {
+    border-style: inset;        
+}
+
+#zaznamy .disabled a:active {
+    border-style: outset;        
+}
+
+.signal {
+    text-decoration: none;
+    border: 2px;
+    border-style: solid;        
+    border-radius: 5px;    
+}
+.signal-none {
+    color: grey;
+    background-color: lightgrey;
+    border-color: grey;
+}
+.signal-plan {
+    color: maroon;
+    background-color: yellow;
+    border-color: maroon;
+}
+.signal-dokonceno {
+    color: chocolate;
+    background-color: yellowgreen;
+    border-color: chocolate;
+}
+.signal-uspesne {
+    color: darkgreen;
+    background-color: yellowgreen;
+    border-color: darkgreen;    
+}
+.signal-neuspesne {
+    color: darkred;
+    background-color: orange;
+    border-color: red;      
+}
+.signal-certifikat {
+    color: darkgreen;
+    background-color: lightgreen;
+    border-color: darkgreen;    
+}
+

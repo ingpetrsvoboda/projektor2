@@ -1,0 +1,192 @@
+root { 
+    display: block;
+}
+
+body {
+    background-color: silver;
+    padding: 0px;
+    margin: 1em;
+    font-size: 1em;
+}
+
+div.container {
+    width:100%;
+    margin:0px;
+    border:1px solid gray;
+    /*line-height:1250%;*/
+}
+
+div.header,div.footer {
+    padding:0.5em;
+    color:white;
+    background-color: grey;
+    clear:left;
+}
+
+div.message {
+    padding:0.5em;
+    color: tomato;
+    background-color:gray;
+    clear:left;
+}
+
+/*h1.header {
+padding:0;
+margin:0;
+}*/
+
+div.left {
+    float:left;
+    width:170px;
+    margin:0;
+    padding: 0.4em;
+}
+
+div.content {
+    margin-left:190px;
+    border-top:1px solid gray;
+    border-left:1px solid gray;
+    padding:1em;
+}
+
+h1 {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 1.6em;
+    color: #48AAAA;
+}
+
+h2 {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 1.2em;
+    color: #295294;
+}
+
+h3 {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 0.8em;
+    border-style: ridge;
+    border-width: 3px;
+    background-color: #375D81;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-weight: bolder;
+    padding: 8px 16px;         
+}
+h4 {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 0.8em;
+    border-style: ridge;
+    border-width: 3px;
+    border-color: #375D81;
+    border-radius: 5px;
+    color: #375D81;
+    font-weight: bolder;
+    padding: 4px 32px;        
+}
+p {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.help {
+    font-size: smaller;
+    color: midnightblue;
+}
+
+.readonly {
+    background-color: #b7cebd;
+}
+
+/* STYLY DO HLAVIČKY */
+/*NADPIS PROJEKTU A LOGO*/
+#logo_projektu {
+    clear: left;
+    display: inline;
+}
+#logo_projektu h1 {
+    clear: left;
+    color: white;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 1.2em; 
+}
+
+/*KONEC NADPIS PROJEKTU A LOGO*/
+/* KONTEXTOVÉ HLÁŠENÍ PRO ADMINISTRÁTORA */
+.connection {
+    /*float: right;*/
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.2em;
+    text-align: center;
+    color: white;
+    font-size: 0.8em;
+}
+.connection.production {
+    background-color: cadetblue;
+    font-size: 0.8em;
+}
+.connection.development {
+    background-color: #88FF11;
+    color: #CA0000;
+    font-size: 0.8em;
+}
+/* KONEC KONTEXTOVÉ HLÁŠENÍ PRO ADMINISTRÁTORA */
+/* LOGOUT */
+#logout-ie {
+    float: right;
+    text-align: right;
+    margin: 1em;
+    border: 1px solid #808080;
+    padding: 0.6em;
+    background-color: #aaa;
+    border-radius: 0.6em;
+    box-shadow: rgba(0,0,0,0.3) 0.3em 0.3em;
+}
+#logout {
+    clear: right;
+    margin-left: auto;
+    margin-right: auto;    
+    background: cadetblue;
+    text-align: center;
+    /*vertical-align: middle;*/
+    padding-top: 0.3em;
+    padding-bottom: 0.2em;
+}
+/* LOGOUT */
+/* KONEC STYLY DO HLAVIČKY */
+
+/*MENU*/
+ul#menu{
+    float:left;
+    width:100%;
+    color: white;
+    padding: 0px;
+    margin : 0.2em;
+    list-style-type: none;
+}
+
+ul#menu li {
+    text-align: center;
+    display: block;
+    margin: 0.1em;
+    padding: 0.1em;
+}
+
+ul#menu li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    float: none;
+    padding: 0.1em;
+    /*width: 160px;*/
+    text-align: center;
+    background-color: #336699;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    font-style: normal;
+    font-weight:  bold;
+    border: solid white 1px;
+}
+/*KONEC MENU*/
+
