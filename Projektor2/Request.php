@@ -16,6 +16,7 @@ class Projektor2_Request {
     protected $get = array();
     protected $post = array();
     public $params = array();
+    protected $cookies = array();
     
     public function __construct() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -31,6 +32,9 @@ class Projektor2_Request {
             $this->get = $_GET;
             $this->params = $this->get;
         }
+        
+        $this->cookies = $_COOKIE;
+        
     }
     
     public function isPost() {
@@ -123,6 +127,35 @@ class Projektor2_Request {
                 $paramsObject->$key = $value;
             }
             return $paramsObject;        
+        } else {
+            return NULL;
+        }
+    }
+    
+    public function cookie($name) {
+        if (isset($this->cookies[$name])) {
+            return $this->cookies[$name];
+        } else {
+            return null;
+        }      
+    }
+    
+    
+    public function cookiesArray() {
+        if (isset($this->cookies)) {
+            return $this->cookies;        
+        } else {
+            return array();
+        }
+    }
+        
+    public function cookiesObject() {
+        if (isset($this->cookies)) {
+            $cookiesObject = new stdClass();
+            foreach ($this->cookies as $key=>$value) {
+                $cookiesObject->$key = $value;
+            }
+            return $cookiesObject;        
         } else {
             return NULL;
         }

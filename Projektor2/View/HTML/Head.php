@@ -11,7 +11,7 @@ class Projektor2_View_HTML_Head extends Framework_View_Abstract {
         $this->parts[] = '<head>
                 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
                 <meta content="IE=edge" http-equiv="X-UA-Compatible">
-                <title>Grafia.cz | Projektor | '.$this->context['projektText'].' | '.$this->context['kancelarText'].'</title>
+                <title>Grafia.cz | Projektor </title>
                 <link rel="stylesheet" type="text/css" href="css/styles.css">
                 <link rel="stylesheet" type="text/css" href="css/zaznamy.css">
                 <link rel="stylesheet" type="text/css" href="css/form.css">

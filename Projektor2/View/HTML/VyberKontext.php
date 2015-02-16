@@ -11,7 +11,7 @@ class Projektor2_View_HTML_VyberKontext extends Framework_View_Abstract {
                 $this->parts[] = '<legend>Výběr kanceláře</legend>';
                 $this->parts[] = '<label for="kancelar" >Vyberte kancelář:</label>';
                 $this->parts[] = '<select id="kancelar" size="1" name="id_kancelar">';
-                    $this->parts[] = "<option value=\" \"> </option>\n";                    
+                    $this->parts[] = "<option value=\"ß\"> </option>\n";                    
                     $this->parts[] = "<option value=\"*\">všechny</option>\n";            
                     foreach ($kancelare as $kancelar) {
                         $option = "<option ";
@@ -28,7 +28,7 @@ class Projektor2_View_HTML_VyberKontext extends Framework_View_Abstract {
                 $this->parts[] = '<legend>Výběr běhu</legend>';
                 $this->parts[] = '<label for="beh" >Vyberte běh:</label>';
                 $this->parts[] = '<select id="beh" size="1" name="id_beh">';
-                    $this->parts[] = "<option value=\" \"> </option>\n";            
+                    $this->parts[] = "<option value=\"ß\"> </option>\n";            
                     $this->parts[] = "<option value=\"*\">všechny</option>\n";            
                     foreach ($behy as $beh) {
                         $option = "<option ";

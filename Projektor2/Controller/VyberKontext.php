@@ -16,7 +16,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
         if ($this->request->isPost()) {
             if ($this->request->post('id_kancelar')) {
                 switch ($this->request->post('id_kancelar')) {
-                    case ' ':
+                    case 'ß':
                             $this->sessionStatus->setKancelar();
                             $k = FALSE;
                         break;

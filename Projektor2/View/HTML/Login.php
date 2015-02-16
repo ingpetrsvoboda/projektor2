@@ -3,28 +3,22 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Logout extends Framework_View_Abstract {
+class Projektor2_View_HTML_Login extends Framework_View_Abstract {
     public function render() {
-    $warning = $this->context['warning'];
-    $projekty = $this->context['projekty'];
-//    $lastname = $this->context['lastname'];
-    if($warning=="name") {
-            $this->parts[] = '<p class="login message">Přihlášení se nezdařilo</p>';
-    }
-    if($warning=="projekt") {
-            $this->parts[] = '<p class="login message>Prosím vyberte projekt ke kterému se chcete přihlásit a přihlašte se znovu !</p>';
-    }
-    $this->parts[] = '<h1>Přihlášení do systému projektor</h1>';
-	$this->parts[] = '<form name="Login" id="Login" action="index.php" method="post">';
+        $projekty = $this->context['projekty'];
+        if(isset($this->context['warning'])) {
+            $this->parts[] = '<p class="login warning>'.$this->context['warning'].'</p>';
+        }
+        $this->parts[] = '<h1>Přihlášení do systému projektor</h1>';
+        $this->parts[] = '<form name="Login" id="Login" action="index.php" method="post">';
 //	    $this->parts[] = '<input type="hidden" name="sent" value="1">';
-	    $this->parts[] = '<label for="text2" >Uživatelské jméno:</label>';
-//		    $this->parts[] = '<input  type ="text" name="name" id="Text2" value="'.$lastname.'">';
-		    $this->parts[] = '<input  type ="text" name="name" id="Text2">';
-            $this->parts[] = '<label for="Password2" >Heslo:</label></td>';
-		    $this->parts[] = '<input type="password" name="password" ID="Password2>';
-            $this->parts[] = '<label for="Projekt" >Projekt</label>';
-                $this->parts[] = '<select id="Projekt" size="1" name="id_projekt">';
-//                    $this->parts[] = "<option value=\" \"> </option>\n";                    
+	    $this->parts[] = '<label for="name" >Uživatelské jméno:</label>';
+		    $this->parts[] = '<input id="name" type ="text" name="name">';
+            $this->parts[] = '<label for="password" >Heslo:</label></td>';
+		    $this->parts[] = '<input id="password" type="password" name="password">';
+            $this->parts[] = '<label for="projekt" >Projekt</label>';
+                $this->parts[] = '<select id="projekt" size="1" name="id_projekt">';
+                    $this->parts[] = "<option value=\"ß\"> </option>\n";                    
 //                    $this->parts[] = "<option value=\"*\">všechny</option>\n";            
                 foreach ($projekty as $projekt) {
                     $option = "<option ";
@@ -35,9 +29,8 @@ class Projektor2_View_HTML_Logout extends Framework_View_Abstract {
                     $this->parts[] = $option;  
                 }
             $this->parts[] = '</select>';
-
-                $this->parts[] = '<input type="submit" value="Přihlásit" ID="Submit2" NAME="Submit1">';
-            $this->parts[] = '</form>';        
+            $this->parts[] = '<input type="submit" value="Přihlásit" id="Submit2" name="submit">';
+        $this->parts[] = '</form>';        
         return $this;
     }
 }

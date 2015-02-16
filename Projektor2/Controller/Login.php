@@ -5,50 +5,61 @@
  * @author pes2704
  */
 class Projektor2_Controller_Login extends Projektor2_Controller_Abstract {
+    
+    private $warning;
 
     public function performPostActions() {
         if ($this->request->isPost()) {
-            
-            user authentication
-            
-            if ($this->request->post('id_projekt')) {
-                switch ($this->request->post('id_projekt')) {
-//                    case ' ':
-//                            $this->sessionStatus->setKancelar();
-//                            $k = FALSE;
-//                        break;
-//                    case '*':
-//                            $this->sessionStatus->setKancelar();
-//                            $k = TRUE;
-//                        break;
-                    default:
-                            $projekt = Projektor2_Model_Db_ProjektMapper::findById($this->request->post('id_projekt'));
-                            $this->sessionStatus->setProjekt($projekt);
-                            $p = TRUE;
-                        break;
+            $name = $this->request->post('name');
+            $password = $this->request->post('password');
+            $userid = Projektor2_Auth_Authentication::check_credentials($name,$password);    
+            if($userid){
+                $authCookie = new Projektor2_Auth_Cookie($this->request, $this->response, $userid);
+                $authCookie->set();
+                if(!is_numeric($this->request->post('id_projekt'))) {
+                    switch ($this->request->post('id_projekt')) {
+                        case 'ß':
+                                $this->sessionStatus->setProjekt();
+                                $success = FALSE;
+                            break;
+    //                    case '*':
+    //                            $this->sessionStatus->setProjekt();
+    //                            $p = TRUE;
+    //                        break;
+                        default:
+                            if(!is_numeric($this->request->post('id_projekt'))) {
+                                $projekt = Projektor2_Model_Db_ProjektMapper::findById($this->request->post('id_projekt'));
+                                $this->sessionStatus->setProjekt($projekt);
+                                $success = TRUE;
+                            } else {
+                                $this->warning = "Prosím vyberte projekt ke kterému se chcete přihlásit a přihlašte se znovu !";
+                                $this->sessionStatus->setProjekt();
+                                $success = FALSE;
+                            }
+                            break;
+                    }
                 }
-            }
+            } else {
+                $this->warning = "Přihlášení se nezdařilo.";       
+                $success = FALSE;
+            }            
 
-            return $p;
+            return $success;
         }        
     }
     
     public function getResult() {
         $performContinue = $this->performPostActions();
 
-        $idKancelari = Projektor2_Model_Db_SysAccUsrKancelarMapper::getIndexArray('id_c_kancelar', 'id_sys_users='.$this->sessionStatus->user->id);
-        $kancelare = Projektor2_Model_Db_KancelarMapper::findAll('id_c_projekt_FK='.$this->sessionStatus->projekt->id.' AND id_c_kancelar IN ('.implode(', ', $idKancelari).')');    
-        $behy = Projektor2_Model_Db_BehMapper::findAll('id_c_projekt='.$this->sessionStatus->projekt->id);    
+        $projekty = Projektor2_Model_Db_ProjektMapper::findAll();
         $parts[] = new Projektor2_View_HTML_VyberKontext(
-                array('kancelare'=>$kancelare, 
-                    'id_kancelar'=>isset($this->sessionStatus->kancelar->id) ? $this->sessionStatus->kancelar->id : NULL, 
-                    'behy'=>$behy, 
-                    'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
+                array('projekty'=>$projekty, 
+                    'id_projekt'=>isset($this->sessionStatus->projekt->id) ? $this->sessionStatus->projekt->id : NULL,
+                    'warning'=>$this->warning)
                 );
         // podmínka pro pokračování
         if ($performContinue===TRUE) {
-            $router = new Projektor2_Router_Akce($this->sessionStatus, $this->request, $this->response);
-            $controller = $router->getController();
+            $controller = new Projektor2_Controller_VyberKontext($this->sessionStatus, $this->request, $this->response);
             $parts[] = $controller->getResult();        
         }
         $viewVybery = new Projektor2_View_HTML_Multipart(array('htmlParts'=>$parts));

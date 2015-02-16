@@ -112,52 +112,33 @@ class Projektor2_Model_SessionStatus {
     public static function createSessionStatus(Projektor2_Request $request, Projektor2_Response $response) {
         if (!self::$sessionStatus) {   //sigleton
             self::$sessionStatus = new Projektor2_Model_SessionStatus();
-
-            $authCookie = new Projektor2_Auth_Cookie($response);  // injekt response, Projektor2_Auth_Cookie sama nastaví cookie v responsu
-            $authCookie->validate();  // při neúspěšné validaci vyhazuje výjimku
- 
-            // kancelar a projekt z cookies nastavovaných login
-            $projekt = Projektor2_Model_Db_ProjektMapper::findById($_COOKIE['projektId']);
-//            $kancelar = Projektor2_Model_Db_KancelarMapper::findById($_COOKIE['kancelarId']);
-//            if(!$kancelar OR !$projekt) {
-//                throw new Exception("Chybné volání metody. Není správná cookie nastavená login procesem.");
-//            }
-            if(!$projekt) {
-                throw new Exception("Chybné volání metody. Není správná cookie nastavená login procesem.");
-            }            
-            self::$sessionStatus->setProjekt($projekt);
-//            self::$sessionStatus->setKancelar($kancelar);
-            // od této chvíle se může používat v mapperech datový kontext - projekt a kancelář
-            
-            // kancelat z cookie
-            if (isset($_COOKIE['kancelarId'])) {
-                $kancelar = Projektor2_Model_Db_KancelarMapper::findById($_COOKIE['kancelarId']);
-            } else {
-                $kancelar = NULL;
-            }
-            self::$sessionStatus->setBeh($kancelar);            
-            // beh z cookie
-            if (isset($_COOKIE['behId'])) {
-                $beh = Projektor2_Model_Db_BehMapper::findById($_COOKIE['behId']);
-            } else {
-                $beh = NULL;
-            }
-            self::$sessionStatus->setBeh($beh);
-            
-            // user z auth cookie
-            $user = Projektor2_Model_Db_SysUserMapper::findById($authCookie->get_userid());
-            if(!$user) {
-                throw new Exception("Neexistuje uživatel s nastavenou identitou.");
-            }
-            self::$sessionStatus->setUser($user);
-            
-            // zajemce z cookie
-            if (isset($_COOKIE['zajemceId']) && $_COOKIE['zajemceId'] != "") {
-                $zajemce = Projektor2_Model_Db_ZajemceMapper::findById($_COOKIE['zajemceId']);
-            } else {
-                $zajemce = NULL;
+            try {
+                $authCookie = new Projektor2_Auth_Cookie($request, $response);  // injekt response, Projektor2_Auth_Cookie sama nastaví cookie v responsu
+                $authCookie->validate();  // při neúspěšné validaci vyhazuje výjimku
+                // projekt z cookie
+                self::$sessionStatus->setProjekt(Projektor2_Model_Db_ProjektMapper::findById($request->cookie('projektId')));
+                // kancelat z cookie
+                self::$sessionStatus->setBeh(Projektor2_Model_Db_KancelarMapper::findById($request->cookie('kancelarId')));            
+                // beh z cookie
+                self::$sessionStatus->setBeh(Projektor2_Model_Db_BehMapper::findById($request->cookie('behId')));
+                // user z auth cookie
+                $user = Projektor2_Model_Db_SysUserMapper::findById($authCookie->get_userid());
+                if(!$user) {
+                    throw new Exception("Neexistuje uživatel s nastavenou identitou.");
+                }
+                self::$sessionStatus->setUser($user);
+                // zajemce z cookie
+                $zajemce = Projektor2_Model_Db_ZajemceMapper::findById($request->cookie('zajemceId'));
+                self::$sessionStatus->setZajemce($zajemce);
+            } catch (Projektor2_Auth_Exception $exception) {
+                self::$sessionStatus->setProjekt();
+                self::$sessionStatus->setBeh();            
+                self::$sessionStatus->setBeh();
+                self::$sessionStatus->setUser();
+                self::$sessionStatus->setZajemce();                
             } 
-            self::$sessionStatus->setZajemce($zajemce);
+
+
         }
         return self::$sessionStatus;
     }

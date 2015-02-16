@@ -206,8 +206,16 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 }    
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                }
-                                  
+                    $kolekceKurzPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    if ($kolekceKurzPlan) {
+                        foreach ($kolekceKurzPlan as $aktivitaPlan) {
+//                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
+                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);   
+                        }
+                    }
+                }                                  
                 //poradenství
 //                if ($user->tl_ap_porad) {
 //                    $modelTlacitko = new Projektor2_Model_Tlacitko();
@@ -296,7 +304,16 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 } 
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                }
+                    $kolekceKurzPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    if ($kolekceKurzPlan) {
+                        foreach ($kolekceKurzPlan as $aktivitaPlan) {
+//                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
+                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);   
+                        }
+                    }
+                }     
                                   
                 //poradenství
 //                if ($user->tl_ap_porad) {

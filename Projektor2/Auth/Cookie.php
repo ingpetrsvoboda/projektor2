@@ -24,14 +24,14 @@ class Projektor2_Auth_Cookie {
     static $warning = '300'; //doba po které se obnoví-znovu vydá cookie
     static $glue = '|';
     
-    public function __construct(Projektor2_Response $response, $userid = false) {
+    public function __construct(Projektor2_Request $request, Projektor2_Response $response, $userid = false) {
         $this->response = $response;
         $this->td = mcrypt_module_open (self::$cypher, '', self::$mode, '');
         if($userid) {
             $this->userid = $userid;
         } else {
-            if(array_key_exists(self::$cookiename, $_COOKIE)) {
-                $this->_unpack($_COOKIE[self::$cookiename]);
+            if($request->cookie(self::$cookiename)) {
+                $this->_unpack($request->cookie(self::$cookiename));
             }
             else {
                 throw new Projektor2_Auth_Exception ("No cookie");
