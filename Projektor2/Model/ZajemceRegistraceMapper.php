@@ -97,9 +97,9 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 }        
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceKurzPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
-                    if ($kolekceKurzPlan) {
-                        foreach ($kolekceKurzPlan as $aktivitaPlan) {
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    if ($kolekceAktivityPlan) {
+                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
@@ -132,7 +132,18 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                 }
-                                                
+                if (count($skupina->getMenuTlacitkaAssoc())) {
+                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    if ($kolekceAktivityPlan) {
+                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
+//                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
+                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);   
+                        }
+                    }
+                }                                                
                 // skupina zamestnani
                 $skupina = new Projektor2_Model_Menu_Skupina();                
                 //zaměstnání
@@ -206,9 +217,9 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 }    
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceKurzPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
-                    if ($kolekceKurzPlan) {
-                        foreach ($kolekceKurzPlan as $aktivitaPlan) {
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    if ($kolekceAktivityPlan) {
+                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
@@ -304,9 +315,9 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 } 
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceKurzPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
-                    if ($kolekceKurzPlan) {
-                        foreach ($kolekceKurzPlan as $aktivitaPlan) {
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    if ($kolekceAktivityPlan) {
+                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);

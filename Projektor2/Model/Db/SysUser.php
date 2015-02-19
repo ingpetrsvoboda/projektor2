@@ -4,6 +4,7 @@ class Projektor2_Model_Db_SysUser {
     public $username;
     public $name;
     public $povolen_zapis;
+    public $monitor;
    
    public $tl_spzp_sml;
    public $tl_spzp_dot;
@@ -62,7 +63,7 @@ class Projektor2_Model_Db_SysUser {
    public $tl_sj_ukon;
    public $tl_sj_zam;   
 
-   public function __construct($id =false,$username=false,$name=false, $povolen_zapis=false,
+   public function __construct($id =false,$username=false,$name=false, $povolen_zapis=false, $monitor=false,
                             $tl_spzp_sml=false,$tl_spzp_dot=false,$tl_spzp_plan=false,$tl_spzp_ukon=false,$tl_spzp_testpc=false,$tl_spzp_zam=false, $tl_spzp_dopRK=false,
                             $tl_spzp_dopRKdoplneni1=false,$tl_spzp_dopRKdoplneni2=false, $tl_spzp_dopRKvyrazeni=false, $tl_spzp_agp=false,
                             $tl_rnh_sml=false,$tl_rnh_dot=false,$tl_rnh_plan=false,$tl_rnh_ukon=false, $tl_rnh_testpc=false, $tl_rnh_zam=false,
@@ -79,6 +80,7 @@ class Projektor2_Model_Db_SysUser {
        $this->username = $username;
        $this->name = $name;
        $this->povolen_zapis = $povolen_zapis;
+       $this->monitor = $monitor;
         
        $this->tl_spzp_sml = $tl_spzp_sml;
        $this->tl_spzp_dot = $tl_spzp_dot;

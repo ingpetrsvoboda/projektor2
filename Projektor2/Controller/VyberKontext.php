@@ -1,12 +1,6 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of VyberBehu
+ * Description of Projektor2_Controller_VyberKontext
  *
  * @author pes2704
  */
@@ -25,7 +19,10 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                             $selectedKancelar = TRUE;
                         break;
                 }
-
+                // dočasné udělátko
+                if ($this->sessionStatus->user->monitor) {
+                    $selectedKancelar = TRUE;                    
+                }
             }
             if ($this->request->post('id_beh')) {
                 switch ($this->request->post('id_beh')) {
@@ -38,6 +35,10 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                             $selectedBeh = TRUE;
                         break;
                 }                
+                // dočasné udělátko
+                if ($this->sessionStatus->user->monitor) {
+                    $selectedBeh = TRUE;                    
+                }
             }
             return (isset($selectedKancelar) AND $selectedKancelar) AND (isset($selectedBeh) AND $selectedBeh);
         }        
