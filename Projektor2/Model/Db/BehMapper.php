@@ -9,7 +9,7 @@ class Projektor2_Model_Db_BehMapper {
         if (!$findOutOfContext) {
             $query .= " AND id_c_projekt = :id_c_projekt";
             $bindParams = array_merge($bindParams, array(
-                            'id_c_projekt'=>$appStatus->projekt->id));
+                            'id_c_projekt'=>isset($appStatus->projekt) ? $appStatus->projekt->id : NULL));
         }
         if (!$findInvalid) {
             $query .=  " AND valid = 1";

@@ -12,44 +12,34 @@
  */
 class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract {
 
-    public function performPostActions() {
+    private function performPostActions() {
         if ($this->request->isPost()) {
             if ($this->request->post('id_kancelar')) {
                 switch ($this->request->post('id_kancelar')) {
                     case 'ß':
                             $this->sessionStatus->setKancelar();
-                            $k = FALSE;
-                        break;
-                    case '*':
-                            $this->sessionStatus->setKancelar();
-                            $k = TRUE;
                         break;
                     default:
                             $kancelar = Projektor2_Model_Db_KancelarMapper::findById($this->request->post('id_kancelar'));
                             $this->sessionStatus->setKancelar($kancelar);
-                            $k = TRUE;
+                            $selectedKancelar = TRUE;
                         break;
                 }
 
             }
             if ($this->request->post('id_beh')) {
-                switch ($this->request->post('id_kancelar')) {
-                    case ' ':
+                switch ($this->request->post('id_beh')) {
+                    case 'ß':
                             $this->sessionStatus->setBeh();
-                            $b = FALSE;
-                        break;
-                    case '*':
-                            $this->sessionStatus->setBeh();
-                            $b = TRUE;
                         break;
                     default:
                             $beh = Projektor2_Model_Db_BehMapper::findById($this->request->post('id_beh'));
                             $this->sessionStatus->setBeh($beh);
-                            $b = TRUE;
+                            $selectedBeh = TRUE;
                         break;
                 }                
             }
-            return $k AND $b;
+            return (isset($selectedKancelar) AND $selectedKancelar) AND (isset($selectedBeh) AND $selectedBeh);
         }        
     }
     

@@ -21,7 +21,12 @@ class Projektor2_Model_SessionStatus {
      * @var Projektor2_Model_SessionStatus 
      */
     protected static $sessionStatus;
-    
+
+    /**
+     *
+     * @var Projektor2_Auth_Cookie 
+     */
+    public $authCookie;
     /**
      *
      * @var Projektor2_Model_Db_Kancelar 
@@ -79,6 +84,11 @@ class Projektor2_Model_SessionStatus {
         return FALSE; //TODO: nehlasi zadnym způsobem chybné volání
     }
     
+    public function setAuthCookie(Projektor2_Auth_Cookie $authCookie=NULL) {      
+        $this->authCookie = $authCookie;
+        return $this;
+    }  
+    
     public function setUser(Projektor2_Model_Db_SysUser $user=NULL) {      
         $this->user = $user;
         return $this;
@@ -115,47 +125,63 @@ class Projektor2_Model_SessionStatus {
             try {
                 $authCookie = new Projektor2_Auth_Cookie($request, $response);  // injekt response, Projektor2_Auth_Cookie sama nastaví cookie v responsu
                 $authCookie->validate();  // při neúspěšné validaci vyhazuje výjimku
-                // projekt z cookie
-                self::$sessionStatus->setProjekt(Projektor2_Model_Db_ProjektMapper::findById($request->cookie('projektId')));
-                // kancelat z cookie
-                self::$sessionStatus->setBeh(Projektor2_Model_Db_KancelarMapper::findById($request->cookie('kancelarId')));            
-                // beh z cookie
-                self::$sessionStatus->setBeh(Projektor2_Model_Db_BehMapper::findById($request->cookie('behId')));
+                self::$sessionStatus->setAuthCookie($authCookie);
                 // user z auth cookie
                 $user = Projektor2_Model_Db_SysUserMapper::findById($authCookie->get_userid());
                 if(!$user) {
                     throw new Exception("Neexistuje uživatel s nastavenou identitou.");
                 }
                 self::$sessionStatus->setUser($user);
+                // projekt z cookie
+                self::$sessionStatus->setProjekt(Projektor2_Model_Db_ProjektMapper::findById($request->cookie('projektId')));
+                // kancelat z cookie
+                self::$sessionStatus->setKancelar(Projektor2_Model_Db_KancelarMapper::findById($request->cookie('kancelarId')));            
+                // beh z cookie
+                self::$sessionStatus->setBeh(Projektor2_Model_Db_BehMapper::findById($request->cookie('behId')));
+
                 // zajemce z cookie
                 $zajemce = Projektor2_Model_Db_ZajemceMapper::findById($request->cookie('zajemceId'));
                 self::$sessionStatus->setZajemce($zajemce);
             } catch (Projektor2_Auth_Exception $exception) {
+                self::$sessionStatus->setAuthCookie();
                 self::$sessionStatus->setProjekt();
-                self::$sessionStatus->setBeh();            
+                self::$sessionStatus->setKancelar();            
                 self::$sessionStatus->setBeh();
                 self::$sessionStatus->setUser();
                 self::$sessionStatus->setZajemce();                
             } 
-
-
         }
         return self::$sessionStatus;
     }
     
     public function persistSessionStatus(Projektor2_Request $request, Projektor2_Response $response) {
         //buď nastaví nebo vymaže cookie, pokud proměnná je FALSE, všechny cookie jsou expirovány na konci sesion (doba expirace není zadána)
-        if (isset($this->user->id)) {
+        if (isset($this->authCookie)) {
+            $this->authCookie->set();  
+        } else {
+            $response->setCookie('userId', NULL);              
+        }
+        if (isset($this->user)) {
             $response->setCookie('userId', $this->user->id);  
         } else {
             $response->setCookie('userId', NULL);              
         }
-        if (isset($this->beh->id)) {
+        if (isset($this->projekt)) {
+            $response->setCookie('projektId', $this->projekt->id);
+        } else {
+            $response->setCookie('projektId', NULL);
+        }
+        if (isset($this->kancelar)) {
+            $response->setCookie('kancelarId', $this->kancelar->id);
+        } else {
+            $response->setCookie('kancelarId', NULL);
+        }
+        if (isset($this->beh)) {
             $response->setCookie('behId', $this->beh->id);
         } else {
             $response->setCookie('behId', NULL);
         }
-        if (isset($this->zajemce->id)) {
+        if (isset($this->zajemce)) {
             $response->setCookie('zajemceId', $this->zajemce->id);
         } else {
             $response->setCookie('zajemceId', NULL);

@@ -17,9 +17,7 @@ class Projektor2_View_HTML_Page extends Framework_View_Abstract {
         $this->parts[] = '<html class="no-js">';
             $this->parts[] = $this->context['headControllerResult'];
             $this->parts[] = '<body onload = "Zobraz_pdf();">';     
-                $this->parts[] = $this->context['headerControllerResult'];
-                $this->parts[] = $this->context['containerControllerResult'];
-                $this->parts[] = $this->context['footerControllerResult'];
+                $this->parts[] = $this->context['loginControllerResult'];
             $this->parts[] = '</body>';
         $this->parts[] = '</html>';
         return $this;

@@ -1,10 +1,6 @@
 <?php
 ob_start();
 
-
-//define('INC_PATH','./inc/');
-
-//require_once(INC_PATH."ind_pomocne_funkce.php");
 // exception handler
 require_once 'Bootstrap.php';
 // zajištění autoload pro Projektor
@@ -27,8 +23,8 @@ $response = new Projektor2_Response();
 //    exit;
 //}
 
-$layoutController = new Projektor2_Controller_Layout($sessionStatus, $request, $response);
-$response->setBody($layoutController->getResult());
+$pageController = new Projektor2_Controller_Page($sessionStatus, $request, $response);
+$response->setBody($pageController->getResult());
 $sessionStatus->persistSessionStatus($request, $response);
 $response->send();
 ?>

@@ -12,7 +12,6 @@ class Projektor2_View_HTML_VyberKontext extends Framework_View_Abstract {
                 $this->parts[] = '<label for="kancelar" >Vyberte kancelář:</label>';
                 $this->parts[] = '<select id="kancelar" size="1" name="id_kancelar">';
                     $this->parts[] = "<option value=\"ß\"> </option>\n";                    
-                    $this->parts[] = "<option value=\"*\">všechny</option>\n";            
                     foreach ($kancelare as $kancelar) {
                         $option = "<option ";
                         if (isset($this->context['id_kancelar']) AND $kancelar->id==$this->context['id_kancelar']) {
@@ -29,7 +28,6 @@ class Projektor2_View_HTML_VyberKontext extends Framework_View_Abstract {
                 $this->parts[] = '<label for="beh" >Vyberte běh:</label>';
                 $this->parts[] = '<select id="beh" size="1" name="id_beh">';
                     $this->parts[] = "<option value=\"ß\"> </option>\n";            
-                    $this->parts[] = "<option value=\"*\">všechny</option>\n";            
                     foreach ($behy as $beh) {
                         $option = "<option ";
                         if (isset($this->context['id_beh']) AND $beh->id==$this->context['id_beh']) {
