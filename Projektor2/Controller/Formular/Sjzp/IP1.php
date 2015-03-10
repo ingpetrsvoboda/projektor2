@@ -6,20 +6,17 @@
  */
 class Projektor2_Controller_Formular_Sjzp_IP1 extends Projektor2_Controller_Formular_IP {
     
-
     protected function createFormModels($zajemce) {
-        //$this->flatTable = new Projektor2_Model_Flat_ZaPlanFlatTable($zajemce); 
         $this->models['plan'] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce); 
-        $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce); //--vs  
-        
+        $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);  
     }
     
-     protected function getResultFormular() {
+    protected function getResultFormular() {
         $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
-        $kurzyModelsAssoc = $this->createKurzyModels($aktivityProjektuTypuKurz);
+        $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $kurzyPlanAssoc = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
         
-        $view = new Projektor2_View_HTML_Formular_IP1($this->createContextFromModels());    
+        $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels());    
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROJEKTU S jazyky za prací')
             ->assign('formAction', 'sjzp_plan_uc')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
@@ -31,55 +28,29 @@ class Projektor2_Controller_Formular_Sjzp_IP1 extends Projektor2_Controller_Form
     }
     
      protected function getResultPdf() {
-        
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
-//            $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypuKurz($this->sessionStatus->projekt->kod);            
-//            $kurzyModelsPlan = $this->createKurzyModelsByPlan($this->models['plan']);
-            $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
-            
-            $view = new Projektor2_View_PDF_Sjzp_IP1($this->createContextFromModels());
+            $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);            
+            $view = new Projektor2_View_PDF_Sjzp_IP1($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)
                 ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
                 ->assign('znacka', $this->sessionStatus->zajemce->znacka)
-//                ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
                 ->assign('kurzyPlan', $kurzyPlan);        
-//            $this->assignKurzyToPdfView($this->models['plan'], $view);
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
             $view->save($fileName);
             $htmlResult = $view->getNewWindowOpenerCode();                        
         }
-        
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení') === 0 ) { 
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení')));  // druh je řetězec za slovy Tiskni osvědčení
             $kurzPlan = Projektor2_Model_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
             $params = array('idSKurzFK'=>$kurzPlan->sKurz->id, 'datumCertif' => $kurzPlan->datumCertif);
-            $ctrlIpCertifikat = new Projektor2_Controller_xxx_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
+            
+            $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
             $htmlResult = $ctrlIpCertifikat->getResult();                   
         }
         return $htmlResult;
     }
-    
-//    protected function getResultPdf() {
-//        // metoda se volá při ukládání dat z formuláře - tedy při post požadavku a pole params obsahuje post data z aktuálního formuláře
-//        //$view = new Projektor2_View_PDF_ApIP1($this->request->params);
-//        $view = new Projektor2_View_PDF_Sjzp_IP1($this->createContextFromModels());   //--vs
-//        
-//        $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
-//        $view->assign('user_name', $this->sessionStatus->user->name);
-//        $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
-//        
-//        $fileName = $this->sessionStatus->projekt->kod.'_'.'IP_cast1'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
-//        $view->assign('file', $fileName);
-//        
-//        $view->save($fileName);
-//        $htmlResult .= $view->getNewWindowOpenerCode();
-//        
-//        return $htmlResult;
-//    }
 }
-
-?>

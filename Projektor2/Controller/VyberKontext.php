@@ -19,10 +19,6 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                             $selectedKancelar = TRUE;
                         break;
                 }
-                // dočasné udělátko
-                if ($this->sessionStatus->user->monitor) {
-                    $selectedKancelar = TRUE;                    
-                }
             }
             if ($this->request->post('id_beh')) {
                 switch ($this->request->post('id_beh')) {
@@ -35,22 +31,34 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                             $selectedBeh = TRUE;
                         break;
                 }                
-                // dočasné udělátko
-                if ($this->sessionStatus->user->monitor) {
-                    $selectedBeh = TRUE;                    
-                }
             }
             return (isset($selectedKancelar) AND $selectedKancelar) AND (isset($selectedBeh) AND $selectedBeh);
         }        
     }
     
     public function getResult() {
-        $performContinue = $this->performPostActions();
-
+        if ($this->request->isPost() AND $this->request->get('akce') == 'kontext') {
+            $performContinue = $this->performPostActions();
+            // dočasné udělátko
+//            if ($this->sessionStatus->user->monitor) {
+//                $performContinue = TRUE;
+//            } 
+        } else {
+            if (isset($this->sessionStatus->kancelar) AND isset($this->sessionStatus->beh)) {
+                $performContinue = TRUE;
+            } else {
+                $performContinue = FALSE;                
+            }
+        }
+ 
         $idKancelari = Projektor2_Model_Db_SysAccUsrKancelarMapper::getIndexArray('id_c_kancelar', 'id_sys_users='.$this->sessionStatus->user->id);
-        $kancelare = Projektor2_Model_Db_KancelarMapper::findAll('id_c_projekt_FK='.$this->sessionStatus->projekt->id.' AND id_c_kancelar IN ('.implode(', ', $idKancelari).')');    
+        if (isset($idKancelari)) {
+            $kancelare = Projektor2_Model_Db_KancelarMapper::findAll('id_c_projekt_FK='.$this->sessionStatus->projekt->id.' AND id_c_kancelar IN ('.implode(', ', $idKancelari).')');    
+        } else {
+            $kancelare = array();
+        }
         $behy = Projektor2_Model_Db_BehMapper::findAll('id_c_projekt='.$this->sessionStatus->projekt->id);    
-        $parts[] = new Projektor2_View_HTML_VyberKontext(
+        $parts[] = new Projektor2_View_HTML_VyberKontext($this->sessionStatus, 
                 array('kancelare'=>$kancelare, 
                     'id_kancelar'=>isset($this->sessionStatus->kancelar->id) ? $this->sessionStatus->kancelar->id : NULL, 
                     'behy'=>$behy, 
@@ -62,7 +70,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
             $controller = $router->getController();
             $parts[] = $controller->getResult();        
         }
-        $viewVybery = new Projektor2_View_HTML_Multipart(array('htmlParts'=>$parts));
+        $viewVybery = new Projektor2_View_HTML_Multipart($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewVybery;
     }
 }

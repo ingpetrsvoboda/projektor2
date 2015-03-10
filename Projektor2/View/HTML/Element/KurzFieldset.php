@@ -7,52 +7,40 @@
 class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract {
     
     public function render() {
+        // hodnoty proměnných pro vytváření atributů při skládání tagů
         if (isset($this->context['readonly']) AND $this->context['readonly']) {
+            // inputy jsou readonly nebo disabled, inputy pro datum jsou typu text (a readonly) a class fieldsetu pro css je "readonly"
             $readonlyAttribute = ' readonly="readonly" ';
             $disabledAttribute = ' disabled="disabled" ';
             $dateInputType = 'text';
             $fieldsetClass = 'readonly';
         } else {
-//            $dateInputType = 'date';  
+            // inputy nejsou readonly ani disabled, inputy pro datum jsou typu date a class fieldsetu pro css není nastavena
             $readonlyAttribute = ' ';
             $disabledAttribute = ' ';
             $dateInputType = 'date';  
             $fieldsetClass = '';            
         }
         $checkedAttribute = ' checked="checked" ';
-//        $idSKurzName = $this->context['planPrefix'].'->id_s_kurz_'.$this->context['druhKurzu'].'_FK';        
-//        $idSKurzValue = $this->context[$idSKurzName];
-//        $prop = $this->context['returnedModelProperty']; 
-//        $planovanyPocetHodin = 0;
-//        $naplanovanKurz = FALSE;
-//        // zjištění plánovaného počtu hodin
-//        foreach ($this->context['modelsArray'] as $model) {
-//            $valueObjectProperty = $model->$prop;
-//            if (isset($idSKurzValue) AND $idSKurzValue == $valueObjectProperty AND $valueObjectProperty>3) {    // a id>3
-//                $planovanyPocetHodin = $model->pocet_hodin;
-//                $naplanovanKurz = TRUE;   
-//            }
-//        }      
         
 //    $kurzPlan = new Projektor2_Model_KurzPlan();  // jen pro našeptávání!!        
         if (isset($this->context['druhKurzu'])) {
             $druhKurzu = $this->context['druhKurzu'];
         } else {
-            throw new UnexpectedValueException('Položka kontextu \'druhKurzu\' musí být nastevena.');
+            throw new UnexpectedValueException('Položka kontextu \'druhKurzu\' musí být nastavena.');
         }
         $zaPlanColumnNames = Projektor2_Model_Db_Flat_ZaPlanFlatTable::getItemColumnsNames($druhKurzu);
-        $idSKurzColumnName = $this->context['planPrefix'].Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$zaPlanColumnNames['idSKurzFK'];
-        
-        
-        $kurzPlan = $this->context['kurzPlan'];   
-        if ($kurzPlan AND $kurzPlan->sKurz) {
-            $planovanyPocetHodin = $kurzPlan->sKurz->pocet_hodin;
-            $naplanovanKurz = $kurzPlan->sKurz->isNaplanovan();
-        } else {
-            $planovanyPocetHodin = 0;
-            $naplanovanKurz = FALSE;
+        $idSKurzColumnName = $this->context['planPrefix'].Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$zaPlanColumnNames['idSKurzFK'];        
+        if (isset($this->context['kurzPlan'])) {
+            $kurzPlan = $this->context['kurzPlan'];   
+            if ($kurzPlan AND $kurzPlan->sKurz) {
+                $planovanyPocetHodin = $kurzPlan->sKurz->pocet_hodin;
+                $naplanovanKurz = $kurzPlan->sKurz->isNaplanovan();
+            } else {
+                $planovanyPocetHodin = 0;
+                $naplanovanKurz = FALSE;
+            }
         }
-        
         // názvy pro návratové hodnoty do contextu
         $namePocAbsHodin = $this->context['planPrefix'].Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$zaPlanColumnNames['pocAbsHodin'];
         $nameDokonceno = $this->context['planPrefix'].Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$zaPlanColumnNames['dokonceno'];
@@ -61,6 +49,10 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $nameDuvodNeukonceni = $this->context['planPrefix'].Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$zaPlanColumnNames['duvodNeukonceni'];
         $zadanyAbsolvovaneHodiny = $kurzPlan->pocAbsHodin>0 ? TRUE : FALSE;
         $zadanoUspesneNeuspesne = $kurzPlan->dokoncenoUspesne ? TRUE : FALSE;  // hodnota je "Ano" nebo "Ne", tedy zadaná hodnote -> TRUE
+        $zadanoDokoncenoAno = ($kurzPlan->dokoncenoUspesne == 'Ano') ? TRUE:FALSE;
+        $zadanoDokoncenoNe = ($kurzPlan->dokoncenoUspesne == 'Ne') ? TRUE : FALSE; 
+        $zobrazBlokCertifikat = ($kurzPlan->aktivitaSCertifikatem) ? TRUE : FALSE;  
+        $zobrazTiskniCertifikat = ($kurzPlan->tiskniCertifikat) ? TRUE : FALSE;  
         
         $idSelect = $kurzPlan->indexAktivity.'_select';
         $idTlacitkoAbsolvovano = $kurzPlan->indexAktivity.'_tlacitko_absolvovano';
@@ -73,14 +65,12 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $displayBlokPocetHodin = ($planovanyPocetHodin>0) ? 'block':'none';
         $displayBlokDuvodAbsence = ($kurzPlan->duvodAbsence) ? 'block':'none';
         $displayBlokDokonceno = ($zadanoUspesneNeuspesne) ? 'block':'none';
-        $zadanoDokoncenoAno = ($kurzPlan->dokoncenoUspesne == 'Ano') ? TRUE:FALSE;
-        $zadanoDokoncenoNe = ($kurzPlan->dokoncenoUspesne == 'Ne') ? TRUE : FALSE;            
-        $zobrazBlokCertifikat = ($kurzPlan->aktivitaSCertifikatem) ? TRUE : FALSE;  
+           
         $idBlokCertifikat = $kurzPlan->indexAktivity.'_certifikat';
         $displayBlokCertifikat = ($zadanoDokoncenoAno) ? 'block':'none';
         
         // view pro select
-        $viewSelect = new Projektor2_View_HTML_Element_Select($this->context);
+        $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus, $this->context);
         if (isset($kurzPlan->sKurz->id)) {
             $aktVal = $kurzPlan->sKurz->id;
         } else {
@@ -88,8 +78,8 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         }
         $viewSelect->assign('selectId', $idSelect)
                 ->assign('selectName', $idSKurzColumnName)
-                ->assign('valuesArray', $this->context['modelsArray'])
-                ->assign('returnedObjectProperty', $this->context['returnedModelProperty'])
+                ->assign('valuesArray', $this->context['modelsArray'])  // pole modelů
+                ->assign('returnedObjectProperty', $this->context['returnedModelProperty'])  // vlastnost modelu, která je použita pro návratové hodnoty
                 ->assign('actualValue', $aktVal)
                 ->assign('innerTextCallable', array($this,'text_retezec_kurz'))
                 ->assign('onChangeJsCode', 'submitForm(this);') // SUBMIT po ksždé změně hodnoty - je potřebný pro načtení plánovaného počtu hodin právě zvoleného kurzu
@@ -170,17 +160,19 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
                     . '</input>'
                     . '</div>';   
             // konec dokončeno úšpěšně/neúspěšně a závislý prvek důvod neukončení
-            
+            // blok certifikát
             if ($zobrazBlokCertifikat) {
-                $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat();
+                $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat($this->sessionStatus);
                 $viewCertifikat->assign('readonly', $this->context['readonly']);
                 $viewCertifikat->assign('idBlokCertifikat', $idBlokCertifikat);
                 $viewCertifikat->assign('displayBlokCertifikat', $displayBlokCertifikat);
+                $viewCertifikat->assign('zobrazTiskniCertifikat', $zobrazTiskniCertifikat);
                 $viewCertifikat->assign('nameDatumCertif', $nameDatumCertif);
                 $viewCertifikat->assign('valueDatumCertif', $this->context[$nameDatumCertif]);
                 $viewCertifikat->assign('druhKurzu', $druhKurzu);
                 $this->parts[] = $viewCertifikat;
             }
+            // konec bloku certifikát
         $this->parts[] = '</div>'; 
 // konec span absolvovano
         $this->parts[] ='</fieldset>'; 

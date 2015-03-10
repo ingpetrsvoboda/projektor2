@@ -1,0 +1,116 @@
+Dne 14.1.2015
+chtělo by to:
+signály - ukončení (hlavně) a další
+
+OK - projekt help - vyhodit fieldset úspěšnost a certifikát - rozděláno dodělat
+
+!certifikáty - bez akreditace se tisknou v projektoru, s akreditací ne - je třeba rozdělit, počínaje AppContext, zobrazovat
+v kurz fieldsetu
+
+tlačítka do sjzp + plán + certifikáty
+
+
+Dne 9.1.2015
+chybí levé menu v helpu
+chybí všude hodnocení účasti v projektu
+
+AKUTNÍ
+
+chyby po spolupráci se Selnerovou dnes
+- textové obsahy pdf v sjzp - revidovat
+- export excel
+- exporty certifikátů
+- tlačítka tisk až pozadání příslušného datumu
+
+--------------------------
+PDF view -> MVC:
+PDF view -  a má metodu render(), která vrací html - v konkrétním případě projektoru view NewWindowOpenerCode vrací kód skriptu pro otevření pdf v novém okně
+PDF model - má metodu create(), která generuje kód pdf
+          - má metodu save(), která uloží pdf kód do souboru
+          - má metodu find(), která načte pdf kód ze souboru
+          - asi i delete()
+          - má metodu getFullFileName(), která vrací jméno souboru s pdf kódem, tu volá kontroler NewWindowOpenerCode ve své metodě getResult()
+PDF kontrolery
+        kontroler NewWindowOpenerCode
+          - má metodu getResult, která vrací html kód skriptu pro download souboru s pdf a otevření v novém okně prohlížeče (viz Projektor2_View_PDF_Base), 
+            k tomu použije view NewWindowOpenerCode
+        kontroler Pdf
+          - má metodu getResult, která rozpoznává POST requesty - zřejmě je tedy tento kontroler potomkem kontroleru formular 
+            (a ten je třeba upravit) - musí zajistit několik typů chování:
+            * POST request "Tiskni pdf" pro persistovaná pdf (stávající stav, kdy se každé pdf současně uloží do souboru)
+                - vytvoří pdf kód
+                - uloží pdf kód do souboru
+                - do výstupu pošle vytvořený kód s příslušnými hlavičkami, které zařídí otevření v novém okně??? (st
+            * GET request "Zobraz pdf" - jen download klientem pro zobrazení (a tisk na klientovi):
+                - načte pdf kód - pro persistovaná pdf nebo vytvoří pdf kód pro nepersistovaná pdf
+                - do výstupu pošle pdf kód s příslušnými hlavičkami, které zařídí otevření v novém okně??? (zatím umím jen pro persistovaná pdf 
+                  vytvořit a do výstupu poslat NewWindowOpenerCode - ten pak na klientovi vygeneruje GET request "Tiskni pdf" pro persistovaná pdf
+            * GET request "Zobraz pdf" pro persistovaná (již dříve uložená) pdf 
+                - vytvoří a do výstupu pošle NewWindowOpenerCode - ten pak na klientovi vygeneruje GET request "Tiskni pdf" pro persistovaná pdf
+
+
+--------------------------
+Nový zájemce:
+OK - založí se rovnou vstupem do formuláře - NUTNO upravit!
+--------------------------
+Selnerová 12.11.2014:
+- nelze zasat datum souhlasu (?readonly)
+. podařilo se uložit kurz s volbou ----- (asi Podpora sebevědomí a sertivita) po zadání úspěšně se nějak sel podařilo znovu změnit kurz na -----------
+- v IPKurzy a v IP2 se netiskne podpora sebevědomí SPP, u všech kurzů se tikne věta plánovaný počet hodin i když žádné nejsou
+- v IP2 formulář se - správně nezobrazují kurzy, které nejsou dokončené, ale v pdf se tisnou. Zde je potřeba doplnit kontrolu - správně by
+  nemělo být možné tiskout IP2, když zájemce má naplánovaný kurz, ale nemá údaje o ukončení
+
+--------------------------
+OK - pdf ip1+2+aktivity+ukoceni - není prefix v contextu pro plan kurzu (počet hodin, ...)
+OK - loga - rozměry
+
+pdf dotazník - mPDF nedělá položky v selectech
+
+-------------------------------------
+
+Selnerová 3.12.2014
+
+- fieldset: zadal jsem menší počet hodin -> vyplnil jsem důvod  a později jsem nastavil plný počet hodin - při nastavení plného počtu hodin pole důvod zmizí,
+ ale při refresh formuláře nebo novém otevřené se pole důvod (má obsah) zobrazí
+- vyplnil jsem datum certifikátu a vytisknul jsem cerifikát - následně můžu změnit datum. Je tčřeba udělat input pro datum readonly - ale až po tisku, ne po uložení
+- chybné jméno souboru pseudokopie certifikát kurz
+- zkontroluj tisknutí všeho - teď netiskne certifikát projekt
+- i pro neuspěšně podpořeného zobrazit ve formuláři absolvované kurzy
+
+- Souhlas a IP1 v AP - šedivá tlačítka - zruš submit uložit, nech jen submit Tiskni - zbytečně to mate (a navíc v souhlasu je datum teď readonly)
+- plán kurzů - když nenaplánuju žádný kurz - dovolí mi uložit i bez datumu - to je chyba - v dokumentu se pak správně píše účastník nemá naplánovány 
+žádné aktivity, ale není tam žádné datum
+
+
+
+
+
+-----------------------------------
+
+dodělat všude type=date ve formulářích
+
+stránkování pdf pro blok buněk
+
+dotazník:
+zkontroluj a uprav - v některých ?? dotazníků se v části hledá/odmítá objevuje jen sloupec radiobuttonů "ne" 
+
+
+##########################################################################################################################
+
+10.12.2014
+
+OK - controler zobraz registrace v sjzp
+OK - view pdf IP1, IP2 v help i v sjzp - upravit pro kurzPlan
+uprav:
+OK - když není s_kurz počet hodin -> není počet plánovaných hodin a ve fomuláři se nenabízí počet absolvovaných hodi + v pdf se netiskně počet absolvovaných hodin i kyž je (ustarých kurzů) vyplněn
+v Helpu:
+OK - IP1 ve formuláři správné kurzy z Helpu, ale v pdf IP1 se tisknou kurzy z AP a stejně tak i v certifikátech - viz názvy kurzů v certifikátu pro help
+OK - help motivační - netiskne se název kurzu, totéž v rk1 2 3
+OK - v IP1-doplnění AP se netiskne sebas a forpr
+OK - u sebas forpr netisknou se certifikáty - i když jsou "povolené" v konfiguraci
+OK - certifikát za kurz: je tam text "absolvoval kurz dne" i když kurz trval více dní - a netiskne se žádné datum - výjimka je pc kurz AP, tam je to OK
+
+certifikát za projekt:
+OK -     a) dodělat ho
+OK -     b) do formuláře ukončení přidat radio úspěšně/neúspěšně s textem úspěšně podpořená, pokud úspěšně, tak input datum a pokud datum tlačítko tisk
+OK - ? povinné pole důvod ukončení v případě 2a, ...

@@ -15,12 +15,12 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
     protected function getResultFormular() {
         $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
         $aktivityProjektuTypuPoradenstvi = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');
-        $kurzyModelsAssoc = $this->createKurzyModels($aktivityProjektuTypuKurz);
+        $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $kurzyPlanAssoc = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
         
         $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->projekt->kod);
         
-        $view = new Projektor2_View_HTML_Formular_IP2($this->createContextFromModels());     
+        $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels());     
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část')
             ->assign('formAction', 'ap_ukonceni_uc')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)                
@@ -42,7 +42,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
             $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
             $aktivityProjektuTypuPoradenstvi = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');            
-            $view = new Projektor2_View_PDF_Ap_IP2($this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Ap_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)
@@ -61,7 +61,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         if ($this->request->post('pdf') == "Tiskni IP 2.část - doplnění hodnocení") {
             $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
             $aktivityProjektuTypuPoradenstvi = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');            
-            $view = new Projektor2_View_PDF_Ap_IP2Hodnoceni($this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Ap_IP2Hodnoceni($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)
@@ -78,7 +78,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         }
         
         if ($this->request->post('pdf') == "Tiskni ukončení účasti") {
-            $view = new Projektor2_View_PDF_Ap_Ukonceni($this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Ap_Ukonceni($this->sessionStatus, $this->createContextFromModels());
             $file = 'ukonceni';
             //status proměnné
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
@@ -95,7 +95,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení') === 0 ) {
             $datumCertif = $this->models['ukonceni']->datum_certif;
             $params = array('datumCertif' => $datumCertif);
-            $ctrlIpCertifikat = new Projektor2_Controller_Ap_Certifikat_Projekt($this->sessionStatus, $this->request, $this->response, $params);
+            $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Projekt($this->sessionStatus, $this->request, $this->response, $params);
             $htmlResult = $ctrlIpCertifikat->getResult();                      
         }       
         
