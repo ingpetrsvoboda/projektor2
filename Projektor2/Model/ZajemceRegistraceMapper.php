@@ -6,12 +6,12 @@ class Projektor2_Model_ZajemceRegistraceMapper {
      * @return Projektor2_Model_ZajemceRegistrace
      */
     public static function findById($id) {
-        $zajemce = Projektor2_Model_Db_ZajemceMapper::findById($id);
+        $zajemce = Projektor2_Model_ZajemceOsobniUdajeMapper::findById($id);
         return self::create($zajemce);
     }
     
     public static function findAll($filter = NULL, $order = NULL) {
-        $zajemci = Projektor2_Model_Db_ZajemceMapper::findAll($filter, $order);
+        $zajemci = Projektor2_Model_ZajemceRegistraceMapper::findAll($filter, $order);
         if ($zajemci) {
             foreach ($zajemci as $zajemce) {
                 $zajemciRegistrace[] = self::create($zajemce);
@@ -22,11 +22,10 @@ class Projektor2_Model_ZajemceRegistraceMapper {
         return $zajemciRegistrace;
     }
     
-    public static function create(Projektor2_Model_Db_Zajemce $zajemce) {
-        $dotaznik = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
-        $jmenoCele = implode(' ', array($dotaznik->prijmeni, $dotaznik->jmeno, $dotaznik->titul, $dotaznik->titul_za)); //začíná příjmením 
-        $zajemceRegistrace =  new Projektor2_Model_ZajemceRegistrace($jmenoCele, $zajemce->identifikator, $zajemce->znacka, $zajemce->id);   
-        return self::setSkupiny($zajemceRegistrace, $zajemce);
+    public static function create(Projektor2_Model_ZajemceOsobniUdaje $zajemceOsobniUdaje) {
+        $jmenoCele = implode(' ', array($zajemceOsobniUdaje->prijmeni, $zajemceOsobniUdaje->jmeno, $zajemceOsobniUdaje->titul, $zajemceOsobniUdaje->titul_za)); //začíná příjmením 
+        $zajemceRegistrace =  new Projektor2_Model_ZajemceRegistrace($jmenoCele, $zajemceOsobniUdaje->zajemce->identifikator, $zajemceOsobniUdaje->zajemce->znacka, $zajemceOsobniUdaje->zajemce->id);   
+        return self::setSkupiny($zajemceRegistrace, $zajemceOsobniUdaje->zajemce);
     }
 
     ######### PRIVATE #######################
@@ -109,7 +108,11 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                         }
                     }
                 }
-                                
+//              bez signalu:
+//                if (count($skupina->getMenuTlacitkaAssoc())) {
+//                    $zajemceRegistrace->setSkupina('plan', $skupina);
+//                } 
+//                                               
 //                //poradenství
 //                if ($user->tl_ap_porad) {
 //                    $modelTlacitko = new Projektor2_Model_MenuTlacitko();

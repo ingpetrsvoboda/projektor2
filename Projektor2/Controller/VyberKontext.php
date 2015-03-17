@@ -75,4 +75,3 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
     }
 }
 
-?>

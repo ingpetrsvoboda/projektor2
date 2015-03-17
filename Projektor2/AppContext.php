@@ -26,7 +26,7 @@ abstract class Projektor2_AppContext
     {
         switch ($nick) {
             case 'projektor':
-                if(!isset($db['projektor']) OR !isset(self::$db['projektor'])) {
+                if(!isset(self::$db['projektor']) OR !isset(self::$db['projektor'])) {
 //                    $dbh = new Framework_Database_HandlerSqlMysql_Radon();
                     $dbh = new Framework_Database_HandlerSqlMysql_Localhost();
                     self::$db['projektor'] = $dbh;

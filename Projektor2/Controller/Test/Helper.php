@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of Helper
+ * Třída pro spuštění testů Projektor2_Controller_Test_Helper. Obsahuje také pomocné funkce pro použití v testech.
  *
  * @author pes2704
  */

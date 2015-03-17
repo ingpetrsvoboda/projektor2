@@ -59,22 +59,20 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
         $this->performPostActions();
         $this->performGetActions();
         $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
-        $parts[] = $viewLeftMenu;
-        
-        $router = new Projektor2_Router_Form($this->sessionStatus, $this->request, $this->response);
-        $formController = $router->getController();        
+        $parts[] = $viewLeftMenu;       
         
         // nezobrazuje se pro novou osobu
         if ($this->sessionStatus->zajemce) {
             $params = array('zajemce' => $this->sessionStatus->zajemce);
             $tlacitkaController = new Projektor2_Controller_Element_MenuFormulare($this->sessionStatus, $this->request, $this->response, $params);
             $rows[] = $tlacitkaController->getResult();
-            $viewZaznamy = new Projektor2_View_HTML_Zaznamy($this->sessionStatus, array('rows'=>$rows));
+            $contentParts[] = new Projektor2_View_HTML_Zaznamy($this->sessionStatus, array('rows'=>$rows));
         }
-        
-        $viewContent = new Projektor2_View_HTML_Content($this->sessionStatus, array('htmlParts'=>array($viewZaznamy, $formController->getResult())));
+        $router = new Projektor2_Router_Form($this->sessionStatus, $this->request, $this->response);
+        $formController = $router->getController();         
+        $contentParts[] = $formController->getResult();
+        $viewContent = new Projektor2_View_HTML_Content($this->sessionStatus, array('htmlParts'=>$contentParts));
         $parts[] = $viewContent;        
-        
         
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Multipart($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewZobrazeniRegistraci;

@@ -2,8 +2,8 @@
 
 /**
  * ModelProjekt je test pro Projektor2_Model_ZaPlanPoradenstviMapper, Projektor2_Model_ZaPlanPoradenstvi
- * volání testu:
- * http://localhost/p2/index.php?akce=test&testclass=Projektor2_Controller_Test_ModelZaPlanPoradenstvi
+ * volání testu (cestu je třeba upravit podla aktuálního adresáře projektu - např. p2_1_4):
+ * http://localhost/p2_1_4/index.php?akce=test&testclass=Projektor2_Controller_Test_ModelZaPlanPoradenstvi
  *
  * @author pes2704
  */
@@ -22,7 +22,7 @@ class Projektor2_Controller_Test_ModelZaPlanPoradenstvi  implements Projektor2_C
     public function getResult() {
         $helper = new Projektor2_Controller_Test_Helper();
 
-        $html .= $helper->listTestMethod('Projektor2_Controller_Test_ModelZaPlanPoradenstvi', 'test');
+        $html = $helper->listTestMethod('Projektor2_Controller_Test_ModelZaPlanPoradenstvi', 'test');
         $html .= $helper->interval();
         $html .= $this->test();
         $html .= $helper->interval();

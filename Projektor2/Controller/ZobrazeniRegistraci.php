@@ -73,7 +73,7 @@ class Projektor2_Controller_ZobrazeniRegistraci extends Projektor2_Controller_Ab
         $zajemciOsobniUdaje = Projektor2_Model_ZajemceOsobniUdajeMapper::findAll(NULL, NULL, "identifikator");
         if ($zajemciOsobniUdaje) {
             foreach ($zajemciOsobniUdaje as $zajemceOsobniUdaje) {
-                $params = array('zajemce' => $zajemceOsobniUdaje->zajemce);
+                $params = array('zajemceOsobniUdaje' => $zajemceOsobniUdaje);
                 $tlacitkaController = new Projektor2_Controller_Element_MenuFormulare($this->sessionStatus, $this->request, $this->response, $params);
                 $rows[] = $tlacitkaController->getResult();
             }

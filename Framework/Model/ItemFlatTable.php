@@ -44,14 +44,18 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             }
         }
         $this->dbh = Projektor2_AppContext::getDb();
-        //Nacteni struktury tabulky, datovych typu a ost parametru tabulky
-        $query = "SHOW COLUMNS FROM ".$this->tableName;
-        $sth = $this->dbh->prepare($query);
-        $succ = $sth->execute();
-        while ($data = $sth->fetch(PDO::FETCH_ASSOC)){
-            $this->attributes[$data['Field']] = $data['Default'];
-            if ($data['Key']=="PRI") $this->primaryKeyColumnName = $data['Field'];        
-        }
+        // jedno načtení trvá cca 10ms, bez cache se jedna struktuta (struktura jedné tabulky) čte průměrně řx
+//        //Nacteni struktury tabulky, datovych typu a ost parametru tabulky
+//        $query = "SHOW COLUMNS FROM ".$this->tableName;
+//        $sth = $this->dbh->prepare($query);
+//        $succ = $sth->execute();
+//        $columnsInfo = $sth->fetchAll(PDO::FETCH_ASSOC);         
+//        foreach($columnsInfo as $columnInfo) {
+//            $this->attributes[$columnInfo['Field']] = $columnInfo['Default'];
+//            if ($columnInfo['Key']=="PRI") $this->primaryKeyColumnName = $columnInfo['Field'];        
+//        }
+        $this->attributes = Framework_Database_Cache::getAttributes($this->dbh, $this->tableName);
+        $this->primaryKeyColumnName = Framework_Database_Cache::getPrimaryKeyName($this->dbh, $this->tableName);
     }
 
     private function initializeMainObject($mainObject) {
