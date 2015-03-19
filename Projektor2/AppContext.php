@@ -102,23 +102,29 @@ abstract class Projektor2_AppContext
      * @return type
      * @throws UnexpectedValueException
      */
-    public static function getDocumentPath($kod=NULL) {
-        
-//        $documentsRoot = 'C:/';
-        $documentsRoot = '';
-        
-        switch ($kod) {
+    public static function getDocumentRoot($kod=NULL) {
+        $documentsRoot = 'C:/';        
+        return $documentsRoot;
+    }
+    /**
+     * Vrací cestu ke kořenovému adresáři pro ukládání souborů (zejména pro file mappery)
+     * @param type $kod
+     * @return type
+     * @throws UnexpectedValueException
+     */
+    public static function getRelativeDocumentPath($kod=NULL) {
+                switch ($kod) {
         ######## AP ###################            
             case 'AP':
-                return $documentsRoot.'_ExportProjektor/AP/';
+                return '_ExportProjektor/AP/';
                 break;
         ######## HELP #################            
             case 'HELP':
-                return $documentsRoot.'_ExportProjektor/HELP/';
+                return '_ExportProjektor/HELP/';
                 break;
         ######## SJZP #################            
             case 'SJZP':
-                return $documentsRoot.'_ExportProjektor/SJZP/';                
+                return '_ExportProjektor/SJZP/';                
                 break;
             default:
                 throw new UnexpectedValueException('Není definována cesta pro dokumenty projektu '.$kod);

@@ -11,13 +11,13 @@ abstract class Framework_Model_FileMapper {
     /**
      * Metoda ukládá dokument do souboru v souborovém systému. Soubor vytvoří, již existující vždy přepíše. Do souboru vloží obsah 
      * bez kontroly délky, pokud je obsah modelu prázdný, vytvoří soubor s nulovou délkou.
-     * @param Framework_Model_FileItemAbstract $model
-     * @return \Framework_Model_FileItemAbstract
+     * @param Projektor2_Model_File_ItemAbstract $model
+     * @return \Projektor2_Model_File_ItemAbstract
      * @throws BadFunctionCallException
      * @throws UnexpectedValueException
      * @throws RuntimeException
      */
-    public static function persist(Framework_Model_FileItemAbstract $model) {
+    public static function persist(Projektor2_Model_File_ItemAbstract $model) {
         $path_parts = pathinfo($model->documentPath);
         if (!is_dir($path_parts['dirname'])) {  //pokud není složka, vytvoří ji
             if (!mkdir($path_parts['dirname'], 0777, TRUE)) {
@@ -40,11 +40,11 @@ abstract class Framework_Model_FileMapper {
 
     /**
      * Metoda načte obsah souboru v souborové systému do obsahu modelu a nastaví ostatní vlastnosti modelu.
-     * @param Framework_Model_FileItemAbstract $model
-     * @return \Framework_Model_FileItemAbstract Model s načteným obsahem
+     * @param Projektor2_Model_File_ItemAbstract $model
+     * @return \Projektor2_Model_File_ItemAbstract Model s načteným obsahem
      * @throws RuntimeException
      */
-    public static function hydrate(Framework_Model_FileItemAbstract $model) {
+    public static function hydrate(Projektor2_Model_File_ItemAbstract $model) {
         $path_parts = pathinfo($model->documentPath);
         if (!isset($path_parts['dirname'])) {
             throw new RuntimeException('Při pokusu o načtení obsahu certifikátu ze souboru se nepodařilo zjistit složku a název souboru '
@@ -78,10 +78,10 @@ abstract class Framework_Model_FileMapper {
     
     /**
      * Metoda ověří, jestli je obsah modelu souboru v souborovém systému. 
-     * @param Framework_Model_FileItemAbstract $model
+     * @param Projektor2_Model_File_ItemAbstract $model
      * @return boolean
      */
-    public static function isSaved(Framework_Model_FileItemAbstract $model) {
+    public static function isSaved(Projektor2_Model_File_ItemAbstract $model) {
         return self::verify($model);
     }
     

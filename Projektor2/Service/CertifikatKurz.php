@@ -91,7 +91,7 @@ class Projektor2_Service_CertifikatKurz {
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_View_PDF_Common $pdfView
      * @param type $fileMapperClassName
-     * @return Framework_Model_FileItemAbstract
+     * @return Projektor2_Model_File_ItemAbstract
      */
     private function createContentCertifikatKurz(Projektor2_View_PDF_Common $pdfView, 
             Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Kancelar $kancelar, 

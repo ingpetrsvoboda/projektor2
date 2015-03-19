@@ -94,7 +94,7 @@ class Projektor2_Service_CertifikatProjekt {
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_View_PDF_Common $pdfView
      * @param type $fileMapperClassName
-     * @return Framework_Model_FileItemAbstract
+     * @return Projektor2_Model_File_ItemAbstract
      */
     private function createContentCertifikatProjekt(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_View_PDF_Common $pdfView) {
         $models = $this->createProjektOsvedceniModels($zajemce);

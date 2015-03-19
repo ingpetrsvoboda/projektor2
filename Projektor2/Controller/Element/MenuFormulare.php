@@ -15,6 +15,7 @@ class Projektor2_Controller_Element_MenuFormulare extends Projektor2_Controller_
      */
     public function getResult() {         
         //nové
+        $htmlParts = array();
         if (isset($this->params['zajemceOsobniUdaje'])) {
             $zajemceRegistrace = Projektor2_Model_ZajemceRegistraceMapper::create($this->params['zajemceOsobniUdaje']);  
             // sada td tlačítka

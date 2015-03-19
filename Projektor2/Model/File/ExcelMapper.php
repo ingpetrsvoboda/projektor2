@@ -83,8 +83,9 @@ class Projektor2_Model_File_ExcelMapper {
      * @return type
      */
     public static function getFullFileName(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
-        $soubor = $dirName.
-        $dirName = Projektor2_AppContext::getDocumentPath($sessionStatus->projekt->kod).static::PATH_PREFIX;
+        $dirName = Projektor2_AppContext::getDocumentRoot()
+                .Projektor2_AppContext::getRelativeDocumentPath($sessionStatus->projekt->kod)
+                .static::PATH_PREFIX;
         $basename = self::getBaseName($sessionStatus, $tabulka);
         return $dirName.$basename;        
     }   
