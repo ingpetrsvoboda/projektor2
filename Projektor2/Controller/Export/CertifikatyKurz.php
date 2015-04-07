@@ -44,7 +44,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                             if (!$certifikat) {
                                 throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id);
                             } 
-                            $logger->log($certifikat->documentCertifikatKurz->documentPath);
+                            $logger->log($certifikat->documentCertifikatKurz->filePath);
                         }
                     }
                 }

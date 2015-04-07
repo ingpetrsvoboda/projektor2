@@ -60,6 +60,13 @@ abstract class Projektor2_AppContext
         ######## AP #################            
             case 'AP':
                 return 'Ing. Barbora Kuralová';
+        ######## AP #################            
+            case 'SJZP':
+                return 'XXXXXXXXXXXXXXXXXXX';
+                
+            default:
+                throw new UnexpectedValueException('Není definován podpis pro certifikát v projektu '.$kod.'.');                
+                
         }
     }
     
@@ -73,7 +80,7 @@ abstract class Projektor2_AppContext
         if (trim($rok)<="2014") {
             return $rok.'/'.$cislo;            // v roce 2014 byla první várka očíslována takto, dodržuji tedy číslování 2014
         } else {
-        return sprintf("PR/%04d/%04d", $rok, $cislo);
+            return sprintf("PR/%04d/%04d", $rok, $cislo);
         }
     }
 
@@ -97,14 +104,15 @@ abstract class Projektor2_AppContext
     
 ############# EXPORTY #############        
     /**
-     * Vrací cestu ke kořenovému adresáři pro ukládání souborů (zejména pro file mappery)
+     * Vrací cestu ke kořenovému adresáři pro ukládání souborů (zejména pro file mappery). Jde vždy o cestu relativní vůči 
+     * kočenové složce dokument§ serveru - DOCUMENT_ROOT
      * @param type $kod
      * @return type
      * @throws UnexpectedValueException
      */
-    public static function getDocumentRoot($kod=NULL) {
-        $documentsRoot = 'C:/';        
-        return $documentsRoot;
+    public static function getFileBaseFolder() {
+        $fileBaseFolder = '_ExportProjektor/';        
+        return $fileBaseFolder;
     }
     /**
      * Vrací cestu ke kořenovému adresáři pro ukládání souborů (zejména pro file mappery)
@@ -112,19 +120,19 @@ abstract class Projektor2_AppContext
      * @return type
      * @throws UnexpectedValueException
      */
-    public static function getRelativeDocumentPath($kod=NULL) {
+    public static function getRelativeFilePath($kod=NULL) {
                 switch ($kod) {
         ######## AP ###################            
             case 'AP':
-                return '_ExportProjektor/AP/';
+                return 'AP/';
                 break;
         ######## HELP #################            
             case 'HELP':
-                return '_ExportProjektor/HELP/';
+                return 'HELP/';
                 break;
         ######## SJZP #################            
             case 'SJZP':
-                return '_ExportProjektor/SJZP/';                
+                return 'SJZP/';                
                 break;
             default:
                 throw new UnexpectedValueException('Není definována cesta pro dokumenty projektu '.$kod);
@@ -217,7 +225,7 @@ abstract class Projektor2_AppContext
                     );
                 break;
             default:
-                throw new UnexpectedValueException('Není definována cesta pro dokumenty projektu '.$kod);
+                throw new UnexpectedValueException('Není definováno pole s hodnotami pro ukončení projektu '.$kod);
         }
     }
     
@@ -492,8 +500,8 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
                 'typ'=>'kurz', 
                 'nadpis'=>'Motivační kurz', 
                 'kurz_druh'=>'MOT',                
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
                 'help'=>'Příklady známek a slovního zhodnocení Motivačního programu<br> 
     1 = Účastník absolvoval kurzy Motivačního programu v plném rozsahu a se stoprocentní docházkou.<br>
     2 = Účastník úspěšně absolvoval kurzy Motivačního programu, jeho docházka byla postačující.<br>
@@ -503,7 +511,7 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
                 'typ'=>'kurz', 
                 'nadpis'=>'PC kurz', 
                 'kurz_druh'=>'PC',                
-                's_certifikatem' => FALSE,
+                's_certifikatem' => TRUE,
                 'tiskni_certifikat' => FALSE,
                 'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
     1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br> 
@@ -514,8 +522,8 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
                 'typ'=>'kurz', 
                 'nadpis'=>'Rekvalifikační kurz 1', 
                 'kurz_druh'=>'RK',                
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
                 'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
     Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
     1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>

@@ -43,7 +43,8 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
      * @param string $fileName
      * @return Projektor2_Model_Db_CertifikatKurz
      */
-    public static function create(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, Projektor2_Date $date, $creator, $service, $fileName=NULL) {
+    public static function create(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, 
+                                    Projektor2_Date $date, $creator, $service, $fileName=NULL) {
         $rok = $date->dejRokRetezec();
 
         $dbh = Projektor2_AppContext::getDb(); 

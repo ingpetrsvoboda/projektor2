@@ -58,7 +58,7 @@ class Projektor2_Service_CertifikatProjekt {
             
             $content = $this->createContentCertifikatProjekt($zajemce, $viewKurz);
             $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatProjektOriginalMapper::create($sessionStatus->projekt, $zajemce, $content);
-            $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatProjektOriginalMapper::persist($modelDocumentCertifikatOriginal);            
+            $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatProjektOriginalMapper::save($modelDocumentCertifikatOriginal);            
            
             // vytvoř a ulož pdf pseudokopie
             $viewKurz = new Projektor2_View_PDF_ProjektOsvedceniPseudokopie($sessionStatus);
@@ -68,19 +68,19 @@ class Projektor2_Service_CertifikatProjekt {
             
             $content = $this->createContentCertifikatProjekt($zajemce, $viewKurz);
             $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::create($sessionStatus->projekt, $zajemce, $content);
-            $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::persist($modelDocumentCertifikatPseudokopie);            
+            $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::save($modelDocumentCertifikatPseudokopie);            
            
             // vytvořen file model certifikát i pseudokopie -> nastav název souboru certifikátu v db
             if ($modelDocumentCertifikatOriginal AND $modelDocumentCertifikatPseudokopie) {
-                $modelDbCertifikat->filename = $modelDocumentCertifikatOriginal->documentPath;
+                $modelDbCertifikat->filename = $modelDocumentCertifikatOriginal->filePath;
                 Projektor2_Model_Db_CertifikatProjektMapper::update($modelDbCertifikat);          
             } else {
                 Projektor2_Model_Db_CertifikatProjektMapper::delete($modelDbCertifikat);  // nekontroluji smazání
                 if (!$modelDocumentCertifikatOriginal) {
-                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatOriginal->documentPath);                
+                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatOriginal->filePath);                
                 }
                 if (!$modelDocumentCertifikatPseudokopie) {
-                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatPseudokopie->documentPath);                
+                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatPseudokopie->filePath);                
                 }
             }
             $modelCertifikatProjekt = new Projektor2_Model_CertifikatProjekt($modelDbCertifikat, $modelDocumentCertifikatOriginal);

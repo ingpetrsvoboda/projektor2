@@ -7,15 +7,15 @@
 abstract class Framework_Model_FileItemAbstract {
 
     public $content;
-    public $documentPath;
+    public $filePath;
     
     /**
      * 
-     * @param type $documentPath Absolutní cesta k dokumentu 
-     * @param type $content
+     * @param string $filePath Absolutní cesta k souboru 
+     * @param string $content
      */
-    public function __construct($documentPath, $content=NULL) {
-        $this->documentPath = $documentPath;
+    public function __construct($filePath, $content=NULL) {
+        $this->filePath = $filePath;
         $this->content = $content;
     }  
 }

@@ -10,7 +10,9 @@ class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMap
         if (!is_string($content)) {
             throw new UnexpectedValueException('Obsah dokumentu musí být řetězec.');
         }
-        return new Projektor2_Model_File_CertifikatKurzOriginal(Projektor2_AppContext::getRelativeDocumentPath($projekt->kod).self::getRelativeFilePath($projekt, $zajemce, $sKurz), $content);
+        return new Projektor2_Model_File_CertifikatKurzOriginal(
+                Projektor2_AppContext::getRelativeFilePath($projekt->kod)
+                .self::getRelativeFilePath($projekt, $zajemce, $sKurz), $content);
     }    
     
     /**

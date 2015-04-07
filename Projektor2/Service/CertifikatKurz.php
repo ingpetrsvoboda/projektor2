@@ -58,7 +58,7 @@ class Projektor2_Service_CertifikatKurz {
 
             $content = $this->createContentCertifikatKurz($viewKurz, $zajemce, $sessionStatus->projekt, $kancelar, $modelDbCertifikat, $sKurz, $relativeDocumentPath);
             $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatKurzOriginalMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content);
-            $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatKurzOriginalMapper::persist($modelDocumentCertifikatOriginal);            
+            $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatKurzOriginalMapper::save($modelDocumentCertifikatOriginal);            
             
             // vytvoř a ulož pdf pseudokopie
             $viewKurz = new Projektor2_View_PDF_KurzOsvedceniPseudokopie($sessionStatus);                          
@@ -66,19 +66,19 @@ class Projektor2_Service_CertifikatKurz {
             
             $content = $this->createContentCertifikatKurz($viewKurz, $zajemce, $sessionStatus->projekt, $kancelar, $modelDbCertifikat, $sKurz, $relativeDocumentPath);                
             $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatKurzPseudokopieMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content);
-            $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatKurzPseudokopieMapper::persist($modelDocumentCertifikatPseudokopie);
+            $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatKurzPseudokopieMapper::save($modelDocumentCertifikatPseudokopie);
             
             // vytvořen file model certifikát i pseudokopie -> nastav název souboru certifikátu v db
             if ($modelDocumentCertifikatOriginal AND $modelDocumentCertifikatPseudokopie) {
-                $modelDbCertifikat->filename = $modelDocumentCertifikatOriginal->documentPath;            
+                $modelDbCertifikat->filename = $modelDocumentCertifikatOriginal->relativeDocumentPath;            
                 Projektor2_Model_Db_CertifikatKurzMapper::update($modelDbCertifikat);          
             } else {
                 Projektor2_Model_Db_CertifikatKurzMapper::delete($modelDbCertifikat);  // nekontroluji smazání
                 if (!$modelDocumentCertifikatOriginal) {
-                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatOriginal->documentPath);                
+                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatOriginal->filePath);                
                 }
                 if (!$modelDocumentCertifikatPseudokopie) {
-                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatPseudokopie->documentPath);                
+                    throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatPseudokopie->filePath);                
                 }
             }
             $modelCertifikatKurz = new Projektor2_Model_CertifikatKurz($modelDbCertifikat, $modelDocumentCertifikatOriginal);
@@ -108,14 +108,15 @@ class Projektor2_Service_CertifikatKurz {
          switch ($projekt->kod  ) {
             case 'AP':
                 $pdfView->assign('v_projektu','v projektu „Alternativní práce v Plzeňském kraji“');
-                $pdfView->assign('text_paticky',"Osvědčení o absolutoriu kurzu v projektu „Alternativní práce v Plzeňském kraji“ ".$this->context["file"]);
+                $pdfView->assign('text_paticky',"Osvědčení o absolutoriu kurzu v projektu „Alternativní práce v Plzeňském kraji“ ".$docPath);
                 $pdfView->assign('financovan',"\nProjekt Alternativní práce v Plzeňském kraji CZ.1.04/2.1.00/70.00055 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.");                
                 break;
             case 'SJZP':
                 $pdfView->assign('v_projektu','v projektu „S jazyky za prací v Karlovarském kraji“');
-                $pdfView->assign('text_paticky',"Osvědčení o absolutoriu kurzu v projektu „S jazyky za prací v Karlovarském kraji“ ".$this->context["file"]);
-                break;
+                $pdfView->assign('text_paticky',"Osvědčení o absolutoriu kurzu v projektu „S jazyky za prací v Karlovarském kraji“ ".$docPath);
+                $pdfView->assign('financovan',"\nProjekt S jazyky za prací v Karlovarském kraji CZ.1.04/2.1.01/D8.00020 je financován z Evropského "
+                                    . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.");                          break;
             default:
                 throw new RuntimeException('Chybi nastaveni patičky do contextu view pro pdf certifikátu kurzu - v projektu : '.$projekt->kod );
                 break;
