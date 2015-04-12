@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Element_SignalPlan extends Framework_View_Abstract {
+class Projektor2_View_HTML_Element_Signal extends Framework_View_Abstract {
     public function render() {
         $model = $this->context['model'];
         switch ($model->status) {

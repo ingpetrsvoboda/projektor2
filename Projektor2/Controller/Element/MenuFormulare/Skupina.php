@@ -16,7 +16,7 @@ class Projektor2_Controller_Element_MenuFormulare_Skupina extends Projektor2_Con
                 $html .= $view->render();
             }
             foreach ($skupina->getMenuSignalyAssoc() as $signal) {
-                $view = new Projektor2_View_HTML_Element_SignalPlan($this->sessionStatus);
+                $view = new Projektor2_View_HTML_Element_Signal($this->sessionStatus);
                 $view->appendContext(array('model'=>$signal));
                 $html .= $view->render();
             }

@@ -16,7 +16,7 @@ class Projektor2_Controller_Element_SignalPlan extends Projektor2_Controller_Abs
     public function getResult() {
 
 
-        $view = new Projektor2_View_HTML_Element_SignalPlan($this->sessionStatus);
+        $view = new Projektor2_View_HTML_Element_Signal($this->sessionStatus);
         $view->appendContext(array('model'=>$modelSignal));
         return $view->render();
     }

@@ -31,10 +31,10 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
         } else {
             $displayBlokDuvod = 'none';
         }
-        $zobrazBlokUspesneNeuspesnePodporeny = $this->context['s_certifikatem'];
+        $zobrazBlokUspesneNeuspesnePodporenySCertifikatem = $this->context['s_certifikatem'];
         $idBlokHodnoceni = 'idBlokHodnoceni';
         // blok úspěšně/neúspěšně se nezobrazuje nebo se zobrazuje a je zadáno dokončeno (buď ano nebo ne)
-        if ($zobrazBlokUspesneNeuspesnePodporeny==FALSE OR $zadanoDokoncenoAno OR $zadanoDokoncenoNe) {
+        if ($zadanoDokoncenoAno OR $zadanoDokoncenoNe) {
             $displayBlokHodnoceni = 'block';            
         } else {
             $displayBlokHodnoceni = 'none';
@@ -82,8 +82,8 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     $this->parts[] = '</span>';
                 $this->parts[] ='</fieldset>';
                 // blok uspesne/neuspesne podporeny
-                if ($zobrazBlokUspesneNeuspesnePodporeny) {
-                    $this->parts[] ='<fieldset>';
+                $this->parts[] ='<fieldset>';
+                if ($zobrazBlokUspesneNeuspesnePodporenySCertifikatem) {
                     $this->parts[] = '<legend>Úspěšnost a certifikát</legend>';            
                         $this->parts[] ='<label for="'.$nameDokonceno.'-ano" >Úspěšně podpořená osoba: </label>'
                                 . '<input type="radio" '
@@ -100,7 +100,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                                 . 'value="Ne" '
                                 . ($zadanoDokoncenoNe ? $checkedAttribute : '')
                                 . $requiredAttribute
-                                . ' onClick="hide(\'idBlokCertifikat\');show(\''.$idBlokHodnoceni.'\');">';
+                                . ' onClick="hide(\'idBlokCertifikat\');show(\''.$idBlokHodnoceni.'\');">';                    
                         // certifikat
                         $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat($this->sessionStatus);
                         if (isset($this->context['readonly'])) {
@@ -119,8 +119,27 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                         $viewCertifikat->assign('zobrazTiskniCertifikat', TRUE);                        
                         
                         $this->parts[] = $viewCertifikat;
-                    $this->parts[] ='</fieldset>';  
+                } else {
+                    $this->parts[] = '<legend>Úspěšnost</legend>';            
+                        $this->parts[] ='<label for="'.$nameDokonceno.'-ano" >Úspěšně podpořená osoba: </label>'
+                                . '<input type="radio" '
+                                . 'id="'.$nameDokonceno.'-ano" '
+                                . 'name="'.$nameDokonceno.'" '
+                                . 'value="Ano" '
+                                . ($zadanoDokoncenoAno ? $checkedAttribute : '')
+                                . $requiredAttribute
+                                . ' onClick="show(\''.$idBlokHodnoceni.'\');">';
+                        $this->parts[] ='<label for="'.$nameDokonceno.'-ne" >Neúspěšně podpořená osoba: </label>'
+                                .'<input type="radio" '
+                                . 'id="'.$nameDokonceno.'-ne" '
+                                . 'name="'.$nameDokonceno.'" '
+                                . 'value="Ne" '
+                                . ($zadanoDokoncenoNe ? $checkedAttribute : '')
+                                . $requiredAttribute
+                                . ' onClick="show(\''.$idBlokHodnoceni.'\');">';                    
                 }
+                $this->parts[] ='</fieldset>';  
+
                 // blok hodnocení
                 $this->parts[] = '<span id="'.$idBlokHodnoceni.'" style="display:'.$displayBlokHodnoceni.'">';
                     // hodnocení kurzy

@@ -235,7 +235,7 @@ abstract class Projektor2_AppContext
                                 '&nbsp;&nbsp;a.       pokud účastník porušuje podmínky účasti v projektu, neplní své povinnosti při účasti na aktivitách projektu (zejména na rekvalifikaci) nebo jiným závažným způsobem maří účel účasti v projektu',
                                 '&nbsp;&nbsp;b.       ve výjimečných případech na základě podnětu vysílajícího ÚP, např. při sankčním vyřazení z evidence ÚP (ukončení bude v pracovní den předcházející dni vzniku důvodu ukončení)'
                         ),
-                    's_certifikatem'=>TRUE
+                    's_certifikatem'=>FALSE
                     );
                 break;
             default:
@@ -561,7 +561,7 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
     3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. 
     Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
     Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
+    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
                 ), 
 //            'im'=>array(
 //                'typ'=>'kurz', 

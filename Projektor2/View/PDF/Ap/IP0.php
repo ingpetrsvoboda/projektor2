@@ -21,7 +21,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
 
     public function createPDFObject() {
         $textPaticky = "Individuální plán účastníka v projektu „Alternativní práce v Plzeňském kraji“ - část 1  ".$this->context["file"];      
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1";

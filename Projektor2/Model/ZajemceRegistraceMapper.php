@@ -32,8 +32,8 @@ class Projektor2_Model_ZajemceRegistraceMapper {
 
     private static function setSkupiny(Projektor2_Model_ZajemceRegistrace $zajemceRegistrace, Projektor2_Model_Db_Zajemce $zajemce) {
         $user = Projektor2_Model_SessionStatus::getSessionStatus()->user;
-        $sessionSratus = Projektor2_Model_SessionStatus::getSessionStatus();
-        $kod = $sessionSratus->projekt->kod;
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $kod = $sessionStatus->projekt->kod;
         switch ($kod) {
             case 'AP':
                 // příprava na                     $modelTlacitko->status = 'disabled';
@@ -98,7 +98,7 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 }        
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -112,7 +112,7 @@ class Projektor2_Model_ZajemceRegistraceMapper {
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('plan', $skupina);
 //                } 
-//                                               
+                                               
 //                //poradenství
 //                if ($user->tl_ap_porad) {
 //                    $modelTlacitko = new Projektor2_Model_MenuTlacitko();
@@ -134,21 +134,15 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                     $modelTlacitko->status = 'edit';
                     $skupina->setMenuTlacitko('tl_ap_ukon', $modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
-                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-//                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
-//                    if ($kolekceAktivityPlan) {
-//                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
-////                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-//                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
-//                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
-//                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);   
-//                        }
-//                    }
-//                }                                                
+//                }
+                if (count($skupina->getMenuTlacitkaAssoc())) {
+                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
+                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $skupina->setMenuSignal('ukonceni', $modelSignal);   
+                }                                                
                 // skupina zamestnani
                 $skupina = new Projektor2_Model_Menu_Skupina();                
                 //zaměstnání
@@ -222,7 +216,7 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 }    
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -252,10 +246,15 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                     $modelTlacitko->status = 'edit';
                     $skupina->setMenuTlacitko('tl_he_ukon', $modelTlacitko);
                 }
+//                if (count($skupina->getMenuTlacitkaAssoc())) {
+//                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
+//                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                }
-                                 
+                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $skupina->setMenuSignal('ukonceni', $modelSignal);   
+                }                                  
                 // skupina zamestnani
 //                $skupina = new Projektor2_Model_MenuSkupina();
                 //zaměstnání
@@ -320,7 +319,7 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                 } 
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionSratus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -351,10 +350,15 @@ class Projektor2_Model_ZajemceRegistraceMapper {
                     $modelTlacitko->status = 'edit';
                     $skupina->setMenuTlacitko('tl_sj_ukon', $modelTlacitko);
                 }
+//                if (count($skupina->getMenuTlacitkaAssoc())) {
+//                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
+//                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                }
-                                  
+                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $skupina->setMenuSignal('ukonceni', $modelSignal);   
+                }                                   
                 // skupina zamestnani
                 $skupina = new Projektor2_Model_Menu_Skupina();                
                 //zaměstnání
