@@ -50,24 +50,38 @@ abstract class Projektor2_AppContext
     }
     
 ############# CERTIFIKÁTY #############    
+    
     /**
-     * Vrací jméno osoby, která podepisuje certifikáty v projektu.
-     * @param type $kod
-     * @return string
+     * Vrací pole s texty pro certifikáty
+     * @param string $kod
+     * @return array
+     * @throws UnexpectedValueException
      */
-    public static function getCertificateSignName($kod=NULL) {
-        switch ($kod) {
+    public static function getCertificateTexts(Projektor2_Model_SessionStatus $sessionStatus) {
+        $texts = array();
+        switch ($sessionStatus->projekt->kod) {
         ######## AP #################            
             case 'AP':
-                return 'Ing. Barbora Kuralová';
-        ######## AP #################            
+                $texts['signerName'] = 'Ing. Barbora Kuralová';
+                $texts['signerPosition'] = 'manažer projektu';
+                $texts['v_projektu'] = 'v projektu „Alternativní práce v Plzeňském kraji“';
+                $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Alternativní práce v Plzeňském kraji“ ";
+                $texts['financovan'] = "\nProjekt Alternativní práce v Plzeňském kraji CZ.1.04/2.1.00/70.00055 je financován z Evropského "
+                                    . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.";  
+                break;
+        ######## SJZP #################            
             case 'SJZP':
-                return 'XXXXXXXXXXXXXXXXXXX';
-                
+                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerPosition'] = 'poradce projektu';
+                $texts['v_projektu'] = 'v projektu „S jazyky za prací v Karlovarském kraji“';
+                $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „S jazyky za prací v Karlovarském kraji“ ";
+                $texts['financovan'] = "\nProjekt S jazyky za prací v Karlovarském kraji CZ.1.04/2.1.01/D8.00020 je financován z Evropského "
+                                    . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.";  
+                break;                
             default:
-                throw new UnexpectedValueException('Není definován podpis pro certifikát v projektu '.$kod.'.');                
-                
-        }
+                throw new UnexpectedValueException('Nejsou definovány texty pro certifikát v projektu '.$kod.'.');                
+        }        
+        return $texts;
     }
     
     /**

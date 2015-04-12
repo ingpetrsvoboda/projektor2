@@ -18,7 +18,9 @@ class Projektor2_Service_CertifikatKurz {
         if ($modelDbCertifikat) {
             $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatKurzOriginalMapper::findByRelativeFilepath($modelDbCertifikat->filename);
             if (!isset($modelDocumentCertifikatOriginal)) {
-                throw new LogicException('Nalezen certifikat v databázi '.print_r($modelDbCertifikat).' a nenalezen odpovídající soubor s pdf dokumentem. Certifikát id: '.$modelDbCertifikat->id.', filename: '.$modelDbCertifikat->filename);
+                throw new LogicException('Nalezen certifikat v databázi '.print_r($modelDbCertifikat)
+                        .' a nenalezen odpovídající soubor s pdf dokumentem. Certifikát id: '.$modelDbCertifikat->id
+                        .', filename: '.$_SERVER['DOCUMENT_ROOT'].'/'.Projektor2_AppContext::getFileBaseFolder().$modelDbCertifikat->filename);
             }
             // Obsah není třeba - čte se soubor přes javascriptový opener. Kdyby byl potřeba, tak třeba takto:
 //            $modelCertifikatKurzDokument = Projektor2_Model_File_CertifikatKurzOriginalMapper::hydrate($modelDocumentCertifikatOriginal);        } else {
@@ -56,7 +58,7 @@ class Projektor2_Service_CertifikatKurz {
             $viewKurz = new Projektor2_View_PDF_KurzOsvedceniOriginal($sessionStatus);
             $relativeDocumentPath = Projektor2_Model_File_CertifikatKurzOriginalMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce, $sKurz);
 
-            $content = $this->createContentCertifikatKurz($viewKurz, $zajemce, $sessionStatus->projekt, $kancelar, $modelDbCertifikat, $sKurz, $relativeDocumentPath);
+            $content = $this->createContentCertifikatKurz($viewKurz, $zajemce, $sessionStatus, $kancelar, $modelDbCertifikat, $sKurz, $relativeDocumentPath);
             $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatKurzOriginalMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content);
             $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatKurzOriginalMapper::save($modelDocumentCertifikatOriginal);            
             
@@ -64,7 +66,7 @@ class Projektor2_Service_CertifikatKurz {
             $viewKurz = new Projektor2_View_PDF_KurzOsvedceniPseudokopie($sessionStatus);                          
             $relativeDocumentPath = Projektor2_Model_File_CertifikatKurzPseudokopieMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce, $sKurz);
             
-            $content = $this->createContentCertifikatKurz($viewKurz, $zajemce, $sessionStatus->projekt, $kancelar, $modelDbCertifikat, $sKurz, $relativeDocumentPath);                
+            $content = $this->createContentCertifikatKurz($viewKurz, $zajemce, $sessionStatus, $kancelar, $modelDbCertifikat, $sKurz, $relativeDocumentPath);                
             $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatKurzPseudokopieMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content);
             $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatKurzPseudokopieMapper::save($modelDocumentCertifikatPseudokopie);
             
@@ -94,33 +96,23 @@ class Projektor2_Service_CertifikatKurz {
      * @return Projektor2_Model_File_ItemAbstract
      */
     private function createContentCertifikatKurz(Projektor2_View_PDF_Common $pdfView, 
-            Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Kancelar $kancelar, 
+            Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Kancelar $kancelar, 
             Projektor2_Model_Db_CertifikatKurz $certifikat, Projektor2_Model_Db_SKurz $sKurz, $docPath) {
         $models = $this->createKurzOsvedceniModels($zajemce);
         $context = $this->createContextFromModels($models);
         $pdfView->appendContext($context);
-        $pdfView->assign('managerName', Projektor2_AppContext::getCertificateSignName($projekt->kod))
+        $texts = Projektor2_AppContext::getCertificateTexts($sessionStatus);
+        $pdfView->assign('signerName', $texts['signerName'])
+            ->assign('signerPosition', $texts['signerPosition'])
             //TODO: natvrdo psát např. Plzeň - píše se kancelář, do které jsi přihlášen           
             ->assign('kancelar_plny_text', $kancelar->plny_text)
             ->assign('certifikat', $certifikat)            
             ->assign('sKurz', $sKurz)
-            ->assign('file', $docPath);
-         switch ($projekt->kod  ) {
-            case 'AP':
-                $pdfView->assign('v_projektu','v projektu „Alternativní práce v Plzeňském kraji“');
-                $pdfView->assign('text_paticky',"Osvědčení o absolutoriu kurzu v projektu „Alternativní práce v Plzeňském kraji“ ".$docPath);
-                $pdfView->assign('financovan',"\nProjekt Alternativní práce v Plzeňském kraji CZ.1.04/2.1.00/70.00055 je financován z Evropského "
-                                    . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.");                
-                break;
-            case 'SJZP':
-                $pdfView->assign('v_projektu','v projektu „S jazyky za prací v Karlovarském kraji“');
-                $pdfView->assign('text_paticky',"Osvědčení o absolutoriu kurzu v projektu „S jazyky za prací v Karlovarském kraji“ ".$docPath);
-                $pdfView->assign('financovan',"\nProjekt S jazyky za prací v Karlovarském kraji CZ.1.04/2.1.01/D8.00020 je financován z Evropského "
-                                    . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.");                          break;
-            default:
-                throw new RuntimeException('Chybi nastaveni patičky do contextu view pro pdf certifikátu kurzu - v projektu : '.$projekt->kod );
-                break;
-        }                  
+            ->assign('file', $docPath)
+            ->assign('v_projektu',$texts['v_projektu'])
+            ->assign('text_paticky',$texts['text_paticky']." ".$docPath)
+            ->assign('financovan',$texts['financovan']);                
+
 //        $viewKurz->appendContext(array(Projektor2_View_PDF_Ap_KurzOsvedceni::MODEL_DOTAZNIK => $this->models[Projektor2_View_PDF_Ap_KurzOsvedceni::MODEL_DOTAZNIK]));
         $pdfView->appendContext(array($pdfView::MODEL_DOTAZNIK => $models[$pdfView::MODEL_DOTAZNIK]));
         $content = $pdfView->render();        

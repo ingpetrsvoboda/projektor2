@@ -54,8 +54,9 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
-            $htmlResult = $view->getNewWindowOpenerCode();            
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
+        $htmlResult = $view->getNewWindowOpenerCode();            
         }
         
         if ($this->request->post('pdf') == "Tiskni IP 2.část - doplnění hodnocení") {
@@ -73,8 +74,9 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
-            $htmlResult = $view->getNewWindowOpenerCode();            
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
+        $htmlResult = $view->getNewWindowOpenerCode();            
         }
         
         if ($this->request->post('pdf') == "Tiskni ukončení účasti") {
@@ -88,8 +90,9 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
-            $htmlResult = $view->getNewWindowOpenerCode();            
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
+        $htmlResult = $view->getNewWindowOpenerCode();            
         }
 
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení') === 0 ) {

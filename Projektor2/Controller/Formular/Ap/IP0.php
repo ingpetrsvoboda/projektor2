@@ -34,7 +34,8 @@ class Projektor2_Controller_Formular_Ap_IP0 extends Projektor2_Controller_Formul
             ->assign('projekt', $this->sessionStatus->projekt)
                     ;    
         
-        $view->save($fileName);
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();
         
         return $htmlResult;

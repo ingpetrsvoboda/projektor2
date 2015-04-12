@@ -40,7 +40,8 @@ class Projektor2_Controller_Formular_Help_IP1 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();                        
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení') === 0 ) { 

@@ -39,7 +39,8 @@ class Projektor2_Controller_Formular_Agp_Smlouva extends Projektor2_Controller_F
         $fileName = $this->sessionStatus->projekt->kod.'_'.'smlouva'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
         $view->assign('file', $fileName);
         
-        $view->save($fileName);
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();                        
         
         return $htmlResult;

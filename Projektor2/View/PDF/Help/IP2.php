@@ -11,7 +11,7 @@ class Projektor2_View_PDF_Help_IP2 extends Projektor2_View_PDF_Common{
     
     public function createPDFObject() {
         $textPaticky = "Individuální plán účastníka v projektu „Help 50+“ - část 2 ".$this->context["file"];  
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2";

@@ -12,12 +12,10 @@
  */
 abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implements Projektor2_View_PDF_ViewPdfInterface {
     const FPDF_FONTPATH = 'Projektor2/PDF/Fonts/';
-//    const FILE_PATH_PREFIX = "C:/_Export Projektor/PDF/";
-    const FILE_PATH_PREFIX = "./doku/";
-
-    
     
     protected $fullFileName;
+    protected $relativeDocumentFilePath;
+    
     /**
      *
      * @var Projektor2_PDF_PdfCreator 
@@ -35,9 +33,10 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
      * Metoda ukládá vytvořené PDF do souboru.
      * @return bool TRUE pokud byl soubor s PDF vytvořen, jinak FALSE
      */
-    public function save($fileName) {
+    public function save($relativeFilePath) {
         //TODO: Exception !! neexistuje $context["identifikator"]
-        $this->fullFileName = static::FILE_PATH_PREFIX.$fileName;
+        $this->relativeDocumentFilePath = $relativeFilePath;
+        $this->fullFileName = $_SERVER['DOCUMENT_ROOT'].'/'.Projektor2_AppContext::getFileBaseFolder().$relativeFilePath;
         define('FPDF_FONTPATH', self::FPDF_FONTPATH);  //běhová konstanta potřebná pro fpdf
         $this->createPDFObject();        
         if (file_exists($this->fullFileName))  	{
@@ -68,12 +67,8 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
     }
 
     public function getNewWindowOpenerCode() {
-        if (!$this->isSaved()) {
-            $this->save();
-        }
-
         $code =  '<script type ="text/javascript">
-                    FullFileName="' . $this->getFullFileName(). '";
+                    FullFileName="' . 'http://'.$_SERVER['HTTP_HOST'].'/'.Projektor2_AppContext::getFileBaseFolder().$this->relativeDocumentFilePath. '";
                   </script>';
         return $code;
     }

@@ -15,7 +15,7 @@ class Projektor2_View_PDF_Ap_IP2Hodnoceni extends Projektor2_View_PDF_Common {
 
         $textPaticky = "Individuální plán účastníka v projektu „Alternativní práce v Plzeňském kraji“ - část 2 - hodnocení a doporučení  ".$this->context["file"];      
         
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2 - hodnocení a doporučení";

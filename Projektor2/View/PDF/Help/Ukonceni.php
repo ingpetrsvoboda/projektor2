@@ -16,7 +16,7 @@ class Projektor2_View_PDF_Help_Ukonceni extends Projektor2_View_PDF_Common {
     
     public function createPDFObject() {
         $textPaticky = "Ukončení účasti účastníka v projektu ".$this->context["file"]; 
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "UKONČENÍ ÚČASTI V PROJEKTU";

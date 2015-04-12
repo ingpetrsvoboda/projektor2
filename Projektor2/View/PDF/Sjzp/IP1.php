@@ -20,10 +20,10 @@ class Projektor2_View_PDF_Sjzp_IP1 extends Projektor2_View_PDF_Common {
     const MODEL_PLAN = "plan->";
 
     public function createPDFObject() {
-         $textPaticky = "Individuální plán účastníka v projektu „S jazyky za prací v Karlovarském kraji“ - část 1 - plán aktivit".$this->context["file"];       
+         $textPaticky = "Individuální plán účastníka v projektu „S jazyky za prací v Karlovarském kraji“ - část 1 - plán aktivit  ".$this->context["file"];       
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1 - plán aktivit";
         $textyNadpisu[] = 'Projekt „S jazyky za prací v Karlovarském kraji“';
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $this->tiskniTitul($textyNadpisu);

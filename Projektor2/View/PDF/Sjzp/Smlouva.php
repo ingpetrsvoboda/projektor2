@@ -15,7 +15,7 @@ class Projektor2_View_PDF_Sjzp_Smlouva extends Projektor2_View_PDF_Common {
     
     public function createPDFObject() {
         $textPaticky = "Dohoda o účasti v projektu „S jazyky za prací v Karlovarském kraji“ ".$this->context["file"];
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "DOHODA O ÚČASTI V PROJEKTU ";
@@ -30,7 +30,7 @@ class Projektor2_View_PDF_Sjzp_Smlouva extends Projektor2_View_PDF_Common {
         $this->pdf->TiskniBlok($strany);
         $this->pdf->Ln(2);
         
-        $this->TiskniGrafiaUdaje();
+        $this->tiskniGrafiaUdaje();
         $this->pdf->Ln(2);
 
         $a = new Projektor2_PDF_Blok;

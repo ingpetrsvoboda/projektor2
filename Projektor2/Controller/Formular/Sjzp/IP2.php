@@ -47,7 +47,8 @@ class Projektor2_Controller_Formular_Sjzp_IP2 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();          
         }
         
@@ -60,13 +61,11 @@ class Projektor2_Controller_Formular_Sjzp_IP2 extends Projektor2_Controller_Form
             $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
             $view->assign('znacka', $this->sessionStatus->zajemce->znacka);
 
-            //kurzy z plán
-            $this->assignKurzyToPdfView($this->models['plan'], $view);
-
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();            
         }
 
@@ -79,36 +78,6 @@ class Projektor2_Controller_Formular_Sjzp_IP2 extends Projektor2_Controller_Form
         
         return $htmlResult;
     }
-    
-    
-    
-//    
-//    protected function getResultPdf() {
-//        if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
-//            $view = new Projektor2_View_PDF_Sjzp_IP2($this->createContextFromModels());
-//            $file = 'IP_cast2';
-//        }
-//        if ($this->request->post('pdf') == "Tiskni ukončení účasti") {
-//            $view = new Projektor2_View_PDF_Sjzp_Ukonceni($this->createContextFromModels());
-//            $file = 'ukonceni';
-//        }
-//       
-//        //status proměnné
-//        $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
-//        $view->assign('user_name', $this->sessionStatus->user->name);
-//        $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
-//        
-//        //kurzy z plán
-//        $this->assignKurzyToPdfView($this->models['plan'], $view);
-//        
-//        $fileName = $this->sessionStatus->projekt->kod.'_'.$file.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
-//        $view->assign('file', $fileName);
-//        
-//        $view->save($fileName);
-//        $htmlResult .= $view->getNewWindowOpenerCode();
-//        
-//        return $htmlResult;
-//    }
 }
 
 ?>

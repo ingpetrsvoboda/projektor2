@@ -49,7 +49,8 @@ class Projektor2_Controller_Formular_Help_IP2 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();                      
         }
 
@@ -64,7 +65,8 @@ class Projektor2_Controller_Formular_Help_IP2 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();            
         }
 

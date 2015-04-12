@@ -33,7 +33,8 @@ class Projektor2_Controller_Formular_Help_Souhlas extends Projektor2_Controller_
         $fileName = $this->sessionStatus->projekt->kod.'_'.'souhlas'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
         $view->assign('file', $fileName);
         
-        $view->save($fileName);
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();
         
         return $htmlResult;

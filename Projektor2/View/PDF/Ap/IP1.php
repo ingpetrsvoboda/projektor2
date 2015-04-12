@@ -23,7 +23,7 @@ class Projektor2_View_PDF_Ap_IP1 extends Projektor2_View_PDF_Common {
         $textPaticky = "Individuální plán účastníka v projektu „Alternativní práce v Plzeňském kraji“ - část 1 - plán aktivit".' '.$this->context["file"];   
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1 - plán aktivit";
         $textyNadpisu[] = 'Projekt „Alternativní práce v Plzeňském kraji“';
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $this->tiskniTitul($textyNadpisu);

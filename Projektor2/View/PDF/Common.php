@@ -66,8 +66,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $podpisy->VyskaPismaTextu(12);
         $podpisy->ZarovnaniTextu('C');
         $podpisy->PridejOdstavec("......................................................");
-        $podpisy->PridejOdstavec($this->context['managerName'], '');
-        $podpisy->PridejOdstavec(" manažer projektu","");
+        $podpisy->PridejOdstavec($this->context['signerName'], '');
+        $podpisy->PridejOdstavec($this->context['signerPosition'],"");
 
         $this->pdf->TiskniBlok($podpisy);          
     }
@@ -146,8 +146,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         }
     }
     
-     protected function TiskniGrafiaUdaje() {   
-         
+     protected function tiskniGrafiaUdaje() {   
         $grafia = new Projektor2_PDF_Blok;
         $grafia->Odstavec("Grafia, společnost s ručením omezeným");
         $grafia->PridejOdstavec("zapsaná v obchodním rejstříku vedeném Krajským soudem v Plzni, odd. C, vl. 3067");

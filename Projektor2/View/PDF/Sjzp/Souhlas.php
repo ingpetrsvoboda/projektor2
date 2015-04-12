@@ -15,7 +15,7 @@ class Projektor2_View_PDF_Sjzp_Souhlas extends Projektor2_View_PDF_Common {
     
     public function createPDFObject() {
         $textPaticky = "Souhlas účastníka projektu s poskytováním osobních údajů “ ".$this->context["file"];
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "Souhlas účastníka projektu s poskytováním osobních údajů";

@@ -40,8 +40,9 @@ class Projektor2_Controller_Formular_Ap_IP1 extends Projektor2_Controller_Formul
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $view->save($fileName);
-            $htmlResult = $view->getNewWindowOpenerCode();                        
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
+        $htmlResult = $view->getNewWindowOpenerCode();                        
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení') === 0 ) { 
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení')));  // druh je řetězec za slovy Tiskni osvědčení

@@ -16,7 +16,7 @@ class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{
     public function createPDFObject() {
    
         $textPaticky =  "\n" . "Souhlas zájemce s poskytováním osobních údajů   " . $this->context["file"];
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();    
         //***************************************************** 
         $textyNadpisu[] = "Souhlas zájemce";

@@ -14,7 +14,7 @@ class Projektor2_View_PDF_Sjzp_IP2 extends Projektor2_View_PDF_Common {
     public function createPDFObject() {
 
         $textPaticky = "Individuální plán účastníka v projektu „S jazyky za prací v Karlovarském kraji“ - část 2 - vyhodnocení aktivit  ".$this->context["file"];             
-        $this->setHeaderFooter($projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2 - vyhodnocení aktivit";

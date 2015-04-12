@@ -34,7 +34,8 @@ class Projektor2_Controller_Formular_Agp_Dotaznik extends Projektor2_Controller_
 //        $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
 
         $fileName = $this->sessionStatus->projekt->kod.'_'.'dotaznik'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
-        $view->save($fileName);
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();
         
         return $htmlResult;

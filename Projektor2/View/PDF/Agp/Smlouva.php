@@ -17,7 +17,7 @@ class Projektor2_View_PDF_Agp_Smlouva extends Projektor2_View_PDF_Common{
         
         $textPaticky = "Dohoda o zprostředkování zaměstnání v projektu Personal Service  Zájemce: " .
                         @$this->context["identifikator"]."\n" .$this->context["file"];       
-        $this->setHeaderFooter($this->sessionStatus->projekt, $textPaticky);
+        $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "DOHODA O ZPROSTŘEDKOVÁNÍ ZAMĚSTNÁNÍ ";
@@ -33,7 +33,7 @@ class Projektor2_View_PDF_Agp_Smlouva extends Projektor2_View_PDF_Common{
         $this->pdf->TiskniBlok($strany);
         $this->pdf->Ln(2);
         
-        $this->TiskniGrafiaUdaje();
+        $this->tiskniGrafiaUdaje();
         $this->pdf->Ln(2);
 
         $a = new Projektor2_PDF_Blok;
