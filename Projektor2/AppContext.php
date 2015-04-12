@@ -544,7 +544,25 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
     2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
     3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
     5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),        
+                ),  
+        // prof3 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
+        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
+            'prof3'=>array(
+                'typ'=>'kurz', 
+                'nadpis'=>'Kurz odborného jazyka', 
+                'kurz_druh'=>'JAZ',                
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
+                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
+    Jazykové kurzy <br>
+    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
+    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání. 
+    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
+    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. 
+    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
+    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
+    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
+                ), 
 //            'im'=>array(
 //                'typ'=>'kurz', 
 //                'nadpis'=>'Image poradna', 

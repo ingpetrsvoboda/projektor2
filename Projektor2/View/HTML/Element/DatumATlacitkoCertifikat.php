@@ -43,10 +43,11 @@ class Projektor2_View_HTML_Element_DatumATlacitkoCertifikat extends Framework_Vi
         $this->parts[] = '</p>';
         if ($zobrazTiskniCertifikat) {
             $this->parts[] ='<p id="'.$idTiskniCertifikat.'" style="display:'.$displayTiskniCertifikat.'">';
-            $this->parts[] ='<input '
+            $this->parts[] ='<button '
                     . 'type="submit" value="Tiskni osvědčení '.$this->context['druhKurzu'].'" '
                     . 'name="pdf" '.$disabledAttribute.'>'
-                    . '</input>';
+                    . 'Tiskni osvědčení'
+                    . '</button>';
             $this->parts[] ='</p> ';
         }
         $this->parts[] ='</div> ';   
