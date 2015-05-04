@@ -46,12 +46,16 @@ class Projektor2_View_PDF_Helper_ProjektOsvedceni extends Projektor2_View_PDF_He
         $pdf->TiskniBlok($blok);
         
         $blok = clone $blokCentered30_14;
-            $blok->PridejOdstavec('„Alternativní práce v Plzeňském kraji“');
+            $blok->PridejOdstavec($context['v_projektu']);
         $pdf->TiskniBlok($blok);
-        // financovací věta
+
         $blok = clone $blokCentered20_11;
-            $blok->PridejOdstavec($caller::STALY_TEXT_PATICKY);
-        $pdf->TiskniBlok($blok);        
+            $blok->PridejOdstavec($context['financovan']);
+        $pdf->TiskniBlok($blok);  
+        
+        
+        
+        
         // jméno
         $blok = clone $blokCentered30_14;
             $blok->Nadpis(self::celeJmeno($context[$caller::MODEL_DOTAZNIK]));

@@ -7,10 +7,10 @@ class Projektor2_View_HTML_Login extends Framework_View_Abstract {
     public function render() {
         $projekty = $this->context['projekty'];
         if(isset($this->context['warning'])) {
-            $this->parts[] = '<p class="login warning>'.$this->context['warning'].'</p>';
+            $this->parts[] = '<p class="login warning">'.$this->context['warning'].'</p>';
         }
         $this->parts[] = '<h1>Přihlášení do systému projektor</h1>';
-        $this->parts[] = '<form name="Login" id="Login" action="index.php" method="post">';
+        $this->parts[] = '<form name="Login" id="Login" action="index.php?akce=login" method="post">';
 //	    $this->parts[] = '<input type="hidden" name="sent" value="1">';
 	    $this->parts[] = '<label for="name" >Uživatelské jméno:</label>';
 		    $this->parts[] = '<input id="name" type ="text" name="name">';

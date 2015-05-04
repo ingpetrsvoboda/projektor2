@@ -67,21 +67,21 @@ class Projektor2_Controller_ZobrazeniRegistraci extends Projektor2_Controller_Ab
     
     public function getResult() {
         $this->sessionStatus->setZajemce();  //smazání zajemce v session
-        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu(array('menuArray'=>$this->getLeftMenuArray()));
+        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
         $parts[] = $viewLeftMenu;
         
-        $zajemciOsobniUdaje = Projektor2_Model_Db_ZajemceOsobniUdajeMapper::findAll(NULL, NULL, "identifikator");
+        $zajemciOsobniUdaje = Projektor2_Model_ZajemceOsobniUdajeMapper::findAll(NULL, NULL, "identifikator");
         if ($zajemciOsobniUdaje) {
             foreach ($zajemciOsobniUdaje as $zajemceOsobniUdaje) {
-                $params = array('zajemce' => $zajemceOsobniUdaje->zajemce);
+                $params = array('zajemceOsobniUdaje' => $zajemceOsobniUdaje);
                 $tlacitkaController = new Projektor2_Controller_Element_MenuFormulare($this->sessionStatus, $this->request, $this->response, $params);
                 $rows[] = $tlacitkaController->getResult();
             }
-            $viewZaznamy = new Projektor2_View_HTML_Zaznamy(array('rows'=>$rows));
-            $viewContent = new Projektor2_View_HTML_Content(array('htmlParts'=>array($viewZaznamy)));
+            $viewZaznamy = new Projektor2_View_HTML_Element_Table($this->sessionStatus, array('rows'=>$rows, 'class'=>'zaznamy'));
+            $viewContent = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>array($viewZaznamy), 'class'=>'content'));
             $parts[] = $viewContent;
         }   
-        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Multipart(array('htmlParts'=>$parts));
+        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewZobrazeniRegistraci;
     }
 }

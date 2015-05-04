@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Agp_Smlouva extends Projektor2_View_PDF_Agp_Common{
+class Projektor2_View_PDF_Agp_Smlouva extends Projektor2_View_PDF_Common{
     const MODEL_SMLOUVA = "smlouva->";   //--vs   
     
     public function createPDFObject() {
@@ -33,7 +33,7 @@ class Projektor2_View_PDF_Agp_Smlouva extends Projektor2_View_PDF_Agp_Common{
         $this->pdf->TiskniBlok($strany);
         $this->pdf->Ln(2);
         
-        $this->TiskniGrafiaUdaje();
+        $this->tiskniGrafiaUdaje();
         $this->pdf->Ln(2);
 
         $a = new Projektor2_PDF_Blok;

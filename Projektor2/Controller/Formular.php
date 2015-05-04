@@ -58,25 +58,24 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
     public function getResult() {
         $this->performPostActions();
         $this->performGetActions();
-        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu(array('menuArray'=>$this->getLeftMenuArray()));
-        $parts[] = $viewLeftMenu;
-        
-        $router = new Projektor2_Router_Form($this->sessionStatus, $this->request, $this->response);
-        $formController = $router->getController();        
+        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
+        $parts[] = $viewLeftMenu;       
         
         // nezobrazuje se pro novou osobu
         if ($this->sessionStatus->zajemce) {
-            $params = array('zajemce' => $this->sessionStatus->zajemce);
-            $tlacitkaController = new Projektor2_Controller_Element_MenuFormulare($this->sessionStatus, $this->request, $this->response, $params);
-            $rows[] = $tlacitkaController->getResult();
-            $viewZaznamy = new Projektor2_View_HTML_Zaznamy(array('rows'=>$rows));
+            $zajemceOsobniUdaje = Projektor2_Model_ZajemceOsobniUdajeMapper::findById($this->sessionStatus->zajemce->id);
+            $params = array('zajemceOsobniUdaje' => $zajemceOsobniUdaje);
+            $menuController = new Projektor2_Controller_Element_MenuFormulare($this->sessionStatus, $this->request, $this->response, $params);
+            $rows[] = $menuController->getResult();            
+            $contentParts[] = new Projektor2_View_HTML_Element_Table($this->sessionStatus, array('rows'=>$rows, 'class'=>'zaznamy'));
         }
-        
-        $viewContent = new Projektor2_View_HTML_Content(array('htmlParts'=>array($viewZaznamy, $formController->getResult())));
+        $router = new Projektor2_Router_Form($this->sessionStatus, $this->request, $this->response);
+        $formController = $router->getController();         
+        $contentParts[] = $formController->getResult();
+        $viewContent = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$contentParts, 'class'=>'content'));
         $parts[] = $viewContent;        
         
-        
-        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Multipart(array('htmlParts'=>$parts));
+        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewZobrazeniRegistraci;
     }
 }

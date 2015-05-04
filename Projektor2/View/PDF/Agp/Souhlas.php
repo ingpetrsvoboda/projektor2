@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Agp_Common{   
+class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{   
      const MODEL_SMLOUVA = "smlouva->"; 
     
     public function createPDFObject() {

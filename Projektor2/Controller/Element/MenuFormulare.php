@@ -1,28 +1,32 @@
 <?php
 /**
- * Description of Projektor2_Controller_ZobrazeniRegistraci
+ * Description of Projektor2_Controller_Element_MenuFormulare
  *
  * @author pes2704
  */
 class Projektor2_Controller_Element_MenuFormulare extends Projektor2_Controller_Abstract {
      
-     public function getResult() {         
-        $htmlResult = '';
+    /**
+     * Očekává v poli params (předávané při volání konstruktoru) nastavenou hodootu $params['zajemceOsobniUdaje'] 
+     * typu Projektor2_Model_ZajemceOsobniUdaje. Zájemce nečte z sesionStatus, protože tento kontroler je používán i pro 
+     * vytvoření menu formuláře jako jednotlivých řádků ve seznamu. Pracuje tedy s zájemcem zadaných parametrem, 
+     * který je jiný než zájemce v sessionStatus.
+     * @return \Projektor2_View_HTML_Element_Div
+     */
+    public function getResult() {         
         //nové
-        if (isset($this->params['zajemce'])) {
-            $zajemceRegistrace = Projektor2_Model_ZajemceRegistraceMapper::create($this->params['zajemce']);  
+        $htmlParts = array();
+        if (isset($this->params['zajemceOsobniUdaje'])) {
+            $zajemceRegistrace = Projektor2_Model_ZajemceRegistraceMapper::create($this->params['zajemceOsobniUdaje']);  
             // sada td tlačítka
             $skupinaController = new Projektor2_Controller_Element_MenuFormulare_Skupina($this->sessionStatus, $this->request, $this->response, 
-                    array('zajemceRegistrace'=>$zajemceRegistrace));
+                                                                 array('zajemceRegistrace'=>$zajemceRegistrace));
             $htmlSkupiny = $skupinaController->getResult();
-//            // sada td signály
-//            $signalyController = new Projektor2_Controller_Element_MenuFormulare_SignalyKurzu($this->sessionStatus, $this->request, $this->response, 
-//                    array('zajemce'=>$this->params['zajemce']));
-//            $htmlSignaly = $signalyController->getResult();
-            $viewRegistrace = new Projektor2_View_HTML_Element_ZajemceRegistrace(array('zajemceRegistrace'=>$zajemceRegistrace, 'htmlSkupiny'=>$htmlSkupiny));
+            $viewRegistrace = new Projektor2_View_HTML_Element_ZajemceRegistrace($this->sessionStatus, 
+                                                                 array('zajemceRegistrace'=>$zajemceRegistrace, 'htmlSkupiny'=>$htmlSkupiny));
             // tr - registrace + sada tlačítek + sada signálů
-            $htmlResult .= $viewRegistrace->render();
+            $htmlParts[] = $viewRegistrace;
         }
-        return $htmlResult;
+        return new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$htmlParts));
     }
 }

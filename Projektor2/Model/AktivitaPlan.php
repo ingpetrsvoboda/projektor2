@@ -9,6 +9,7 @@ class Projektor2_Model_AktivitaPlan  extends Framework_Model_DbItemAbstract {
     public $indexAktivity;
     public $nadpisAktivity;
     public $aktivitaSCertifikatem;
+    public $tiskniCertifikat;
     /**
      * @var Projektor2_Model_Db_SKurz 
      */
@@ -24,7 +25,7 @@ class Projektor2_Model_AktivitaPlan  extends Framework_Model_DbItemAbstract {
     public $certifikatKurz;
     public $hodnoceni;
     
-    public function __construct($id = NULL,$indexAktivity = NULL, $nadpisAktivity = NULL, $aktivitaSCertifikatem = NULL,
+    public function __construct($id = NULL,$indexAktivity = NULL, $nadpisAktivity = NULL, $aktivitaSCertifikatem = NULL, $tiskniCertifikat = NULL,
             Projektor2_Model_Db_SKurz $sKurz = NULL, 
             $pocAbsHodin = NULL, $duvodAbsence = NULL, $dokoncenoUspesne = NULL, $duvodNeuspechu = NULL, $datumCertif = NULL, 
             Projektor2_Model_Db_CertifikatKurz $certifikatKurz = NULL,
@@ -33,6 +34,7 @@ class Projektor2_Model_AktivitaPlan  extends Framework_Model_DbItemAbstract {
         $this->indexAktivity = $indexAktivity;
         $this->nadpisAktivity = $nadpisAktivity;
         $this->aktivitaSCertifikatem = $aktivitaSCertifikatem;
+        $this->tiskniCertifikat = $tiskniCertifikat;
         $this->sKurz = $sKurz;
         $this->pocAbsHodin = $pocAbsHodin;
         $this->duvodAbsence = $duvodAbsence;

@@ -18,7 +18,7 @@ class Projektor2_Controller_Formular_Sjzp_Zamestnani extends Projektor2_Controll
     
     protected function getResultFormular() {
         $htmlResult = "";         
-        $view = new Projektor2_View_HTML_Sjzp_Zamestnani($this->createContextFromModels());
+        $view = new Projektor2_View_HTML_Sjzp_Zamestnani($this->sessionStatus, $this->createContextFromModels());
         $htmlResult .= $view->render();
         return $htmlResult;
     }

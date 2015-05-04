@@ -10,10 +10,11 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Ap_Smlouva extends Projektor2_View_PDF_Ap_Common {
+class Projektor2_View_PDF_Ap_Smlouva extends Projektor2_View_PDF_Common {
     const MODEL_SMLOUVA = "smlouva->";   //--vs
     
     public function createPDFObject() {
+       // $this->sessionStatus->projekt->pr
         $textPaticky = "Dohoda o účasti v projektu „Alternativní práce v Plzeňském kraji“ ".$this->context["file"];  
         $this->setHeaderFooter($textPaticky);
         $this->initialize();
@@ -30,7 +31,7 @@ class Projektor2_View_PDF_Ap_Smlouva extends Projektor2_View_PDF_Ap_Common {
         $this->pdf->TiskniBlok($strany);
         $this->pdf->Ln(2);
         
-        $this->TiskniGrafiaUdaje();
+        $this->tiskniGrafiaUdaje();
         $this->pdf->Ln(2);
 
         $a = new Projektor2_PDF_Blok;

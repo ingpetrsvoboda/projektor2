@@ -54,7 +54,7 @@ class Projektor2_Model_Db_KancelarMapper {
         $succ = $sth->execute();
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);  
         if(!$rows) {
-            return NULL;
+            return array();
         }        
         foreach($rows as $data) {
             $vypis[] = new Projektor2_Model_Db_Kancelar($data['id_c_kancelar'], $data['id_c_projekt_FK'], $data['razeni'], $data['kod'], $data['text'], $data['plny_text'], $data['valid']);

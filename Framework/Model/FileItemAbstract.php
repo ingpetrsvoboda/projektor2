@@ -7,16 +7,15 @@
 abstract class Framework_Model_FileItemAbstract {
 
     public $content;
-    public $documentPath;
+    public $filePath;
     
     /**
      * 
-     * @param type $relativeDocumentPath Umístění dokumentu ve složce documentPath zadané v konfiguraci. AppConfig. 
-     * @param type $content
-     * Relativní casta k dokumentu - relativní vůči složce documentPath.
+     * @param string $filePath Absolutní cesta k souboru 
+     * @param string $content
      */
-    public function __construct($relativeDocumentPath, $content=NULL) {
-        $this->documentPath = $relativeDocumentPath;
+    public function __construct($filePath, $content=NULL) {
+        $this->filePath = $filePath;
         $this->content = $content;
     }  
 }

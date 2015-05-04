@@ -43,7 +43,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
      * @return Projektor2_Model_Db_CertifikatKurz
      */
     public static function create(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Date $date, $creator, $service, $fileName=NULL) {
-        $rok = $date->dejRokRetezec();
+        $rok = $date->getCzechStringYear();
         $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
 
         $dbh = Projektor2_AppContext::getDb(); 
@@ -69,7 +69,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
             'rok'=>$rok, 
             'identifikator'=>  Projektor2_AppContext::getCertificateProjektIdentificator($rok, $cisloCertifikatu),
             'filename'=>$fileName, 
-            'date'=>$date->dejDatumproSQL(), 
+            'date'=>$date->getSqlDate(), 
             'creator'=>$creator,
             'service'=>$service,            
             'db_host'=>$dbh->getDbHost());
@@ -92,7 +92,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
         $succ = $sth->execute($bindParams);
         $radky = $sth->fetchAll(PDO::FETCH_ASSOC);  
         if(!$radky) {
-            return NULL;
+            return array();
         }  
         foreach($radky as $radek) {
             $vypis[] = new Projektor2_Model_Db_CertifikatProjekt($data['id_zajemce_FK'], 

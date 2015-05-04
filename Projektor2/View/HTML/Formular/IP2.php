@@ -31,10 +31,10 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
         } else {
             $displayBlokDuvod = 'none';
         }
-        $zobrazBlokUspesneNeuspesnePodporeny = $this->context['s_certifikatem'];
+        $zobrazBlokUspesneNeuspesnePodporenySCertifikatem = $this->context['s_certifikatem'];
         $idBlokHodnoceni = 'idBlokHodnoceni';
         // blok úspěšně/neúspěšně se nezobrazuje nebo se zobrazuje a je zadáno dokončeno (buď ano nebo ne)
-        if ($zobrazBlokUspesneNeuspesnePodporeny==FALSE OR $zadanoDokoncenoAno OR $zadanoDokoncenoNe) {
+        if ($zadanoDokoncenoAno OR $zadanoDokoncenoNe) {
             $displayBlokHodnoceni = 'block';            
         } else {
             $displayBlokHodnoceni = 'none';
@@ -60,7 +60,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     // span důvod
                     $this->parts[] = '<span id="'.$idBlokDuvod.'" style="display:'.$displayBlokDuvod.'">';
                         $this->parts[] = '<p>Důvod ukončení účasti v projektu:';
-                            $viewSelect = new Projektor2_View_HTML_Element_Select($this->context);
+                            $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus, $this->context);
                             $name = self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'duvod_ukonceni';
                             $viewSelect->assign('selectId', 'ukonceni')
                                     ->assign('selectName', $name)
@@ -82,8 +82,8 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     $this->parts[] = '</span>';
                 $this->parts[] ='</fieldset>';
                 // blok uspesne/neuspesne podporeny
-                if ($zobrazBlokUspesneNeuspesnePodporeny) {
-                    $this->parts[] ='<fieldset>';
+                $this->parts[] ='<fieldset>';
+                if ($zobrazBlokUspesneNeuspesnePodporenySCertifikatem) {
                     $this->parts[] = '<legend>Úspěšnost a certifikát</legend>';            
                         $this->parts[] ='<label for="'.$nameDokonceno.'-ano" >Úspěšně podpořená osoba: </label>'
                                 . '<input type="radio" '
@@ -100,9 +100,9 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                                 . 'value="Ne" '
                                 . ($zadanoDokoncenoNe ? $checkedAttribute : '')
                                 . $requiredAttribute
-                                . ' onClick="hide(\'idBlokCertifikat\');show(\''.$idBlokHodnoceni.'\');">';
+                                . ' onClick="hide(\'idBlokCertifikat\');show(\''.$idBlokHodnoceni.'\');">';                    
                         // certifikat
-                        $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat();
+                        $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat($this->sessionStatus);
                         if (isset($this->context['readonly'])) {
                             $viewCertifikat->assign('readonly', $this->context['readonly']);
                         }
@@ -115,16 +115,38 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                         } else {
                             $viewCertifikat->assign('displayBlokCertifikat', 'none');            
                         }
+                        // projektový certifikát se z projektoru tiskne vždy
+                        $viewCertifikat->assign('zobrazTiskniCertifikat', TRUE);                        
+                        
                         $this->parts[] = $viewCertifikat;
-                    $this->parts[] ='</fieldset>';  
+                } else {
+                    $this->parts[] = '<legend>Úspěšnost</legend>';            
+                        $this->parts[] ='<label for="'.$nameDokonceno.'-ano" >Úspěšně podpořená osoba: </label>'
+                                . '<input type="radio" '
+                                . 'id="'.$nameDokonceno.'-ano" '
+                                . 'name="'.$nameDokonceno.'" '
+                                . 'value="Ano" '
+                                . ($zadanoDokoncenoAno ? $checkedAttribute : '')
+                                . $requiredAttribute
+                                . ' onClick="show(\''.$idBlokHodnoceni.'\');">';
+                        $this->parts[] ='<label for="'.$nameDokonceno.'-ne" >Neúspěšně podpořená osoba: </label>'
+                                .'<input type="radio" '
+                                . 'id="'.$nameDokonceno.'-ne" '
+                                . 'name="'.$nameDokonceno.'" '
+                                . 'value="Ne" '
+                                . ($zadanoDokoncenoNe ? $checkedAttribute : '')
+                                . $requiredAttribute
+                                . ' onClick="show(\''.$idBlokHodnoceni.'\');">';                    
                 }
+                $this->parts[] ='</fieldset>';  
+
                 // blok hodnocení
                 $this->parts[] = '<span id="'.$idBlokHodnoceni.'" style="display:'.$displayBlokHodnoceni.'">';
                     // hodnocení kurzy
                     $kurzyPlan = $this->context['kurzyPlan'];
                     if (isset($this->context['kurzyModels']) AND $this->context['kurzyModels']) {
                         foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
-                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->context);    
+                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);    
                             $view->assign('planPrefix', self::MODEL_PLAN)
                                 ->assign('ukonceniPrefix', self::MODEL_UKONCENI)
                                 ->assign('druhKurzu', $druhKurzu)
@@ -139,7 +161,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     // hodnocení poradenství
                     if (isset($this->context['aktivityProjektuTypuPoradenstvi']) AND $this->context['aktivityProjektuTypuPoradenstvi']) {
                         foreach ($this->context['aktivityProjektuTypuPoradenstvi'] as $druhKurzu => $aktivita) {
-                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->context);    
+                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);    
                             $view->assign('ukonceniPrefix', self::MODEL_UKONCENI)
                                 ->assign('druhKurzu', $druhKurzu)
                                 ->assign('aktivita', $this->context['aktivityProjektuTypuPoradenstvi'][$druhKurzu])
@@ -150,13 +172,13 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     // Příloha
                     $this->parts[] ='<fieldset>';
                     $this->parts[] = '<legend>Příloha</legend>'; 
-                        $this->parts[] = '<p>V případě, že nebylo možné získat podpis účastníka, uveďte zde důvod:'
-                                . '</p>';
-                        $this->parts[] = '<p><input ID="neni_podpis" type="text" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'neni_podpis" size="120" maxlength="120" value="'.$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'neni_podpis'].'">'
-                                . '</p>';      
-                        $this->parts[] = '<p>Příloha:'
-                                . '<input ID="priloha" type="text" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'priloha" size="120" maxlength="120" value="'.$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'priloha'].'"> (zde uveďte typ přílohy)'
-                                . '</p>';     
+                        $this->parts[] = '<p>V případě, že nebylo možné získat podpis účastníka, uveďte zde důvod:</p>';
+                        $this->parts[] = '<p>';
+                            $this->parts[] = '<input ID="neni_podpis" type="text" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'neni_podpis" size="120" maxlength="120" value="'.$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'neni_podpis'].'">';
+                        $this->parts[] = '</p>';      
+                        $this->parts[] = '<p>Příloha:';
+                            $this->parts[] = '<input ID="priloha" type="text" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'priloha" size="120" maxlength="120" value="'.$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'priloha'].'"> (zde uveďte typ přílohy)';
+                        $this->parts[] = '</p>';     
                 $this->parts[] = '</span>';
                 $this->parts[] = '</span>';
             $this->parts[] = '</fieldset>'; 

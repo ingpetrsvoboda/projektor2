@@ -58,7 +58,7 @@ class Projektor2_Controller_Logo extends Projektor2_Controller_Abstract {
             default:
                 break;
         }        
-        $view = new Projektor2_View_HTML_Logo($context);
+        $view = new Projektor2_View_HTML_Logo($this->sessionStatus, $context);
         $html = $view->render();
         return $html;
     }

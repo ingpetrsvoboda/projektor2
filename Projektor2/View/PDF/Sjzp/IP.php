@@ -15,7 +15,7 @@ Obě části IP budou podepsány poradcem i klientem. Kopie IP budou předány s
 *
 * @author pes2704
 */
-abstract class Projektor2_View_PDF_Sjzp_IP extends Projektor2_View_PDF_Sjzp_Common {
+abstract class Projektor2_View_PDF_Sjzp_IP extends Projektor2_View_PDF_Common {
 
 }
 ?>

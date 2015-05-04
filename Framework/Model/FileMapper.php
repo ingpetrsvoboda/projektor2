@@ -11,65 +11,65 @@ abstract class Framework_Model_FileMapper {
     /**
      * Metoda ukládá dokument do souboru v souborovém systému. Soubor vytvoří, již existující vždy přepíše. Do souboru vloží obsah 
      * bez kontroly délky, pokud je obsah modelu prázdný, vytvoří soubor s nulovou délkou.
-     * @param Framework_Model_FileItemAbstract $model
-     * @return \Framework_Model_FileItemAbstract
+     * @param Projektor2_Model_File_ItemAbstract $model
+     * @return \Projektor2_Model_File_ItemAbstract
      * @throws BadFunctionCallException
      * @throws UnexpectedValueException
      * @throws RuntimeException
      */
-    public static function persist(Framework_Model_FileItemAbstract $model) {
-        $path_parts = pathinfo($model->documentPath);
+    public static function save(Projektor2_Model_File_ItemAbstract $model) {
+        $path_parts = pathinfo($model->filePath);
         if (!is_dir($path_parts['dirname'])) {  //pokud není složka, vytvoří ji
             if (!mkdir($path_parts['dirname'], 0777, TRUE)) {
                 throw new BadFunctionCallException('Nepodařilo se vytvořit složku: '.$path_parts['dirname']);
             }
         }
-        if ($model->documentPath != $path_parts['dirname'].'/'.$path_parts['basename']) {
-            throw new UnexpectedValueException('Chybná syntaxe názvu souboru ve vlastnosti modelu '.get_class($model).'. Chybný název souboru: '.$model->documentPath);
+        if ($model->filePath != $path_parts['dirname'].'/'.$path_parts['basename']) {
+            throw new UnexpectedValueException('Chybná syntaxe názvu souboru ve vlastnosti modelu '.get_class($model).'. Chybný název souboru: '.$model->filePath);
         }        
-        $fileResource = fopen($model->documentPath, 'w+'); //pokud soubor existuje, přepíše ho, pokud ne, vytvoří ho 
+        $fileResource = fopen($model->filePath, 'w+'); //pokud soubor existuje, přepíše ho, pokud ne, vytvoří ho 
         $model->filelength = fwrite($fileResource, $model->content);
         if (self::isSaved($model)) {
             $model->isPersisted = TRUE;
             $model->changed = FALSE;
             return $model;            
         } else {
-            throw new RuntimeException('Neznámá chyba! Soubor '.$model->documentPath.' se nepodařilo uložit.');
+            throw new RuntimeException('Neznámá chyba! Soubor '.$model->filePath.' se nepodařilo uložit.');
         }
     }
 
     /**
      * Metoda načte obsah souboru v souborové systému do obsahu modelu a nastaví ostatní vlastnosti modelu.
-     * @param Framework_Model_FileItemAbstract $model
-     * @return \Framework_Model_FileItemAbstract Model s načteným obsahem
+     * @param Projektor2_Model_File_ItemAbstract $model
+     * @return \Projektor2_Model_File_ItemAbstract Model s načteným obsahem
      * @throws RuntimeException
      */
-    public static function hydrate(Framework_Model_FileItemAbstract $model) {
-        $path_parts = pathinfo($model->documentPath);
+    public static function hydrate(Projektor2_Model_File_ItemAbstract $model) {
+        $path_parts = pathinfo($model->filePath);
         if (!isset($path_parts['dirname'])) {
             throw new RuntimeException('Při pokusu o načtení obsahu certifikátu ze souboru se nepodařilo zjistit složku a název souboru '
-                    . 'z vlastnosti modelu:'.$model->documentPath);            
+                    . 'z vlastnosti modelu:'.$model->filePath);            
         }
         if (!is_dir($path_parts['dirname'])) {
-            throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->documentPath
+            throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->filePath
                     .' neexistuje složka: '.$path_parts['dirname']);
         }        
-        $fileResource = fopen($model->documentPath, 'r'); //jen ke čtení
+        $fileResource = fopen($model->filePath, 'r'); //jen ke čtení
         if (!$fileResource) {
-            throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->documentPath.
-                    ' neexistuje soubor: '.$model->documentPath);
+            throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->filePath.
+                    ' neexistuje soubor: '.$model->filePath);
         }
-        $ret = fread($fileResource, filesize($model->documentPath));
+        $ret = fread($fileResource, filesize($model->filePath));
         if ($ret === FALSE) {
-            throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->documentPath
-                    .'se nepodařilo přečíst existující soubor '.$model->documentPath);
+            throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->filePath
+                    .'se nepodařilo přečíst existující soubor '.$model->filePath);
         } else {
             $model->content = $ret;
             $model->filelength = strlen($ret);
             if (self::isHydrated($model)) {  //přísné ověřování
                 $model->isHydrated = TRUE;
             } else {
-                throw new RuntimeException('Neznámá chyba! Soubor '.$model->documentPath.' se podařilo načíst a přesto je obsah modelu jiný než obsah souboru.');
+                throw new RuntimeException('Neznámá chyba! Soubor '.$model->filePath.' se podařilo načíst a přesto je obsah modelu jiný než obsah souboru.');
             }
             $model->changed = FALSE;
         }
@@ -78,10 +78,10 @@ abstract class Framework_Model_FileMapper {
     
     /**
      * Metoda ověří, jestli je obsah modelu souboru v souborovém systému. 
-     * @param Framework_Model_FileItemAbstract $model
+     * @param Projektor2_Model_File_ItemAbstract $model
      * @return boolean
      */
-    public static function isSaved(Framework_Model_FileItemAbstract $model) {
+    public static function isSaved(Projektor2_Model_File_ItemAbstract $model) {
         return self::verify($model);
     }
     
@@ -101,9 +101,9 @@ abstract class Framework_Model_FileMapper {
      * @return boolean
      */
     private static function verify($model) {
-        if (file_exists($model->documentPath) 
+        if (file_exists($model->filePath) 
             AND strlen($model->content)===$model->filelength 
-            AND $model->filelength==filesize($model->documentPath)) {
+            AND $model->filelength==filesize($model->filePath)) {
             return TRUE;
         }
         return FALSE;        

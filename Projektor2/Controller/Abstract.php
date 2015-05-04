@@ -6,8 +6,17 @@
  */
 abstract class Projektor2_Controller_Abstract implements Projektor2_Controller_ControllerParamsInterface {
     
+    /**
+     * @var Projektor2_Model_SessionStatus 
+     */
     protected $sessionStatus;
+    /**
+     * @var Projektor2_Request 
+     */
     protected $request;
+    /**
+     * @var Projektor2_Response 
+     */
     protected $response;
     protected $params;
     

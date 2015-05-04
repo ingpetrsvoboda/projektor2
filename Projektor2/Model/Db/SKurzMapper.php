@@ -1,5 +1,10 @@
 <?php
 class Projektor2_Model_Db_SKurzMapper {
+    /**
+     * 
+     * @param integer $id
+     * @return \Projektor2_Model_Db_SKurz
+     */
     public static function findById($id) {
         $dbh = Projektor2_AppContext::getDb();
         $query = "SELECT * FROM s_kurz WHERE id_s_kurz = :id_s_kurz AND valid = 1";
@@ -27,15 +32,15 @@ class Projektor2_Model_Db_SKurzMapper {
         if(!$radek) {
             return NULL;
         } 
-        $datetimeZacatek = Projektor2_Date::zSQL($radek['date_zacatek']);
+        $datetimeZacatek = Projektor2_Date::createFromSqlDate($radek['date_zacatek']);
         if ($datetimeZacatek) {
-            $dateZacatek = $datetimeZacatek->dejDatumRetezec();                
+            $dateZacatek = $datetimeZacatek->getCzechStringDate();                
         } else {
             $dateZacatek = '';
         }
-        $datetimeKonec = Projektor2_Date::zSQL($radek['date_konec']);
+        $datetimeKonec = Projektor2_Date::createFromSqlDate($radek['date_konec']);
         if ($datetimeKonec) {
-            $dateKonec = $datetimeKonec->dejDatumRetezec();
+            $dateKonec = $datetimeKonec->getCzechStringDate();
         } else {
             $dateKonec = '';
         }
@@ -45,6 +50,12 @@ class Projektor2_Model_Db_SKurzMapper {
                 $dateZacatek,$dateKonec,$radek['valid']);
     }
 
+    /**
+     * 
+     * @param type $filter
+     * @param type $order
+     * @return \Projektor2_Model_Db_SKurz[] array of \Projektor2_Model_Db_SKurz
+     */
     public static function findAll($filter = NULL, $order = NULL) {
         $dbh = Projektor2_AppContext::getDb(); 
         $query = "SELECT * FROM s_kurz WHERE valid = 1";
@@ -58,18 +69,18 @@ class Projektor2_Model_Db_SKurzMapper {
         $succ = $sth->execute();
         $radky = $sth->fetchAll(PDO::FETCH_ASSOC);  
         if(!$radky) {
-            return NULL;
+            return array();
         }
         foreach($radky as $radek) {
-            $datetimeZacatek = Projektor2_Date::zSQL($radek['date_zacatek']);
+            $datetimeZacatek = Projektor2_Date::createFromSqlDate($radek['date_zacatek']);
             if ($datetimeZacatek) {
-                $dateZacatek = $datetimeZacatek->dejDatumRetezec();                
+                $dateZacatek = $datetimeZacatek->getCzechStringDate();                
             } else {
                 $dateZacatek = '';
             }
-            $datetimeKonec = Projektor2_Date::zSQL($radek['date_konec']);
+            $datetimeKonec = Projektor2_Date::createFromSqlDate($radek['date_konec']);
             if ($datetimeKonec) {
-                $dateKonec = $datetimeKonec->dejDatumRetezec();
+                $dateKonec = $datetimeKonec->getCzechStringDate();
             } else {
                 $dateKonec = '';
             }

@@ -67,7 +67,7 @@ class Projektor2_Model_File_ExcelMapper {
 //        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, "Excel2007");
         $objWriter = new PHPExcel_Writer_Excel5($modelExcel->objPHPExcel);
         try {
-            $fullFileName = self::getFullFileName($sessionStatus, $modelExcel->tabulka);
+            $fullFileName = self::getAbsoluteFilePath($sessionStatus, $modelExcel->tabulka);
             $objWriter->save($fullFileName); 
         } catch (Exception $e){
             return FALSE;
@@ -82,9 +82,10 @@ class Projektor2_Model_File_ExcelMapper {
      * @param type $tabulka
      * @return type
      */
-    public static function getFullFileName(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
-        $soubor = $dirName.
-        $dirName = Projektor2_AppContext::getDocumentPath($sessionStatus->projekt->kod).static::PATH_PREFIX;
+    public static function getAbsoluteFilePath(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
+        $dirName = $_SERVER['DOCUMENT_ROOT'].'/'.Projektor2_AppContext::getFileBaseFolder()
+                .Projektor2_AppContext::getRelativeFilePath($sessionStatus->projekt->kod)
+                .static::PATH_PREFIX;
         $basename = self::getBaseName($sessionStatus, $tabulka);
         return $dirName.$basename;        
     }   

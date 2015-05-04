@@ -12,9 +12,10 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
      * (projekti, běh a kancelář) a druhu kurzu zadaného jako parametr. Do výběru přidá vždy i kurzy, 
      * kde kurz_zkratka='*'. S tímto filtrem pak volá Projektor2_Model_SKurzMapper, metodu findAll().
      * @param string $kurz_druh Parametr musí obsahovat hodnotu ze sloupce kurz_druh db tabulky s_kurz
-     * @return array of Projektor2_Model_SKurz
+     * @param type $default TRUE - metoda vrací i model z tabulky s_kurz se zkratkou kurzu '*', tento model pak může být defaulní hodnotou v selectu
+     * @return Projektor2_Model_SKurz[] array of Projektor2_Model_SKurz
      */
-    protected function contextSelectKurz($kurz_druh, $default=TRUE) {
+    protected function getContextSelectedDbSKurzModels($kurz_druh, $default=TRUE) {
         $filter = "(projekt_kod='".$this->sessionStatus->projekt->kod
                 ."' AND kancelar_kod='".$this->sessionStatus->kancelar->kod
                 ."' AND beh_cislo='".$this->sessionStatus->beh->beh_cislo
@@ -27,12 +28,17 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
         return $mapper->findAll($filter, 'razeni');        
     }
     
-    protected function createKurzyModels($kurzy) {
-        $kurzyModels = array();
+    /**
+     * 
+     * @param type $kurzy
+     * @return array[Projektor2_Model_SKurz[]] array of arrays of Projektor2_Model_SKurz
+     */
+    protected function createDbSKurzModelsAssoc($kurzy) {
+        $DbSKurzModels = array();
         foreach ($kurzy as $druhKurzu => $kurz) {
-            $kurzyModels[$druhKurzu] = $this->contextSelectKurz($kurz['kurz_druh']);
+            $DbSKurzModels[$druhKurzu] = $this->getContextSelectedDbSKurzModels($kurz['kurz_druh']);
         }
-        return $kurzyModels;
+        return $DbSKurzModels;
     }   
        
     protected function createFileName(Projektor2_Model_SessionStatus $sessionStatus, $file) {

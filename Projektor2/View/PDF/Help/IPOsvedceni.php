@@ -15,13 +15,13 @@ Obě části IP budou podepsány poradcem i klientem. Kopie IP budou předány s
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_Help_IPOsvedceni extends Projektor2_View_PDF_Help_Common {
+class Projektor2_View_PDF_Help_IPOsvedceni extends Projektor2_View_PDF_Common {
     const MODEL_PLAN     = "plan->"; 
     const MODEL_DOTAZNIK = "dotaznik->";
 
     public function createPDFObject() {
         $textPaticky = "Osvědčení o absolutoriu kurzu v projektu „Help 50+“ ".$this->context["file"];  
-        $this->setHeaderFooter($textPaticky, FALSE);
+        $this->setHeaderFooter($projekt, $textPaticky, FALSE);
         $this->initialize();
         //*****************************************************
         $aktivity = Projektor2_AppContext::getAktivityProjektu('HELP');

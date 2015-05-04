@@ -10,7 +10,7 @@ class Projektor2_Model_Db_SysUserMapper {
         if(!$data) {
             return NULL;
         }
-        return new Projektor2_Model_Db_SysUser($data['id_sys_users'],$data['username'],$data['name'],$data['povolen_zapis'],
+        return new Projektor2_Model_Db_SysUser($data['id_sys_users'],$data['username'],$data['name'],$data['povolen_zapis'],$data['monitor'],
                            $data['tl_spzp_sml'],$data['tl_spzp_dot'],$data['tl_spzp_plan'],$data['tl_spzp_ukon'],$data['tl_spzp_testpc'],$data['tl_spzp_zam'],$data['tl_spzp_dopRK'],
                            $data['tl_spzp_dopRKdoplneni1'],$data['tl_spzp_dopRKdoplneni2'], $data['tl_spzp_dopRKvyrazeni'], $data['tl_spzp_agp'],
                            $data['tl_rnh_sml'],$data['tl_rnh_dot'],$data['tl_rnh_plan'],$data['tl_rnh_ukon'], $data['tl_rnh_testpc'], $data['tl_rnh_zam'],$data['tl_rnh_dopRK'],
@@ -31,7 +31,7 @@ class Projektor2_Model_Db_SysUserMapper {
         if(!$data) {
             return NULL;
         }
-        return new Projektor2_Model_Db_SysUser($data['id_sys_users'],$data['username'],$data['name'],$data['povolen_zapis'],
+        return new Projektor2_Model_Db_SysUser($data['id_sys_users'],$data['username'],$data['name'],$data['povolen_zapis'],$data['monitor'],
                            $data['tl_spzp_sml'],$data['tl_spzp_dot'],$data['tl_spzp_plan'],$data['tl_spzp_ukon'],$data['tl_spzp_testpc'],$data['tl_spzp_zam'],$data['tl_spzp_dopRK'],
                            $data['tl_spzp_dopRKdoplneni1'],$data['tl_spzp_dopRKdoplneni2'],$data['tl_spzp_dopRKdoplneni3'], $data['tl_spzp_dopRKvyrazeni'],
                            $data['tl_rnh_sml'],$data['tl_rnh_dot'],$data['tl_rnh_plan'],$data['tl_rnh_ukon'], $data['tl_rnh_testpc'], $data['tl_rnh_zam'],$data['tl_rnh_dopRK'],

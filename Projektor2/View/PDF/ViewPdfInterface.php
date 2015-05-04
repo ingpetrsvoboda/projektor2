@@ -4,7 +4,7 @@
  * @author pes2704
  */
 interface Projektor2_View_PDF_ViewPdfInterface extends Framework_View_Interface {
-    public function save($fileName);
+    public function save($relativeFilePath);
     public function isSaved();
     public function getFullFileName();
     public function getNewWindowOpenerCode();

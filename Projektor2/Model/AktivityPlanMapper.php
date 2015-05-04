@@ -20,6 +20,14 @@ class Projektor2_Model_AktivityPlanMapper {
         return $kurzPlan;
     }
     
+    /**
+     * Vraxí pole modelů AkzivitaPlan
+     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Db_Zajemce $zajemce
+     * @param type $typAktivity
+     * @return \Projektor2_Model_AktivitaPlan array
+
+     */
     public static function findAll(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
         $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
         $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);        
@@ -59,7 +67,16 @@ class Projektor2_Model_AktivityPlanMapper {
         return $kolekce;
     }    
 
-    
+    /**
+     * 
+     * @param Projektor2_Model_Db_Flat_ZaPlanFlatTable $plan
+     * @param Projektor2_Model_Db_Flat_ZaUkoncFlatTable $ukonceni
+     * @param type $aktivita
+     * @param type $indexAktivity
+     * @param type $id
+     * @param type $zajemce
+     * @return \Projektor2_Model_AktivitaPlan
+     */
     private static function createItem(Projektor2_Model_Db_Flat_ZaPlanFlatTable $plan, Projektor2_Model_Db_Flat_ZaUkoncFlatTable $ukonceni, 
             $aktivita, $indexAktivity, $id, $zajemce) {
         if ($aktivita['typ']=='kurz') {
@@ -71,57 +88,12 @@ class Projektor2_Model_AktivityPlanMapper {
             } else {
                 $certifikatKurz = NULL;
             }
-            return new Projektor2_Model_AktivitaPlan($id, $indexAktivity, $aktivita['nadpis'], $aktivita['s_certifikatem'], 
+            return new Projektor2_Model_AktivitaPlan($id, $indexAktivity, $aktivita['nadpis'], $aktivita['s_certifikatem'], $aktivita['tiskni_certifikat'], 
                     $sKurz, 
                     $plan->$columnsPlan['pocAbsHodin'], $plan->$columnsPlan['duvodAbsence'], $plan->$columnsPlan['dokonceno'], 
                     $plan->$columnsPlan['duvodNeukonceni'], $plan->$columnsPlan['datumCertif'],
                     $certifikatKurz,
                     $ukonceni->$columnsUkonceni['hodnoceni']);         
         }            
-    }
-    //ZBYTKY!!
-    
-    /**
-     * Metoda vytváří pole s názvy sloupců, které obsahují údaje o kurzech ve flat table plan. K tomu používá 
-     * aktivity projektu načtené z AppContext, vrací tedy pouze kurzy pro projekt.
-     * Indexy pole odpovídají sloupci kurz_druh v tabulce s_kurz (velká písmena) a každý prvek pole obsahuje pole s názvy 
-     * sloupců flat table plan odpovídajícími danému kurzu.
-     * Položky pole vytváří pouze pro kurzy (aktivity typu kurz).
-     */
-    public function getKurzyColumnNames($projektKod) {
-        $aktivity = Projektor2_AppContext::getAktivityProjektu($projektKod);  
-        foreach ($aktivity as $indexAktivity=>$aktivita) {
-            if ($aktivita['typ']=='kurz') {
-                $kurzy[$aktivita['kurz_druh']] = $this->getItemColumnsNames($indexAktivity);
-            }
-        }
-        return $kurzy;
-    }
-    
-    /**
-     * Metoda vytváří pole s názvy sloupců, které obsahují údaje o kurzech ve flat table plan. K tomu používá 
-     * aktivity projektu načtené z AppContext, vrací tedy pouze kurzy pro projekt.
-     * Indexy pole odpovídají sloupci kurz_druh v tabulce s_kurz (velká písmena) a každý prvek pole obsahuje pole s názvy 
-     * sloupců flat table plan odpovídajícími danému kurzu
-     * Položky pole vytváří pouze pro kurzy (aktivity typu kurz), které jsou zakončeny certifikátem.
-     */
-    public function getCertifKurzyColumnNames($projektKod) {
-        $aktivity = Projektor2_AppContext::getAktivityProjektu($projektKod);  
-        foreach ($aktivity as $indexAktivity=>$aktivita) {
-            if ($aktivita['typ']=='kurz' AND $aktivita['s_certifikatem']) {
-                $kurzy[$aktivita['kurz_druh']] = $this->getItemColumnsNames($indexAktivity);
-            }
-        }
-        return $kurzy;
-    }
-    
-    public function getKurzColumnNames($projektKod, $kurzDruh) {
-        $aktivity = Projektor2_AppContext::getAktivityProjektu($projektKod);  
-        foreach ($aktivity as $indexAktivity => $aktivita) {
-            if ($aktivita['kurz_druh']==$kurzDruh) {
-                return $this->getItemColumnsNames($indexAktivity);
-            }
-        }
-        return NULL;
     }
 }

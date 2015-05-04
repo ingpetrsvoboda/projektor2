@@ -16,13 +16,13 @@ class Projektor2_Controller_Container extends Projektor2_Controller_Abstract {
         }
         // podmínka pro pokračování
         if ($message) {
-            $viewMessage = new Projektor2_View_HTML_Message(array('message' => $message));
-            $html = $viewMessage;
+            $viewMessage = new Projektor2_View_HTML_Message($this->sessionStatus, array('message' => $message));
+            $html[] = $viewMessage;
         } else {
             $controller = new Projektor2_Controller_VyberKontext($this->sessionStatus, $this->request, $this->response);
-            $html = $controller->getResult();
+            $html[] = $controller->getResult();
         }
-        $viewContainer = new Projektor2_View_HTML_Container(array('innerHtml'=>$html));
+        $viewContainer = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$html, 'class'=>'container'));
         return $viewContainer;
     }
 }

@@ -29,7 +29,7 @@ class Projektor2_Model_Db_SysAccUsrKancelarMapper {
         $succ = $sth->execute();
         $radky = $sth->fetchAll(PDO::FETCH_ASSOC);  
         if(!$radky) {
-            return NULL;
+            return array();
         }        
         foreach($radky as $radek) {
             $vypis[] = new Projektor2_Model_Db_SysAccUsrKancelar($data['id_sys_acc_usr_kancelar'],$data['id_sys_users'],$data['id_c_kancelar']);

@@ -7,7 +7,10 @@ class Projektor2_Model_Db_ProjektMapper {
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
         $data = $sth->fetch(PDO::FETCH_ASSOC);
-        return new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text']);
+        if(!$data) {
+            return NULL;
+        }        
+        return new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text'],$data['valid']);
     }
 
     public static function findByKod($kod) {
@@ -17,7 +20,10 @@ class Projektor2_Model_Db_ProjektMapper {
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
         $data = $sth->fetch(PDO::FETCH_ASSOC);
-        return new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text']);
+        if(!$data) {
+            return NULL;
+        }        
+        return new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text'],$data['valid']);
     }
     
     public static function findByText($text) {
@@ -27,14 +33,17 @@ class Projektor2_Model_Db_ProjektMapper {
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
         $data = $sth->fetch(PDO::FETCH_ASSOC);
-        return new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text']);
+        if(!$data) {
+            return NULL;
+        }        
+        return new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text'],$data['valid']);
     }
     
     public static function findAll($filter = NULL, $order = NULL) {
         $dbh = Projektor2_AppContext::getDb(); 
-        $query = "SELECT * FROM c_projekt";
+        $query = "SELECT * FROM c_projekt WHERE valid = 1";
         if ($filter AND is_string($filter)) {
-            $query .= " WHERE ".$filter;
+            $query .= " AND ".$filter;
         }
         if ($order AND is_string($order)) {
             $query .= " ORDER BY ".$order;
@@ -44,10 +53,10 @@ class Projektor2_Model_Db_ProjektMapper {
         $succ = $sth->execute();
         $radky = $sth->fetchAll(PDO::FETCH_ASSOC);  
         if(!$radky) {
-            return NULL;
+            return array();
         }        
-        foreach($radky as $radek) {
-            $vypis[] = new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text']);
+        foreach($radky as $data) {
+            $vypis[] = new Projektor2_Model_Db_Projekt($data['id_c_projekt'],$data['kod'],$data['text'],$data['plny_text'],$data['valid']);
         }
         return $vypis;        
     }    

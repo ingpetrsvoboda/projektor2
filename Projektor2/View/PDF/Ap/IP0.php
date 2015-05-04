@@ -15,7 +15,7 @@ Obě části IP budou podepsány poradcem i klientem. Kopie IP budou předány s
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Ap_Common {
+class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
     const MODEL_PLAN     = "plan->";   //--vs
     const MODEL_DOTAZNIK = "dotaznik->";
 

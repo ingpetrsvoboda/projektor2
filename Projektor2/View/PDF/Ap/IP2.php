@@ -4,7 +4,7 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_Ap_IP2 extends Projektor2_View_PDF_Ap_Common {
+class Projektor2_View_PDF_Ap_IP2 extends Projektor2_View_PDF_Common {
     const MODEL_UKONCENI = "ukonceni->";
     const MODEL_DOTAZNIK = "dotaznik->";
     const MODEL_PLAN = 'plan->';

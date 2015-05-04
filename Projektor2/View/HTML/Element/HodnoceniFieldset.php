@@ -17,7 +17,7 @@ class Projektor2_View_HTML_Element_HodnoceniFieldset extends Framework_View_Abst
             $this->parts[] = '<fieldset>';
             $this->parts[] = '<legend>'.$this->context['aktivita']['nadpis'].' - hodnocení</legend>';  
             if ($this->context['aktivita']['typ']=='kurz') {
-                $view = new Projektor2_View_HTML_Element_KurzFieldset($this->context); 
+                $view = new Projektor2_View_HTML_Element_KurzFieldset($this->sessionStatus, $this->context); 
                 $view->assign('readonly', TRUE);
                 $this->parts[] = $view;            
             }

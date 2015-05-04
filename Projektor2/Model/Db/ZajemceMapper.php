@@ -114,7 +114,7 @@ class Projektor2_Model_Db_ZajemceMapper {
         $succ = $sth->execute($bindParams);
         $radky = $sth->fetchAll(PDO::FETCH_ASSOC);  
         if(!$radky) {
-            return NULL;
+            return array();
         }  
         foreach($radky as $radek) {
             $vypis[] =  new Projektor2_Model_Db_Zajemce($radek['cislo_zajemce'], $radek['identifikator'], $radek['znacka'], $radek['id_c_projekt_FK'], $radek['id_c_kancelar_FK'], $radek['id_s_beh_projektu_FK'], $radek['id_zajemce']);

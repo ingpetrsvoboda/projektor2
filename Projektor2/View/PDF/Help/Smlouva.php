@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Help_Smlouva extends Projektor2_View_PDF_Help_Common{
+class Projektor2_View_PDF_Help_Smlouva extends Projektor2_View_PDF_Common{
     const MODEL_SMLOUVA = "smlouva->";   //--vs
     
     public function createPDFObject() {
@@ -30,7 +30,7 @@ class Projektor2_View_PDF_Help_Smlouva extends Projektor2_View_PDF_Help_Common{
         $this->pdf->TiskniBlok($strany);
         $this->pdf->Ln(2);
         
-        $this->TiskniGrafiaUdaje();
+        $this->tiskniGrafiaUdaje();
         $this->pdf->Ln(2);
 
         $a = new Projektor2_PDF_Blok;
@@ -85,7 +85,7 @@ class Projektor2_View_PDF_Help_Smlouva extends Projektor2_View_PDF_Help_Common{
 //        //**********************************************
 //            $textPaticky = "Dohoda o účasti v projektu „Help 50+“ ".self::FILE_NAME_PREFIX. @$this->context["identifikator"].
 //                                "\n Projekt Help 50+ CZ.1.04/3.3.05/96.00249 je financován z Evropského sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.";
-//            $this->setHeaderFooter($textPaticky);
+//            $this->setHeaderFooter($projekt, $textPaticky);
 //        //********************************************** 
 //        $textyNadpisu[] = "DOHODA O ÚČASTI V PROJEKTU ";
 //        $textyNadpisu[] = 'Projekt „Help 50+“';

@@ -47,11 +47,12 @@ class Projektor2_View_PDF_Helper_KurzOsvedceni extends Projektor2_View_PDF_Helpe
         
         $blok = clone $blokCentered30_14;
             $blok->Nadpis($context['sKurz']->kurz_nazev);  
-            $blok->PridejOdstavec('v projektu „Alternativní práce v Plzeňském kraji“');
+            //$blok->PridejOdstavec('v projektu „Alternativní práce v Plzeňském kraji“');
+            $blok->PridejOdstavec($context['v_projektu']);
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered20_11;
-            $blok->PridejOdstavec($caller::STALY_TEXT_PATICKY);
+            $blok->PridejOdstavec($context['financovan']);
         $pdf->TiskniBlok($blok);        
         
         $blok = clone $blokCentered30_14;
@@ -80,10 +81,7 @@ class Projektor2_View_PDF_Helper_KurzOsvedceni extends Projektor2_View_PDF_Helpe
             $blok->PridejOdstavec('s plánovaným rozsahem '.$context['sKurz']->pocet_hodin.' hodin');
         }
 //        $blok->PridejOdstavec('v rozsahu '.$context[$caller::MODEL_PLAN .$druh.'_poc_abs_hodin'].' hodin');
-        $pdf->TiskniBlok($blok);              
-        
-        
-        
+        $pdf->TiskniBlok($blok);                      
 }
     
 }

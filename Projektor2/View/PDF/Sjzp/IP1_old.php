@@ -23,7 +23,7 @@ class Projektor2_View_PDF_Sjzp_IP1 extends Projektor2_View_PDF_Sjzp_IP {
         $textPaticky = "Individuální plán účastníka v projektu „S jazyky za prací v Karlovarském kraji“ - část 1 - plán aktivit".$this->context["file"];       
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2 - vyhodnocení aktivit";
         $textyNadpisu[] = 'Projekt „S jazyky za prací v Karlovarském kraji“';
-        $this->setHeaderFooter($textPaticky);
+        $this->setHeaderFooter($projekt, $textPaticky);
         $this->initialize();
         //*****************************************************
         $this->tiskniTitul($textyNadpisu);

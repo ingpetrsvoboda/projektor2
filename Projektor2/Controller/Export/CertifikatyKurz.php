@@ -38,13 +38,13 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                         $certifikat = $serviceCertifikat->findByZajemceKurz($zajemce, $sKurz);
                         if (!$certifikat) {
                             $datumCertifikatu = $plan->$kurzColumnNames['datumCertif'];   
-                            $certifikat = $serviceCertifikat->create($this->sessionStatus->projekt, 
+                            $certifikat = $serviceCertifikat->create($this->sessionStatus, 
                                                 Projektor2_Model_Db_KancelarMapper::findById($zajemce->id_c_kancelar_FK), 
                                                 $zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);                        
                             if (!$certifikat) {
                                 throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id);
                             } 
-                            $logger->log($certifikat->documentCertifikatKurz->documentPath);
+                            $logger->log($certifikat->documentCertifikatKurz->filePath);
                         }
                     }
                 }

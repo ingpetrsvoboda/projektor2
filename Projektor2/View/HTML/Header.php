@@ -14,12 +14,6 @@
 class Projektor2_View_HTML_Header extends Framework_View_Abstract {
     public function render() {    
         $this->parts[] = '<div class="header">';
-            $this->parts[] = '<div id="logout-ie">';
-            $this->parts[] = $this->context['contextControllerResult'];
-                $this->parts[] = '<div id="logout">';
-                $this->parts[] = $this->context['logoutControllerResult'];
-                $this->parts[] = '</div>';
-            $this->parts[] = '</div>';
             $this->parts[] = $this->context['logoControllerResult'];
         $this->parts[] = '</div>';
         return $this;

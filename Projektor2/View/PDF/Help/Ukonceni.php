@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Help_Ukonceni extends Projektor2_View_PDF_Help_Common {
+class Projektor2_View_PDF_Help_Ukonceni extends Projektor2_View_PDF_Common {
     const MODEL_UKONCENI = "ukonceni->";
     const MODEL_DOTAZNIK = "dotaznik->";
     

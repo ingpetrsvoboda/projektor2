@@ -15,15 +15,20 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
     /**
      * Počítadlo instancí objektů zděděných z této třídy
      */
-    static $instance = 0;    
+    static $instance = 0;   
     
+    protected $sessionStatus;
+
+
     protected $context = array();
     
     protected $parts = array();
     
     protected $isConvertedToString = FALSE;
 
-    public function __construct(array $context=NULL) {
+//    public function __construct(array $context=NULL) {
+    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, array $context=NULL) {
+        $this->sessionStatus = $sessionStatus;
         $this->context = $context;
         $this->viewUniqueName = get_called_class().''.++self::$instance; //název třídy s číslem instance třídy        
     }

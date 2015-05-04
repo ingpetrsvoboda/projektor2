@@ -20,7 +20,7 @@ class Projektor2_Controller_Formular_Ap_Souhlas extends Projektor2_Controller_Fo
     protected function getResultFormular() {
         $htmlResult = "";
         //$pole = $this->flatTable->getValuesAssoc();
-        $view = new Projektor2_View_HTML_Ap_Souhlas ($this->createContextFromModels());
+        $view = new Projektor2_View_HTML_Ap_Souhlas ($this->sessionStatus, $this->createContextFromModels());
     
         $htmlResult .= $view->render();
         
@@ -28,7 +28,7 @@ class Projektor2_Controller_Formular_Ap_Souhlas extends Projektor2_Controller_Fo
     }
     
     protected function getResultPdf() {
-        $view = new Projektor2_View_PDF_Ap_Souhlas($this->createContextFromModels());
+        $view = new Projektor2_View_PDF_Ap_Souhlas($this->sessionStatus, $this->createContextFromModels());
         
         $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
         $view->assign('user_name', $this->sessionStatus->user->name);
@@ -38,7 +38,8 @@ class Projektor2_Controller_Formular_Ap_Souhlas extends Projektor2_Controller_Fo
         $fileName = $this->sessionStatus->projekt->kod.'_'.'souhlas'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
         $view->assign('file', $fileName);
         
-        $view->save($fileName);
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();
         
         return $htmlResult;
