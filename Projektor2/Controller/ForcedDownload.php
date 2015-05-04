@@ -5,10 +5,10 @@
  * Současně vyprázdní výstupní buffer a ukončí vykonávání skriptu, v prohlížeči tedy zůstane zobrazena minulá stránka
  * @param string název souboru s cestou
  */
-class Projektor2_VynucenyDownload
+class Projektor2_Controller_ForcedDownload
 {
     
-        public static function download($souborProDownload)
+        public function download($souborProDownload)
         { 
             if (file_exists($souborProDownload)) {
                 header('Content-Description: File Transfer');

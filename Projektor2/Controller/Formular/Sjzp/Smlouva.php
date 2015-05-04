@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_Sjzp_Smlouva extends Projektor2_Controller_
         
         $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
         $view->save($relativeFilePath);
-        $htmlResult .= $view->getNewWindowOpenerCode();
+        $htmlResult = $view->getNewWindowOpenerCode();
         
         return $htmlResult;
     }

@@ -35,15 +35,8 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         $htmlResult = '';
 
         if ($this->request->isPost()) {
-            // změna běhu
-            if ($this->request->post('beh')) {
-                $beh = Projektor2_Model_Db_BehMapper::findById($this->request->post('beh'));  
-                $this->sessionStatus->setBeh($beh);
-                $this->sessionStatus->setZajemce();
-            }
-            
             // ukládání dat modelů flat table
-            $this->createFormModels($this->sessionStatus->zajemce);  // pokud není $this->sessionStatus->zajemce vytvořípři volání flat table->save() nový zájemce
+            $this->createFormModels($this->sessionStatus->zajemce);  // pokud není $this->sessionStatus->zajemce vytvoří při volání flat table->save() nový zájemce
             $this->setModelsFromPost($this->request->postArray());   // ->postObject());????   //
             $this->saveModels();
 

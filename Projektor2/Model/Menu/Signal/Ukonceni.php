@@ -19,6 +19,8 @@ class Projektor2_Model_Menu_Signal_Ukonceni extends Projektor2_Model_Menu_Signal
                 $this->status = 'uspesne';                        
             } elseif ($ukoncení->dokonceno=='Ne') {
                 $this->status = 'neuspesne';                        
+            } elseif ($ukoncení->duvod_ukonceni) {
+                $this->status = 'ukonceni';                        
             } else {
                 $this->status = 'none';
             }

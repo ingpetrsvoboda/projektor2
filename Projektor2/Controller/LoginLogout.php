@@ -99,7 +99,7 @@ class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
             $layoutController = new Projektor2_Controller_Layout($this->sessionStatus, $this->request, $this->response);
             $parts[] = $layoutController->getResult();        
         }
-        $view = new Projektor2_View_HTML_Multipart($this->sessionStatus, array('htmlParts'=>$parts));
+        $view = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $view;
     }
     

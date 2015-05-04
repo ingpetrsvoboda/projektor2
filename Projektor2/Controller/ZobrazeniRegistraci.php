@@ -77,11 +77,11 @@ class Projektor2_Controller_ZobrazeniRegistraci extends Projektor2_Controller_Ab
                 $tlacitkaController = new Projektor2_Controller_Element_MenuFormulare($this->sessionStatus, $this->request, $this->response, $params);
                 $rows[] = $tlacitkaController->getResult();
             }
-            $viewZaznamy = new Projektor2_View_HTML_Zaznamy($this->sessionStatus, array('rows'=>$rows));
-            $viewContent = new Projektor2_View_HTML_Content($this->sessionStatus, array('htmlParts'=>array($viewZaznamy)));
+            $viewZaznamy = new Projektor2_View_HTML_Element_Table($this->sessionStatus, array('rows'=>$rows, 'class'=>'zaznamy'));
+            $viewContent = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>array($viewZaznamy), 'class'=>'content'));
             $parts[] = $viewContent;
         }   
-        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Multipart($this->sessionStatus, array('htmlParts'=>$parts));
+        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewZobrazeniRegistraci;
     }
 }

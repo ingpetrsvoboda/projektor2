@@ -32,15 +32,15 @@ class Projektor2_Model_Db_SKurzMapper {
         if(!$radek) {
             return NULL;
         } 
-        $datetimeZacatek = Projektor2_Date::zSQL($radek['date_zacatek']);
+        $datetimeZacatek = Projektor2_Date::createFromSqlDate($radek['date_zacatek']);
         if ($datetimeZacatek) {
-            $dateZacatek = $datetimeZacatek->dejDatumRetezec();                
+            $dateZacatek = $datetimeZacatek->getCzechStringDate();                
         } else {
             $dateZacatek = '';
         }
-        $datetimeKonec = Projektor2_Date::zSQL($radek['date_konec']);
+        $datetimeKonec = Projektor2_Date::createFromSqlDate($radek['date_konec']);
         if ($datetimeKonec) {
-            $dateKonec = $datetimeKonec->dejDatumRetezec();
+            $dateKonec = $datetimeKonec->getCzechStringDate();
         } else {
             $dateKonec = '';
         }
@@ -72,15 +72,15 @@ class Projektor2_Model_Db_SKurzMapper {
             return array();
         }
         foreach($radky as $radek) {
-            $datetimeZacatek = Projektor2_Date::zSQL($radek['date_zacatek']);
+            $datetimeZacatek = Projektor2_Date::createFromSqlDate($radek['date_zacatek']);
             if ($datetimeZacatek) {
-                $dateZacatek = $datetimeZacatek->dejDatumRetezec();                
+                $dateZacatek = $datetimeZacatek->getCzechStringDate();                
             } else {
                 $dateZacatek = '';
             }
-            $datetimeKonec = Projektor2_Date::zSQL($radek['date_konec']);
+            $datetimeKonec = Projektor2_Date::createFromSqlDate($radek['date_konec']);
             if ($datetimeKonec) {
-                $dateKonec = $datetimeKonec->dejDatumRetezec();
+                $dateKonec = $datetimeKonec->getCzechStringDate();
             } else {
                 $dateKonec = '';
             }

@@ -1,4 +1,4 @@
-#zaznamy {
+.zaznamy {
     font-size: 14px;
     color: black;
     border: solid gray 1px;
@@ -6,27 +6,24 @@
     /*width: 100%;*/
     background-color: rgb(200, 200, 200);
     line-height:150%;
-}
-
-#zaznamy table{
 /*    padding:3px;
     margin: 5px;*/
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; 
     font-size: 11px;
 }
 
-#zaznamy td {
+.zaznamy td {
     padding-left: 1px;
     padding-right: 1px;	
 }
 
-#zaznamy .identifikator {
+.zaznamy .identifikator {
     font-weight: bold;
     padding-left: 2px;
     padding-right: 2px;        
 }
 
-#zaznamy .jmeno {
+.zaznamy .jmeno {
     font-size: 120%;
     color: #222222;
     padding-left: 8px;
@@ -45,7 +42,7 @@
     background-color: #999999;
 }*/
 
-#zaznamy a {
+.zaznamy a {
     text-decoration: none;
     border: 3px;
     border-style: outset;        
@@ -53,56 +50,57 @@
     padding: 2px;        
 }
 
-#zaznamy .edit a {
+.zaznamy .edit a {
     color: blue;
     background-color: #99FFFF;
     border-color: #99FFFF;
 }
 	
-#zaznamy .edit a:hover {
+.zaznamy .edit a:hover {
     background-color: #77DDDD;
 }
 
-#zaznamy .new a {
+.zaznamy .new a {
     color: red;
     background-color: #FFFF99;
     border-color: #FFFF99;
 }
 
-#zaznamy .new a:hover {
+.zaznamy .new a:hover {
     background-color: #DDDD77;
 }
 
-#zaznamy .print a {
+.zaznamy .print a {
     color: lightgreen;
     background-color: #999999;
     border-color: #999999;
 }
 
-#zaznamy .print a:hover {
+.zaznamy .print a:hover {
     background-color: #777777;
 }
 
-#zaznamy .disabled a {
+.zaznamy .disabled a {
     color: cadetblue;
     background-color: #dadada;
     border-color: #dadada;
 }
 
-#zaznamy .disabled a:hover {
+.zaznamy .disabled a:hover {
     background-color: #dadada;
 }
 
-#zaznamy a:active {
+.zaznamy a:active {
     border-style: inset;        
 }
 
-#zaznamy .disabled a:active {
+.zaznamy .disabled a:active {
     border-style: outset;        
 }
 
 .signal {
     text-decoration: none;
+    text-align: center;
     border: 2px;
     border-style: solid;        
     border-radius: 5px;    
@@ -115,6 +113,11 @@
 .signal-plan {
     color: maroon;
     background-color: yellow;
+    border-color: maroon;
+}
+.signal-ukonceni {
+    color: maroon;
+    background-color: burlywood;
     border-color: maroon;
 }
 .signal-dokonceno {

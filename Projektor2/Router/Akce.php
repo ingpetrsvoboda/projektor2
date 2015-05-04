@@ -28,7 +28,6 @@ class Projektor2_Router_Akce {
         switch ($this->sessionStatus->projekt->kod) {
             case "AGP":
             case "HELP":
-                
             case "SJZP":
                 
                 switch($this->request->param('akce')) {
@@ -41,32 +40,11 @@ class Projektor2_Router_Akce {
                     case "form":
                         return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "logout":
-                        return new Projektor2_Controller_Logout($this->sessionStatus, $this->request, $this->response);
-                        break;
                     case "zobraz_reg":
                     default:
                         return new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
                         break;                 }
                 break;
-//            case "HELP":
-//                switch($this->request->param('akce')) {            
-//                /** HELP **/                  
-//                    case "he_export":
-//                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
-//                        break;                      
-//                    case "form":
-//                        return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
-//                        break;
-//                    case "logout":
-//                        return new Projektor2_Controller_Logout($this->sessionStatus, $this->request, $this->response);
-//                        break;
-//                    case "zobraz_reg":
-//                    default:
-//                        return new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
-//                        break; 
-//                }
-//            break;
             case "AP":
                 switch($this->request->param('akce')) {            
                 /** AP **/        
@@ -82,33 +60,13 @@ class Projektor2_Router_Akce {
                     case "form":
                         return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "logout":
-                        return new Projektor2_Controller_Logout($this->sessionStatus, $this->request, $this->response);
-                        break;
                     case "zobraz_reg":
                     default:
                         return new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
                         break;                        
                 }
             break;
-//            case "SJZP":
-//                switch($this->request->param('akce')) {            
-//                /** SJZP **/                   
-//                    case "sj_export":
-//                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
-//                        break;                      
-//                    case "form":
-//                        return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
-//                        break;
-//                    case "logout":
-//                        return new Projektor2_Controller_Logout($this->sessionStatus, $this->request, $this->response);
-//                        break;
-//                    case "zobraz_reg":
-//                    default:
-//                        return new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
-//                        break;  
-//                }
-//            break;
+
             default:
                 throw new UnexpectedValueException('neznámý kód projektu: '.$this->sessionStatus->projekt->kod);
                         

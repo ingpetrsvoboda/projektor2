@@ -70,7 +70,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
             $controller = $router->getController();
             $parts[] = $controller->getResult();        
         }
-        $viewVybery = new Projektor2_View_HTML_Multipart($this->sessionStatus, array('htmlParts'=>$parts));
+        $viewVybery = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewVybery;
     }
 }

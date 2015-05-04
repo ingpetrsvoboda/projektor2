@@ -1,6 +1,7 @@
 <?php
 ob_start();
-
+$qq = gethostname();
+$rr = php_uname();
 // exception handler
 require_once 'Bootstrap.php';
 // zajištění autoload pro Projektor

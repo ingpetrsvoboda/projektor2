@@ -26,4 +26,13 @@ class Projektor2_Model_ZajemceOsobniUdaje {
         $this->titul = $titul;
         $this->titul_za = $titul_za;
     }
+    
+    /**
+     * Vrací celé jméno složené zleva z příjmení, křestního jména, titulu před, titulu za jménem. Tento formát je vhodný pro abecední řazení 
+     * podle celého jména.
+     * @return string
+     */
+    public function jmenoCele() {
+        return implode(' ', array($this->prijmeni, $this->jmeno, $this->titul, $this->titul_za)); //začíná příjmením 
+    }
 }

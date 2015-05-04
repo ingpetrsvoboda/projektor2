@@ -10,11 +10,15 @@ class Projektor2_View_HTML_Element_Signal extends Framework_View_Abstract {
         switch ($model->status) {
             case 'none':
                 $class = 'signal signal-none';
-                $title = 'není naplánován';
+                $title = 'není zadáno';
                 break;
             case 'plan':
                 $class = 'signal signal-plan';
-                $title = 'naplánován';
+                $title = 'naplánováno';
+                break;
+            case 'ukonceni':
+                $class = 'signal signal-ukonceni';
+                $title = 'ukončena účast';
                 break;
             case 'uspesneCekaNaCertifikat':
                 $class = 'signal signal-dokonceno';

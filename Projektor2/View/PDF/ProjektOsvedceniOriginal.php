@@ -12,10 +12,10 @@ class Projektor2_View_PDF_ProjektOsvedceniOriginal extends Projektor2_View_PDF_C
         $this->setHeaderFooter($this->context['text_paticky'], FALSE);        
         $this->initialize();
         //*****************************************************
-        $this->pdf->Image("img/pozadi/pozadi.jpg", 0, 25, 210, 272);  
+        $this->pdf->Image(Projektor2_AppContext::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), 0, 0, 210, 297);  
         Projektor2_View_PDF_Helper_ProjektOsvedceni::createContent($this->pdf, $this->context, $this);
         //##################################################################################################
-        $datumCertif = Projektor2_Date::zSQL($this->context['certifikat']->date)->dejDatumRetezec();
+        $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
         $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $datumCertif);
         $this->pdf->Ln(20);
         $this->tiskniPodpisCertifikat();      

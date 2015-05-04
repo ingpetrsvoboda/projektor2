@@ -16,7 +16,7 @@ class Projektor2_Controller_Layout extends Projektor2_Controller_Abstract {
         $parts['vyberKontextControllerResult'] = $vyberKontextController->getResult();;
         $parts['footerControllerResult'] = $footerController->getResult();        
         
-        $view = new Projektor2_View_HTML_Multipart($this->sessionStatus, array('htmlParts'=>$parts));
+        $view = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         $html = $view;
         return $html;
     }

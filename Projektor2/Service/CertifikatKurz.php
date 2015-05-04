@@ -52,7 +52,7 @@ class Projektor2_Service_CertifikatKurz {
         if (!$modelCertifikatKurz) {
             
             // vytvoř db certifikát - zatím bez filename
-            $datetimeCertifikatu = Projektor2_Date::zRetezce($datumCertifikatu);
+            $datetimeCertifikatu = Projektor2_Date::createFromCzechStringDate($datumCertifikatu);
             $modelDbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::create($zajemce, $sKurz, $datetimeCertifikatu, $creator, $service);  // bez filename
             // vytvoř a ulož pdf certifikátu
             $viewKurz = new Projektor2_View_PDF_KurzOsvedceniOriginal($sessionStatus);

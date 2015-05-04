@@ -257,7 +257,7 @@ class Projektor2_PDF_ExtendedFPDF extends FPDF
                 $this->ws=0;
                 $this->_out('0 Tw');
             }
-            $this->AddPage($this->CurOrientation,$this->CurPageFormat);
+            $this->AddPage($this->CurOrientation,$this->CurPageSize);
             $this->x=$x;
             if($ws>0)
             {

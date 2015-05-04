@@ -10,7 +10,6 @@ class Projektor2_View_HTML_Ap_Export extends Framework_View_Abstract {
         $this->parts[] = '<div class="left">
                                 <ul id="menu">
                                     <hr>
-                                    <li><a href="index.php?akce=select_beh">Zpět na výběr běhu</a></li>
                                     <li><a href="index.php?akce=seznam">Zpět na zobrazení registrací</a></li>';                                    
         $this->parts[] = '        </ul>
                         </div>';

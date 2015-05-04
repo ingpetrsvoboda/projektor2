@@ -44,7 +44,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             }
         }
         $this->dbh = Projektor2_AppContext::getDb();
-        // jedno načtení trvá cca 10ms, bez cache se jedna struktuta (struktura jedné tabulky) čte průměrně řx
+        // jedno načtení trvá cca 10ms, bez cache se jedna struktuta (struktura jedné tabulky) čte průměrně 5x
 //        //Nacteni struktury tabulky, datovych typu a ost parametru tabulky
 //        $query = "SHOW COLUMNS FROM ".$this->tableName;
 //        $sth = $this->dbh->prepare($query);

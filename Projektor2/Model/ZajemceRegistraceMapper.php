@@ -23,8 +23,7 @@ class Projektor2_Model_ZajemceRegistraceMapper {
     }
     
     public static function create(Projektor2_Model_ZajemceOsobniUdaje $zajemceOsobniUdaje) {
-        $jmenoCele = implode(' ', array($zajemceOsobniUdaje->prijmeni, $zajemceOsobniUdaje->jmeno, $zajemceOsobniUdaje->titul, $zajemceOsobniUdaje->titul_za)); //začíná příjmením 
-        $zajemceRegistrace =  new Projektor2_Model_ZajemceRegistrace($jmenoCele, $zajemceOsobniUdaje->zajemce->identifikator, $zajemceOsobniUdaje->zajemce->znacka, $zajemceOsobniUdaje->zajemce->id);   
+        $zajemceRegistrace =  new Projektor2_Model_ZajemceRegistrace($zajemceOsobniUdaje->jmenoCele(), $zajemceOsobniUdaje->zajemce->identifikator, $zajemceOsobniUdaje->zajemce->znacka, $zajemceOsobniUdaje->zajemce->id);   
         return self::setSkupiny($zajemceRegistrace, $zajemceOsobniUdaje->zajemce);
     }
 

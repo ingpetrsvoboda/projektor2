@@ -41,7 +41,7 @@ class Projektor2_Controller_Formular_Agp_Smlouva extends Projektor2_Controller_F
         
         $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
         $view->save($relativeFilePath);
-        $htmlResult .= $view->getNewWindowOpenerCode();                        
+        $htmlResult = $view->getNewWindowOpenerCode();                        
         
         return $htmlResult;
     }

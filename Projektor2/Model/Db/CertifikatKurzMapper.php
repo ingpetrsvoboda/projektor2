@@ -45,7 +45,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
      */
     public static function create(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, 
                                     Projektor2_Date $date, $creator, $service, $fileName=NULL) {
-        $rok = $date->dejRokRetezec();
+        $rok = $date->getCzechStringYear();
 
         $dbh = Projektor2_AppContext::getDb(); 
 
@@ -62,23 +62,42 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
         } else {
             $cisloCertifikatu = 1;
         }
-
+        $now = new DateTime("now");
+        $modelCertifikatKurz = new Projektor2_Model_Db_CertifikatKurz($zajemce->id, $sKurz->id, 
+            $cisloCertifikatu, $rok, Projektor2_AppContext::getCertificateKurzIdentificator($rok, $cisloCertifikatu), 
+            $fileName, $date->getSqlDate(), 
+            $now->format("Y-m-d H:i:s"), 
+            $creator, $service, $dbh->getDbHost());
         // !! creating_time je TIMESTAMP s DEFAULT CURRENT_TIMESTAMP
-        $query = "INSERT INTO certifikat_kurz (id_zajemce_FK, id_s_kurz_FK, cislo, rok, identifikator, filename, date, creator, service, db_host)
-                  VALUES (:id_zajemce_FK, :id_s_kurz_FK, :cislo, :rok, :identifikator, :filename, :date, :creator, :service, :db_host)";  
-        $bindParams = array('id_zajemce_FK'=>$zajemce->id, 'id_s_kurz_FK'=>$sKurz->id, 
-            'cislo'=>$cisloCertifikatu, 'rok'=>$rok,
-            'identifikator'=>  Projektor2_AppContext::getCertificateKurzIdentificator($rok, $cisloCertifikatu),
-            'filename'=>$fileName, 
-            'date'=>$date->dejDatumproSQL(), 
-            'creator'=>$creator,
-            'service'=>$service,
-            'db_host'=>$dbh->getDbHost());
+        foreach ($modelCertifikatKurz as $key => $value) {
+            if ($key!='id') {  // vyloučen sloupec PRIMARY KEY 
+                $columns[] = $key;
+                $values[] = ':'.$key;
+                $bindParams[$key] = $value;
+            }
+        }  
+        $query = "INSERT INTO certifikat_kurz (".implode(', ', $columns).")
+                  VALUES (".  implode(', ', $values).")";  
+
+//        $bindParams = array('id_zajemce_FK'=>$zajemce->id, 'id_s_kurz_FK'=>$sKurz->id, 
+//            'cislo'=>$cisloCertifikatu, 'rok'=>$rok,
+//            'identifikator'=>  Projektor2_AppContext::getCertificateKurzIdentificator($rok, $cisloCertifikatu),
+//            'filename'=>$fileName, 
+//            'date'=>$date->dejDatumproSQL(), 
+//            'creator'=>$creator,
+//            'service'=>$service,
+//            'db_host'=>$dbh->getDbHost());
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
-        $data = $sth->fetch(PDO::FETCH_ASSOC);  
-        // model vytvořen načtením z databáze
-        return self::findById($dbh->lastInsertId());
+        if ($succ) {
+            $modelCertifikatKurz->id = $dbh->lastInsertId();
+        } else {
+            unset($modelCertifikatKurz);
+        }
+        return $modelCertifikatKurz;
+//        $data = $sth->fetch(PDO::FETCH_ASSOC);  
+//        // model vytvořen načtením z databáze na základě last insert id
+//        return self::findById($dbh->lastInsertId());
     }
     
     public static function findAll($filter = NULL, $order = NULL) {
@@ -107,14 +126,14 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
     public static function update(Projektor2_Model_Db_CertifikatKurz $kurzCertifikat) {
         $dbh = Projektor2_AppContext::getDb(); 
         foreach ($kurzCertifikat as $key => $value) {
-            if ($key!='id' AND $key!='creating_time') {  // vyloučeny sloupce PRIMARY KEY a TIMESTAMP s DEFAULT hodnotou
+            if ($key!='id') {  // vyloučen sloupec PRIMARY KEY 
                 $set[] = $key.'=:'.$key;
                 $bindParams[$key] = $value;
             }
-        }
+        }  
+        $bindParams['id_certifikat_kurz'] = $kurzCertifikat->id;
         
         $query = "UPDATE certifikat_kurz SET ".implode(', ', $set)." WHERE id_certifikat_kurz=:id_certifikat_kurz";  
-        $bindParams['id_certifikat_kurz'] = $kurzCertifikat->id;
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);  
         if ($succ) {
@@ -134,6 +153,16 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
         if ($succ) {
             unset( $kurzCertifikat);
         }
+    }
+    
+    /**
+     * Vytvoří pole (bind) vhodné pro PDO statement execute. Předpokládá, že atribut modelu 'id' odpovídá primárnímu klíči db tabulky
+     * a tuto hodnotu vynechá.
+     * @param type $model
+     */
+    private static function bindArray($model) {
+ 
+        return $bindParams;
     }
 }
 

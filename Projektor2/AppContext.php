@@ -1,6 +1,6 @@
 <?php
 /**
- * Kontajner na globalni promenne
+ * Kontejner na globalni promenne
  * @author Petr Svoboda
  */
 
@@ -27,8 +27,11 @@ abstract class Projektor2_AppContext
         switch ($nick) {
             case 'projektor':
                 if(!isset(self::$db['projektor']) OR !isset(self::$db['projektor'])) {
-//                    $dbh = new Framework_Database_HandlerSqlMysql_Radon();
-                    $dbh = new Framework_Database_HandlerSqlMysql_Localhost();
+                    if (self::isRunningOnProductionMachine()) {
+                        $dbh = new Framework_Database_HandlerSqlMysql_Radon();                        
+                    } else {
+                        $dbh = new Framework_Database_HandlerSqlMysql_Localhost();                        
+                    }
                     self::$db['projektor'] = $dbh;
                 }
                 return self::$db['projektor'];
@@ -37,6 +40,18 @@ abstract class Projektor2_AppContext
 
             default:
                 throw new UnexpectedValueException('Neznámy název databáze '.$nick.'.');
+        }
+    }
+    
+    /**
+     * Informuje, zda skript běží na produkčním stroji.
+     * @return boolean
+     */
+    private static function isRunningOnProductionMachine() {
+        if (strpos(strtolower(gethostname()), 'projektor')===0) {
+            return TRUE;
+        } else {
+            return FALSE;
         }
     }
     
@@ -82,6 +97,38 @@ abstract class Projektor2_AppContext
                 throw new UnexpectedValueException('Nejsou definovány texty pro certifikát v projektu '.$kod.'.');                
         }        
         return $texts;
+    }
+
+    public static function getCertificateOriginalBackgroundImageFilepath(Projektor2_Model_SessionStatus $sessionStatus) {
+        switch ($sessionStatus->projekt->kod) {
+        ######## AP #################            
+            case 'AP':
+            case 'HELP':
+            case 'SJZP':
+                $filePath = "img/pozadi/pozadi.jpg";   
+                break;
+
+            default:
+                throw new UnexpectedValueException('Není definován soubor s orázkem na pozadí pro certifikát v projektu '.$sessionStatus->projekt->kod.'.');
+        }
+        return $filePath;
+    }    
+    
+    public static function getCertificatePseudocopyBackgroundImageFilepath(Projektor2_Model_SessionStatus $sessionStatus) {
+        switch ($sessionStatus->projekt->kod) {
+        ######## AP #################            
+            case 'AP':
+                // náhodný výběr ze 4 možných pozadí
+                $number = intval(rand(1, 4.99));
+                $filePath = "img/pozadi/komplet_pozadi".$number.".jpg";   
+                break;
+            case 'SJZP':
+                $filePath = "img/pozadi/pozadi.jpg";                   
+                break;
+            default:
+                throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->projekt->kod.'.');
+        }
+        return $filePath;
     }
     
     /**

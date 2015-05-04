@@ -27,7 +27,7 @@ class Projektor2_Date
      * @param string $retezecDatum
      * @return \self
      */
-    public static function zRetezce($retezecDatum=false) {
+    public static function createFromCzechStringDate($retezecDatum=false) {
         $retezecDatum=trim($retezecDatum);
 //        $regex_pattern="^([1-9]|0[0-9]|1[0-9]|2[0-9]|3[0-1])\.( [1-9]|[1-9]|1[0-2]|0[1-9])\.( [1-2][0-9]{3}|[1-2][0-9]{3})";
 //        if (ereg($regex_pattern, $retezecDatum, $regs) && checkdate($regs[2],$regs[1],$regs[3]))   // SVOBODA This function has been DEPRECATED as of PHP 5.3.0. Relying on this feature is highly discouraged.
@@ -42,20 +42,20 @@ class Projektor2_Date
 
     /**
      * 
-     * @param type $sqlDatum
+     * @param string $sqlDatum
      * @return \self
      */
-    public static function zSQL($sqlDatum) {
+    public static function createFromSqlDate($sqlDatum) {
         $datum = DateTime::createFromFormat(self::SQL_FORMAT, $sqlDatum);
         return $datum ? new self($datum) : NULL;
     }
 
     /**
      * 
-     * @param type $pole
+     * @param array $pole
      * @return \self
      */
-    public static function zQuickForm($pole)
+    public static function createFromQuickformArray($pole)
     {
         $datum = DateTime::createFromFormat(self::SQL_FORMAT, $pole["Y"]."-".$pole["m"]."-".$pole["d"]);
         return $datum ? new self($datum) : NULL;
@@ -65,7 +65,7 @@ class Projektor2_Date
      * 
      * @return DateTime
      */
-    public function dejDateTime() {
+    public function getPhpDateTime() {
         return $this->dateTime();
     }
 
@@ -73,7 +73,7 @@ class Projektor2_Date
      * 
      * @return array
      */
-    public function dejDatumForm() {
+    public function getQuickformDate() {
         return array("Y" => $this->dateTime->format("Y"), "m" => $this->dateTime->format("m"), "d" => $this->dateTime->format("d"));
     }
 
@@ -81,7 +81,7 @@ class Projektor2_Date
      * 
      * @return string
      */
-    public function dejDatumproSQL() {
+    public function getSqlDate() {
         return $this->dateTime->format(self::SQL_FORMAT);
     }
 
@@ -89,7 +89,7 @@ class Projektor2_Date
      * 
      * @return string
      */
-    public function dejDatumRetezec() {
+    public function getCzechStringDate() {
         return $this->dateTime->format(self::STRING_FORMAT);
     }
     
@@ -97,7 +97,7 @@ class Projektor2_Date
      * 
      * @return string
      */
-    public function dejRokRetezec() {
+    public function getCzechStringYear() {
         return $this->dateTime->format('Y');        
     }
 }
