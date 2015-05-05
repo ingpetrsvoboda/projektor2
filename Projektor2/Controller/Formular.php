@@ -72,12 +72,11 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
         $router = new Projektor2_Router_Form($this->sessionStatus, $this->request, $this->response);
         $formController = $router->getController();         
         $contentParts[] = $formController->getResult();
+        // pravá strana = menu formuláře a formulář
         $viewContent = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$contentParts, 'class'=>'content'));
         $parts[] = $viewContent;        
-        
+        // levé menu a pravá strana
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewZobrazeniRegistraci;
     }
 }
-
-?>

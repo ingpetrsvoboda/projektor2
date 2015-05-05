@@ -123,6 +123,7 @@ abstract class Projektor2_AppContext
                 $filePath = "img/pozadi/komplet_pozadi".$number.".jpg";   
                 break;
             case 'SJZP':
+                // jedno pozadí - stejné jako originál (bez podpisu)
                 $filePath = "img/pozadi/pozadi.jpg";                   
                 break;
             default:
