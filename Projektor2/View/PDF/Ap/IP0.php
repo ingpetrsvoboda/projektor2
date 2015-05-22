@@ -32,25 +32,26 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
         //*****************************************************
         $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
         $kurzSadaBunek->SpustSadu(true);
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('AP');   
+        $aktivity = Projektor2_AppContext::getAktivityProjektu('AP'); 
+        $nabidkaPovinnychPoradenskychAktivit = '';
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']=='poradenstvi' AND $aktivita['vyberovy']==0) {
                 $nabidkaPovinnychPoradenskychAktivit .= $nabidkaPovinnychPoradenskychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];
             }
         }
-        
+        $nabidkaPovinnychKurzovychAktivit = '';
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']=='kurz' AND $aktivita['vyberovy']==0) {
                 $nabidkaPovinnychKurzovychAktivit .= $nabidkaPovinnychKurzovychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];
             }
         }
-
+        $nabidkaVyberovychPoradenskychAktivit = '';
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']=='poradenstvi' AND $aktivita['vyberovy']==1) {
                 $nabidkaVyberovychPoradenskychAktivit .= $nabidkaVyberovychPoradenskychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];
             }
         }
-        
+        $nabidkaVyberovychKurzovychAktivit = '';
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']=='kurz' AND $aktivita['vyberovy']==1) {
                 $nabidkaVyberovychKurzovychAktivit .= $nabidkaVyberovychKurzovychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];

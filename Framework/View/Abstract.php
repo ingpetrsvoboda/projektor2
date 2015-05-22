@@ -10,14 +10,14 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
      * Unikátní název instancí objektů zděděných z této třídy
      * @var type 
      */
-    protected $viewUniqueName;
+//    protected $viewUniqueName;
     
     /**
      * Počítadlo instancí objektů zděděných z této třídy
      */
-    static $instance = 0;   
+//    static $instance = 0;   
     
-    protected $sessionStatus;
+//    protected $sessionStatus;
 
 
     protected $context = array();
@@ -26,11 +26,11 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
     
     protected $isConvertedToString = FALSE;
 
-//    public function __construct(array $context=NULL) {
-    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, array $context=NULL) {
-        $this->sessionStatus = $sessionStatus;
+    public function __construct(array $context=NULL) {
+//    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, array $context=NULL) {
+//        $this->sessionStatus = $sessionStatus;
         $this->context = $context;
-        $this->viewUniqueName = get_called_class().''.++self::$instance; //název třídy s číslem instance třídy        
+//        $this->viewUniqueName = get_called_class().''.++self::$instance; //název třídy s číslem instance třídy        
     }
 
     /**
@@ -57,6 +57,10 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
         $this->context[$name] = $value;
         $this->isConvertedToString = FALSE;
         return $this;
+    }
+    
+    public function appendPart($part='') {
+        $this->parts[] = $part;
     }
     
     /**
@@ -87,7 +91,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
         echo '<p>Chyba pri vykonavani metody __toString: '.$errstr.' in: '.$errfile.' on line: '.$errline.'.</p>'.PHP_EOL;
     }
     
-    private function toString() {
+    protected function toString() {
         if (!$this->parts) {
             $render = $this->render();
             if ($render instanceof Framework_View_Interface) {

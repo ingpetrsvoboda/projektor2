@@ -12,12 +12,11 @@ class Projektor2_Controller_Layout extends Projektor2_Controller_Abstract {
         $vyberKontextController = new Projektor2_Controller_VyberKontext($this->sessionStatus, $this->request, $this->response);
         $footerController = new Projektor2_Controller_Footer($this->sessionStatus, $this->request, $this->response);
       
-        $parts['headerControllerResult'] = $headerController->getResult();
-        $parts['vyberKontextControllerResult'] = $vyberKontextController->getResult();;
-        $parts['footerControllerResult'] = $footerController->getResult();        
+        $htmlParts[] = $headerController->getResult();
+        $htmlParts[] = $vyberKontextController->getResult();;
+        $htmlParts[] = $footerController->getResult();        
         
-        $view = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
-        $html = $view;
-        return $html;
+        $view = new Projektor2_View_HTML_Element_Div(array('htmlParts'=>$htmlParts));
+        return $view;
     }
 }

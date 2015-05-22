@@ -17,7 +17,7 @@ class Projektor2_View_HTML_Element_Select extends Framework_View_Abstract {
      * 'innerTextCallable' callable je volán pro vygenerování zobrazovaných textů jednotlivých option vytvožených z položek valuesArray (např. array($this,'text_retezec_kurz'))
      * 'onChangeJsCode' string javascriptový kód volaný při změně hodnoty selectu (např, 'submitForm(this);' provede submit formuláře po ksždé změně hodnoty
      * 'readonly' mixed pokud je TRUE je select je pouze pro čtení
-     * 'required' mixed pokud je TRUE je select requird, toto je funkční je pokud hodnoty "nevybraného" slectu (tedy první option) je vyhodnocována jako FALSE (napž. prázdný řetězec)
+     * 'required' mixed pokud je TRUE je select required, toto je funkční jen návratová hodnota "nevybraného" selectu (tedy hodnota první option) je vyhodnocována jako FALSE (napž. pokud první option je prázdný řetězec)
      * @return \Projektor2_View_HTML_Element_Select HTML kód select
      */
     public function render() {

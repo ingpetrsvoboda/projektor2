@@ -60,7 +60,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     // span důvod
                     $this->parts[] = '<span id="'.$idBlokDuvod.'" style="display:'.$displayBlokDuvod.'">';
                         $this->parts[] = '<p>Důvod ukončení účasti v projektu:';
-                            $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus, $this->context);
+                            $viewSelect = new Projektor2_View_HTML_Element_Select($this->context);
                             $name = self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'duvod_ukonceni';
                             $viewSelect->assign('selectId', 'ukonceni')
                                     ->assign('selectName', $name)
@@ -102,7 +102,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                                 . $requiredAttribute
                                 . ' onClick="hide(\'idBlokCertifikat\');show(\''.$idBlokHodnoceni.'\');">';                    
                         // certifikat
-                        $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat($this->sessionStatus);
+                        $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat();
                         if (isset($this->context['readonly'])) {
                             $viewCertifikat->assign('readonly', $this->context['readonly']);
                         }
@@ -146,7 +146,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     $kurzyPlan = $this->context['kurzyPlan'];
                     if (isset($this->context['kurzyModels']) AND $this->context['kurzyModels']) {
                         foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
-                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);    
+                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->context);    
                             $view->assign('planPrefix', self::MODEL_PLAN)
                                 ->assign('ukonceniPrefix', self::MODEL_UKONCENI)
                                 ->assign('druhKurzu', $druhKurzu)
@@ -161,7 +161,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     // hodnocení poradenství
                     if (isset($this->context['aktivityProjektuTypuPoradenstvi']) AND $this->context['aktivityProjektuTypuPoradenstvi']) {
                         foreach ($this->context['aktivityProjektuTypuPoradenstvi'] as $druhKurzu => $aktivita) {
-                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);    
+                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->context);    
                             $view->assign('ukonceniPrefix', self::MODEL_UKONCENI)
                                 ->assign('druhKurzu', $druhKurzu)
                                 ->assign('aktivita', $this->context['aktivityProjektuTypuPoradenstvi'][$druhKurzu])

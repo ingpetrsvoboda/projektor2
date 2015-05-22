@@ -64,6 +64,19 @@ abstract class Projektor2_AppContext
         return 'projektor';
     }
     
+############# PDF #############    
+//    public static function getHeaderParams() {
+//        return array('logoFileName'=>,
+//                'sirka'=>,
+//                'vyska'=>);
+//    }
+//    
+//    public static function getFooterParams() {
+//        return array('textPaticky'=>,
+//                'cislovani'=>);        
+//        $textPaticky=NULL, $cislovani=TRUE
+//    }
+
 ############# CERTIFIKÁTY #############    
     
     /**
@@ -77,7 +90,7 @@ abstract class Projektor2_AppContext
         switch ($sessionStatus->projekt->kod) {
         ######## AP #################            
             case 'AP':
-                $texts['signerName'] = 'Ing. Barbora Kuralová';
+                $texts['signerName'] = 'Mgr. Milada Kolářová';
                 $texts['signerPosition'] = 'manažer projektu';
                 $texts['v_projektu'] = 'v projektu „Alternativní práce v Plzeňském kraji“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Alternativní práce v Plzeňském kraji“ ";
@@ -99,7 +112,8 @@ abstract class Projektor2_AppContext
         return $texts;
     }
 
-    public static function getCertificateOriginalBackgroundImageFilepath(Projektor2_Model_SessionStatus $sessionStatus) {
+    public static function getCertificateOriginalBackgroundImageFilepath() {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
         switch ($sessionStatus->projekt->kod) {
         ######## AP #################            
             case 'AP':
@@ -114,7 +128,8 @@ abstract class Projektor2_AppContext
         return $filePath;
     }    
     
-    public static function getCertificatePseudocopyBackgroundImageFilepath(Projektor2_Model_SessionStatus $sessionStatus) {
+    public static function getCertificatePseudocopyBackgroundImageFilepath() {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
         switch ($sessionStatus->projekt->kod) {
         ######## AP #################            
             case 'AP':

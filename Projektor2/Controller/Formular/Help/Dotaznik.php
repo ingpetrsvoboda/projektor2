@@ -19,7 +19,7 @@ class Projektor2_Controller_Formular_Help_Dotaznik extends Projektor2_Controller
     
     protected function getResultFormular() {
         $htmlResult = "";
-        $view = new Projektor2_View_HTML_Help_Dotaznik($this->sessionStatus, $this->createContextFromModels());
+        $view = new Projektor2_View_HTML_Help_Dotaznik($this->createContextFromModels());
         $htmlResult .= $view->render();
         
         return $htmlResult;
@@ -27,7 +27,7 @@ class Projektor2_Controller_Formular_Help_Dotaznik extends Projektor2_Controller
     
     protected function getResultPdf() {
         $html = '<div><img src="./img/loga/loga_HELP50+_BW.png"></div>';
-        $view = new Projektor2_View_HTML2PDF_Dotaznik($this->sessionStatus);
+        $view = new Projektor2_View_HTML2PDF_Dotaznik();
         $html .= $this->getResultFormular();
 
         $view->assign('html', $html);        

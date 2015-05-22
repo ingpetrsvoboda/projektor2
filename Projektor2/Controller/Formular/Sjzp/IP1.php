@@ -16,7 +16,7 @@ class Projektor2_Controller_Formular_Sjzp_IP1 extends Projektor2_Controller_Form
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $kurzyPlanAssoc = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
         
-        $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels());    
+        $view = new Projektor2_View_HTML_Formular_IP1($this->createContextFromModels());    
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROJEKTU S jazyky za prací')
             ->assign('formAction', 'sjzp_plan_uc')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
@@ -30,7 +30,7 @@ class Projektor2_Controller_Formular_Sjzp_IP1 extends Projektor2_Controller_Form
      protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
             $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);            
-            $view = new Projektor2_View_PDF_Sjzp_IP1($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Sjzp_IP1($this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)

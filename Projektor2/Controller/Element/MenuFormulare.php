@@ -22,11 +22,11 @@ class Projektor2_Controller_Element_MenuFormulare extends Projektor2_Controller_
             $skupinaController = new Projektor2_Controller_Element_MenuFormulare_Skupina($this->sessionStatus, $this->request, $this->response, 
                                                                  array('zajemceRegistrace'=>$zajemceRegistrace));
             $htmlSkupiny = $skupinaController->getResult();
-            $viewRegistrace = new Projektor2_View_HTML_Element_ZajemceRegistrace($this->sessionStatus, 
+            $viewRegistrace = new Projektor2_View_HTML_Element_ZajemceRegistrace(
                                                                  array('zajemceRegistrace'=>$zajemceRegistrace, 'htmlSkupiny'=>$htmlSkupiny));
             // tr - registrace + sada tlačítek + sada signálů
             $htmlParts[] = $viewRegistrace;
         }
-        return new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$htmlParts));
+        return new Projektor2_View_HTML_Element_Div(array('htmlParts'=>$htmlParts));
     }
 }

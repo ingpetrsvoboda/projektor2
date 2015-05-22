@@ -19,7 +19,7 @@ class Projektor2_Controller_Formular_Sjzp_IP2 extends Projektor2_Controller_Form
         
         $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->projekt->kod);
                                            
-        $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels());     
+        $view = new Projektor2_View_HTML_Formular_IP2($this->createContextFromModels());     
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část')
             ->assign('formAction', 'sjzp_ukonceni_uc')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)                
@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_Sjzp_IP2 extends Projektor2_Controller_Form
      protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
             $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
-            $view = new Projektor2_View_PDF_Sjzp_IP2($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Sjzp_IP2($this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)

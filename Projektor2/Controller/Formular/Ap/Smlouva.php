@@ -19,7 +19,7 @@ class Projektor2_Controller_Formular_Ap_Smlouva extends Projektor2_Controller_Fo
     protected function getResultFormular() {
         $htmlResult = "";
 
-        $view = new Projektor2_View_HTML_Ap_Smlouva($this->sessionStatus, $this->createContextFromModels());
+        $view = new Projektor2_View_HTML_Ap_Smlouva($this->createContextFromModels());
         $htmlResult .= $view->render();
         
         return $htmlResult;
@@ -27,7 +27,7 @@ class Projektor2_Controller_Formular_Ap_Smlouva extends Projektor2_Controller_Fo
     
     protected function getResultPdf() {
         // metoda se volá při ukládání dat z formuláře - tedy při post požadavku a pole params obsahuje post data z aktuálního formuláře
-        $view = new Projektor2_View_PDF_Ap_Smlouva($this->sessionStatus, $this->createContextFromModels());   
+        $view = new Projektor2_View_PDF_Ap_Smlouva($this->createContextFromModels());   
         
         $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
         $view->assign('user_name', $this->sessionStatus->user->name);

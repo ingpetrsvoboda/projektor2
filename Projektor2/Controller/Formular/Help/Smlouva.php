@@ -19,14 +19,14 @@ class Projektor2_Controller_Formular_Help_Smlouva extends Projektor2_Controller_
     
     protected function getResultFormular() {
         $htmlResult = "";
-        $view = new Projektor2_View_HTML_Help_Smlouva($this->sessionStatus, $this->createContextFromModels());
+        $view = new Projektor2_View_HTML_Help_Smlouva($this->createContextFromModels());
         $htmlResult .= $view->render();
         
         return $htmlResult;
     }
     
     protected function getResultPdf() {
-        $view = new Projektor2_View_PDF_Help_Smlouva($this->sessionStatus, $this->createContextFromModels());
+        $view = new Projektor2_View_PDF_Help_Smlouva($this->createContextFromModels());
         $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
         $view->assign('user_name', $this->sessionStatus->user->name);
         $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);

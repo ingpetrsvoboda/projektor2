@@ -13,7 +13,7 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
         $this->parts[] = '<form method="POST" action="index.php?akce=form&form='.$this->context['formAction'].'" name="form_plan">';
                 
         foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
-                $view = new Projektor2_View_HTML_Element_KurzFieldset($this->sessionStatus, $this->context);    
+                $view = new Projektor2_View_HTML_Element_KurzFieldset($this->context);    
                 $view->assign('planPrefix', self::MODEL_PLAN)
                     ->assign('druhKurzu', $druhKurzu)
                     ->assign('modelsArray', $sKurzyJednohoDruhu)

@@ -13,7 +13,7 @@ class Projektor2_View_PDF_KurzOsvedceniOriginal extends Projektor2_View_PDF_Comm
         $this->setHeaderFooter($this->context['text_paticky'], FALSE); 
         $this->initialize();
         //*****************************************************
-        $this->pdf->Image(Projektor2_AppContext::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), 0, 0, 210, 297);  
+        $this->pdf->Image(Projektor2_AppContext::getCertificateoriginalBackgroundImageFilepath(), 0, 0, 210, 297);  
 
         Projektor2_View_PDF_Helper_KurzOsvedceni::createContent($this->pdf, $this->context, $this);
         //##################################################################################################

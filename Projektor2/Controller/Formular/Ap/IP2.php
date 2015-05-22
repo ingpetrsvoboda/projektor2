@@ -20,7 +20,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         
         $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->projekt->kod);
         
-        $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels());     
+        $view = new Projektor2_View_HTML_Formular_IP2($this->createContextFromModels());     
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část')
             ->assign('formAction', 'ap_ukonceni_uc')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)                
@@ -42,7 +42,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
             $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
             $aktivityProjektuTypuPoradenstvi = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');            
-            $view = new Projektor2_View_PDF_Ap_IP2($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Ap_IP2($this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)
@@ -62,7 +62,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         if ($this->request->post('pdf') == "Tiskni IP 2.část - doplnění hodnocení") {
             $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
             $aktivityProjektuTypuPoradenstvi = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');            
-            $view = new Projektor2_View_PDF_Ap_IP2Hodnoceni($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Ap_IP2Hodnoceni($this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)
@@ -80,7 +80,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         }
         
         if ($this->request->post('pdf') == "Tiskni ukončení účasti") {
-            $view = new Projektor2_View_PDF_Ap_Ukonceni($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Ap_Ukonceni($this->createContextFromModels());
             $file = 'ukonceni';
             //status proměnné
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)

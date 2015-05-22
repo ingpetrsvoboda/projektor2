@@ -13,7 +13,7 @@
 class Projektor2_Controller_Head extends Projektor2_Controller_Abstract {
 
     public function getResult() {
-        return new Projektor2_View_HTML_Head($this->sessionStatus);
+        return new Projektor2_View_HTML_Head();
     }
 }
 

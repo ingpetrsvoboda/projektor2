@@ -70,7 +70,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $displayBlokCertifikat = ($zadanoDokoncenoAno) ? 'block':'none';
         
         // view pro select
-        $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus, $this->context);
+        $viewSelect = new Projektor2_View_HTML_Element_Select($this->context);
         if (isset($kurzPlan->sKurz->id)) {
             $aktVal = $kurzPlan->sKurz->id;
         } else {
@@ -165,7 +165,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
             // konec dokončeno úšpěšně/neúspěšně a závislý prvek důvod neukončení
             // blok certifikát
             if ($zobrazBlokCertifikat) {
-                $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat($this->sessionStatus);
+                $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat();
                 $viewCertifikat->assign('readonly', $this->context['readonly']);
                 $viewCertifikat->assign('idBlokCertifikat', $idBlokCertifikat);
                 $viewCertifikat->assign('displayBlokCertifikat', $displayBlokCertifikat);

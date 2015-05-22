@@ -58,7 +58,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
             $kancelare = array();
         }
         $behy = Projektor2_Model_Db_BehMapper::findAll('id_c_projekt='.$this->sessionStatus->projekt->id);    
-        $parts[] = new Projektor2_View_HTML_VyberKontext($this->sessionStatus, 
+        $parts[] = new Projektor2_View_HTML_VyberKontext(
                 array('kancelare'=>$kancelare, 
                     'id_kancelar'=>isset($this->sessionStatus->kancelar->id) ? $this->sessionStatus->kancelar->id : NULL, 
                     'behy'=>$behy, 
@@ -70,7 +70,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
             $controller = $router->getController();
             $parts[] = $controller->getResult();        
         }
-        $viewVybery = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
+        $viewVybery = new Projektor2_View_HTML_Element_Div(array('htmlParts'=>$parts));
         return $viewVybery;
     }
 }

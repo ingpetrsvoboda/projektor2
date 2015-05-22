@@ -58,7 +58,7 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
     public function getResult() {
         $this->performPostActions();
         $this->performGetActions();
-        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
+        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu(array('menuArray'=>$this->getLeftMenuArray()));
         $parts[] = $viewLeftMenu;       
         
         // nezobrazuje se pro novou osobu
@@ -67,16 +67,16 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
             $params = array('zajemceOsobniUdaje' => $zajemceOsobniUdaje);
             $menuController = new Projektor2_Controller_Element_MenuFormulare($this->sessionStatus, $this->request, $this->response, $params);
             $rows[] = $menuController->getResult();            
-            $contentParts[] = new Projektor2_View_HTML_Element_Table($this->sessionStatus, array('rows'=>$rows, 'class'=>'zaznamy'));
+            $contentParts[] = new Projektor2_View_HTML_Element_Table(array('rows'=>$rows, 'class'=>'zaznamy'));
         }
         $router = new Projektor2_Router_Form($this->sessionStatus, $this->request, $this->response);
         $formController = $router->getController();         
         $contentParts[] = $formController->getResult();
         // pravá strana = menu formuláře a formulář
-        $viewContent = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$contentParts, 'class'=>'content'));
+        $viewContent = new Projektor2_View_HTML_Element_Div(array('htmlParts'=>$contentParts, 'class'=>'content'));
         $parts[] = $viewContent;        
         // levé menu a pravá strana
-        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
+        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div(array('htmlParts'=>$parts));
         return $viewZobrazeniRegistraci;
     }
 }

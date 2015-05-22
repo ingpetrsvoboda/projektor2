@@ -5,7 +5,7 @@
  */
 abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     
-    
+    //TODO: session status přidat do context
     protected function initialize() {
         $pdfdebug = Projektor2_PDFContext::getDebug();
         $pdfdebug->debug(0);
@@ -117,7 +117,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     //-------------------------------------------------------------------------
     
     protected function setHeaderFooter($textPaticky=NULL, $cislovani=TRUE) {
-        switch ($this->sessionStatus->projekt->kod) {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        switch ($sessionStatus->projekt->kod) {
             case 'AP':
                 self::completeHeader( "./img/loga/loga_AP_BW.png", 165,14 );
                 self::completeFooter( $textPaticky 
@@ -147,6 +148,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
     
      protected function tiskniGrafiaUdaje() {   
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
         $grafia = new Projektor2_PDF_Blok;
         $grafia->Odstavec("Grafia, společnost s ručením omezeným");
         $grafia->PridejOdstavec("zapsaná v obchodním rejstříku vedeném Krajským soudem v Plzni, odd. C, vl. 3067");
@@ -157,7 +159,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $grafia->PridejOdstavec("bankovní spojení: ČSOB");
         $grafia->PridejOdstavec("č. účtu:  275795033/0300");
         $grafia->PridejOdstavec("zapsán v obchodním rejstříku vedeném Krajským soudem v Plzni, v oddílu C vložka 3067"); 
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($sessionStatus->projekt->kod) {
             case 'AP':
             case 'AGP': 
                 $grafia->PridejOdstavec("jako dodavatel (dále jen „Dodavatel“)");                     
@@ -177,6 +179,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     
     
     protected function tiskniOsobniUdaje($modelSmlouva) {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
         $osobniUdaje = new Projektor2_PDF_Blok;
         $osobniUdaje->MezeraMeziOdstavci(1.5);
         $osobniUdaje->Radkovani(1);
@@ -188,7 +191,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             $osobniUdaje->PridejOdstavec("adresa dojíždění odlišná od místa bydliště: ".$celaAdresa2);
         }
         $osobniUdaje->PridejOdstavec("nar.: " . $this->context[$modelSmlouva ."datum_narozeni"]);
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($sessionStatus->projekt->kod) {
             case 'AP': 
                 $osobniUdaje->PridejOdstavec("identifikační číslo účastníka: ".$this->context["identifikator"]);
                 $osobniUdaje->PridejOdstavec("identifikační značka účastníka: ".$this->context["znacka"]);        
@@ -211,9 +214,10 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
     
     protected function tiskniPodpisy($modelSmlouva) {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
         $podpisy = new Projektor2_PDF_SadaBunek();        
         $podpisy->PridejBunku('', '', FALSE, 20);
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($sessionStatus->projekt->kod) {
             case 'AP':                 
                 $podpisy->PridejBunku("Účastník:", '', FALSE, 100);
                 $podpisy->PridejBunku("Dodavatel:","",TRUE);                
@@ -239,7 +243,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $podpisy->PridejBunku($this->celeJmeno($modelSmlouva), '', FALSE, 100);
         $podpisy->PridejBunku($this->context['user_name'], '', TRUE);
         $podpisy->PridejBunku('', '', FALSE, 120);        
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($sessionStatus->projekt->kod) {
             case 'AP':                                 
             case 'AGP':                                                
             case 'HELP':   
@@ -258,7 +262,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     
      //vola se v AP!!!!!!!!!!
     protected function tiskniPodpisUcastnik($modelSmlouva) {
-        switch ($this->sessionStatus->projekt->kod) {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        switch ($sessionStatus->projekt->kod) {
             case 'AP': 
                 $podpisy = new Projektor2_PDF_SadaBunek();        
                 $podpisy->PridejBunku('', '', FALSE, 110);
@@ -279,7 +284,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     
     //vola se v AGP!!!!!!!!!  a HELP!!!!!!!!!! a SJZP!!!!!!!!!!!!!!!!!!!!!!!
     protected function tiskniPodpis($modelSmlouva) {
-        switch ($this->sessionStatus->projekt->kod) {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        switch ($sessionStatus->projekt->kod) {
             case 'AGP': 
             case 'HELP':    
             case 'SJZP':    
@@ -303,7 +309,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     
     //vola se v AP!!!!!!!!!!
     protected function tiskniPodpisPoradce($modelSmlouva) {
-        switch ($this->sessionStatus->projekt->kod) {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        switch ($sessionStatus->projekt->kod) {
             case 'AP': 
                 $podpisy = new Projektor2_PDF_SadaBunek();        
                 $podpisy->PridejBunku('', '', FALSE, 110);
@@ -323,7 +330,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
     
     protected function tiskniMistoDatum($modelSmlouva, $datum) {
-        switch ($this->sessionStatus->projekt->kod) {
+        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        switch ($sessionStatus->projekt->kod) {
             case 'AGP':             
             case 'AP': 
             case 'HELP': 

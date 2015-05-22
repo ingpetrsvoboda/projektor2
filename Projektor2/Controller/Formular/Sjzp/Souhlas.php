@@ -25,7 +25,7 @@ class Projektor2_Controller_Formular_Sjzp_Souhlas extends Projektor2_Controller_
     }
     
     protected function getResultPdf() {
-        $view = new Projektor2_View_PDF_Sjzp_Souhlas($this->sessionStatus, $this->createContextFromModels());
+        $view = new Projektor2_View_PDF_Sjzp_Souhlas($this->createContextFromModels());
         
         $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
         $view->assign('user_name', $this->sessionStatus->user->name);

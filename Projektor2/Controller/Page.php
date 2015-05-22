@@ -14,8 +14,7 @@ class Projektor2_Controller_Page extends Projektor2_Controller_Abstract {
         $context['headControllerResult'] = $headController->getResult();
         $context['loginControllerResult'] = $loginLogoutController->getResult();        
         
-        $view = new Projektor2_View_HTML_Page($this->sessionStatus, $context);
-        $html = $view;
-        return $html;
+        $view = new Projektor2_View_HTML_Page($context);
+        return $view;
     }
 }

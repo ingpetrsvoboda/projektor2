@@ -18,14 +18,14 @@ class Projektor2_Controller_Formular_Sjzp_Smlouva extends Projektor2_Controller_
     
     protected function getResultFormular() {
         $htmlResult = "";
-        $view = new Projektor2_View_HTML_Sjzp_Smlouva($this->sessionStatus, $this->createContextFromModels());
+        $view = new Projektor2_View_HTML_Sjzp_Smlouva($this->createContextFromModels());
         $htmlResult .= $view->render();
         
         return $htmlResult;
     }
     
     protected function getResultPdf() {
-        $view = new Projektor2_View_PDF_Sjzp_Smlouva($this->sessionStatus, $this->createContextFromModels());   //--vs
+        $view = new Projektor2_View_PDF_Sjzp_Smlouva($this->createContextFromModels());   //--vs
         
         $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
         $view->assign('user_name', $this->sessionStatus->user->name);

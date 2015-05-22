@@ -99,14 +99,14 @@ class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
             $layoutController = new Projektor2_Controller_Layout($this->sessionStatus, $this->request, $this->response);
             $parts[] = $layoutController->getResult();        
         }
-        $view = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
+        $view = new Projektor2_View_HTML_Element_Div(array('htmlParts'=>$parts));
         return $view;
     }
     
     private function createLoginView() {
         $projekty = Projektor2_Model_Db_ProjektMapper::findAll(); 
        
-        return new Projektor2_View_HTML_Login($this->sessionStatus,
+        return new Projektor2_View_HTML_Login(
                         array('projekty'=>$projekty, 
                             'id_projekt'=>isset($this->sessionStatus->projekt->id) ? $this->sessionStatus->projekt->id : NULL,
                             'warning'=>$this->warning)
@@ -116,6 +116,6 @@ class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
     private function createLogoutView() {
         $contextController = new Projektor2_Controller_ConnectionInfo($this->sessionStatus, $this->request, $this->response);      
         $context['contextControllerResult'] = $contextController->getResult();
-        return new Projektor2_View_HTML_Logout($this->sessionStatus, $context);         
+        return new Projektor2_View_HTML_Logout($context);         
     }
 }

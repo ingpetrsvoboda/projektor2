@@ -13,7 +13,7 @@ class Projektor2_View_PDF_KurzOsvedceniPseudokopie extends Projektor2_View_PDF_C
         $this->initialize();
         //*****************************************************
         // přidání obrázku s vodotiskem a podpisem
-        $this->pdf->Image(Projektor2_AppContext::getCertificatePseudocopyBackgroundImageFilepath($this->sessionStatus), 0, 0, 210, 297);  
+        $this->pdf->Image(Projektor2_AppContext::getCertificatePseudocopyBackgroundImageFilepath(), 0, 0, 210, 297);  
         
         Projektor2_View_PDF_Helper_KurzOsvedceni::createContent($this->pdf, $this->context, $this);     
         //##################################################################################################

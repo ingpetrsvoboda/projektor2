@@ -12,7 +12,7 @@ class Projektor2_View_PDF_ProjektOsvedceniPseudokopie extends Projektor2_View_PD
         $this->setHeaderFooter($this->context['text_paticky'], FALSE);        
         $this->initialize();
         //*****************************************************
-        $this->pdf->Image(Projektor2_AppContext::getCertificatePseudocopyBackgroundImageFilepath($this->sessionStatus), 0, 0, 210, 297);  
+        $this->pdf->Image(Projektor2_AppContext::getCertificatePseudocopyBackgroundImageFilepath(), 0, 0, 210, 297);  
  
         Projektor2_View_PDF_Helper_ProjektOsvedceni::createContent($this->pdf, $this->context, $this);
         //##################################################################################################

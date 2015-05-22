@@ -7,16 +7,16 @@
 class Projektor2_View_HTML_Element_Div extends Framework_View_Abstract {
     public function render() {
         if (isset($this->context['class'])) {
-            $this->parts[] = '<div class='.$this->context['class'].'>';                        
+            $this->appendPart('<div class='.$this->context['class'].'>');                        
         } else {
-            $this->parts[] = '<div>';            
+            $this->appendPart('<div>');            
         }
         if (isset($this->context['htmlParts']) AND $this->context['htmlParts']) {
             foreach ($this->context['htmlParts'] as $part) {
-                $this->parts[] = $part;                
+                $this->appendPart($part);                
             }
         }
-        $this->parts[] = '</div>';
+        $this->appendPart('</div>');
         return $this;
     }   
 }

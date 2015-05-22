@@ -10,7 +10,7 @@ class Projektor2_Controller_Header extends Projektor2_Controller_Abstract {
         $logoController = new Projektor2_Controller_Logo($this->sessionStatus, $this->request, $this->response);
         $context['logoControllerResult'] = $logoController->getResult();        
         
-        $view = new Projektor2_View_HTML_Header($this->sessionStatus, $context);
+        $view = new Projektor2_View_HTML_Header($context);
         $html = $view->render();
         return $html;
     }
