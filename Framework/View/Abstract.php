@@ -95,11 +95,11 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
         if (!$this->parts) {
             $render = $this->render();
             if ($render instanceof Framework_View_Interface) {
-                $str =  $this->convertToString($this->parts);
+                $str =  $this->convertToString($render->parts);
             } elseif (is_array($render)) {
                 $str =  $this->convertToString($render);
             } elseif (is_scalar($render)) {
-                $tr = $render;
+                $str = $render;
             }
         } else {
             $str = $this->convertToString($this->parts);
@@ -117,14 +117,15 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
      * @return string
      */
     private function convertToString(array $htmlArray) {
-        $string = '';
         if ($htmlArray) {
-        foreach ($htmlArray as $value) {
-            if ($value) {
-                $html[] = (string) $value;
+            foreach ($htmlArray as $value) {
+                if ($value) {
+                    $html[] = (string) $value;
+                }
             }
-        }
-        $string =  implode(PHP_EOL, $html);
+            $string =  implode(PHP_EOL, $html);
+        } else {
+            $string = '';
         }
         return $string;
     }    

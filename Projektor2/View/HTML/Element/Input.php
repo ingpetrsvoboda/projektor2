@@ -7,9 +7,16 @@
 class Projektor2_View_HTML_Element_Input extends Projektor2_View_HTML_Element {
 
     public function render() { 
-
+        if (!isset($this->attributes)) {
+            $this->attributes = new Projektor2_View_HTML_Element_Attributes_Input(array('type'=>'text'));
+        }
         // inputy jsou readonly nebo disabled, inputy pro datum jsou typu text (a readonly)      
         if (isset($this->context['readonly']) AND $this->context['readonly']) {
+//            if (isset($this->attributes->type)) {
+//                $type = $this->attributes->type;
+//            } else {
+//                $type = NULL;
+//            }
             switch ($this->attributes->type) {
                 case 'button':
                 case 'number':

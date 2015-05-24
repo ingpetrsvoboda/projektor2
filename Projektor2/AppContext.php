@@ -119,7 +119,7 @@ abstract class Projektor2_AppContext
             case 'AP':
             case 'HELP':
             case 'SJZP':
-                $filePath = "img/pozadi/pozadi.jpg";   
+                $filePath = "img/pozadi/certifikat_pozadi.jpg";   
                 break;
 
             default:
@@ -139,7 +139,7 @@ abstract class Projektor2_AppContext
                 break;
             case 'SJZP':
                 // jedno pozadí - stejné jako originál (bez podpisu)
-                $filePath = "img/pozadi/pozadi.jpg";                   
+                $filePath = "img/pozadi/certifikat_pozadi.jpg";                   
                 break;
             default:
                 throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->projekt->kod.'.');

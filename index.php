@@ -1,4 +1,5 @@
 <?php
+// 20150524 22:57
 ob_start();
 // exception handler
 require_once 'Bootstrap.php';
