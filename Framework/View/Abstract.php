@@ -69,7 +69,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
      */
     public function __toString() {
         //varianta pro produkci - bez použití error handleru vyhazujícího výjimky
-        $str =$this->toString();
+        $str = $this->toString();
         
         // varianta pro ladění - tuto variantu je třeba použít, pokud používáš error handler vyhazující výjimky (např. v bootsstrapu).
         // Problém je v tom, že php neumožňuje vyhazovat výjimky uvnitř metody __toString. Samozřejmě není možné vyloučit 
