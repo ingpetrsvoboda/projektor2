@@ -5,7 +5,7 @@
  *
  * @author pes2704
  */
-abstract class Projektor2_View_HTML_Element_Attributes_Global extends Projektor2_View_HTML_Element_Attributes {
+abstract class Projektor2_View_HTML_Tag_Attributes_Global extends Projektor2_View_HTML_Tag_Attributes {
     public $accesskey;
     public $class;
     public $contenteditable;

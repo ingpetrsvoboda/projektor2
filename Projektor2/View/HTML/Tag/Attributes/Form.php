@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Element_Attributes_Form extends Projektor2_View_HTML_Element_Attributes_Events {  
+class Projektor2_View_HTML_Tag_Attributes_Form extends Projektor2_View_HTML_Tag_Attributes_Events {  
     public $accept;
 //    public $accept-charset;
     public $action;
