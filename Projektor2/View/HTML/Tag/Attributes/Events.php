@@ -5,7 +5,7 @@
  *
  * @author pes2704
  */
-abstract class Projektor2_View_HTML_Element_Attributes_Events extends Projektor2_View_HTML_Element_Attributes_Global {
+abstract class Projektor2_View_HTML_Tag_Attributes_Events extends Projektor2_View_HTML_Tag_Attributes_Global {
     public $onafterprint;
     public $onbeforeprint;
     public $onbeforeunload;

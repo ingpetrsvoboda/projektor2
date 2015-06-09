@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Element_Label extends Projektor2_View_HTML_Element {
+class Projektor2_View_HTML_Tag_Label extends Projektor2_View_HTML_Tag {
 
     const TAG = 'label';
     

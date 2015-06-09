@@ -9,19 +9,19 @@
  * c) new Projektor2_View_HTML_Element($context, $atributes); vytvoří default element div
  * @author pes2704
  */
-abstract class Projektor2_View_HTML_Element extends Framework_View_Abstract implements Projektor2_View_HTML_ElementInterface {
+abstract class Projektor2_View_HTML_Tag extends Framework_View_Abstract implements Projektor2_View_HTML_TagInterface {
     
     protected $tag;
     
     /**
      *
-     * @var Projektor2_View_HTML_Element_Attributes 
+     * @var Projektor2_View_HTML_Tag_Attributes 
      */
     protected $attributes;
     
     protected $childrens = array();
     
-    public function __construct(array $context=NULL, Projektor2_View_HTML_Element_Attributes $atributes=NULL, $tag=NULL) {
+    public function __construct(array $context=NULL, Projektor2_View_HTML_Tag_Attributes $atributes=NULL, $tag=NULL) {
         parent::__construct($context);
         if (isset($tag)) {
             $this->tag = $tag;
@@ -33,7 +33,7 @@ abstract class Projektor2_View_HTML_Element extends Framework_View_Abstract impl
         $this->attributes = $atributes;
     }
     
-    public function setAttributes(Projektor2_View_HTML_Element_Attributes $attributes) {
+    public function setAttributes(Projektor2_View_HTML_Tag_Attributes $attributes) {
         $this->attributes = $attributes;
         return $this;
     }
@@ -43,7 +43,7 @@ abstract class Projektor2_View_HTML_Element extends Framework_View_Abstract impl
         return $this;
     }
     
-    public function addChild(Projektor2_View_HTML_Element $element) {
+    public function addChild(Projektor2_View_HTML_Tag $element) {
         $this->childrens[] = $element;
         return $this;
     }

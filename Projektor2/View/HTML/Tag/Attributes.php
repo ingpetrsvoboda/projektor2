@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-abstract class Projektor2_View_HTML_Element_Attributes {
+abstract class Projektor2_View_HTML_Tag_Attributes {
             
     public function __construct($attributesArray=array()) {
         foreach ($attributesArray as $name => $value) {

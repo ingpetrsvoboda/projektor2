@@ -932,7 +932,6 @@ PRIVAT BANK AG der Raiffeisenlandesbank Oberösterreich v České republice
 
   </form>
 <?php        
->>>>>>> THEIRS
     }
 }
 
